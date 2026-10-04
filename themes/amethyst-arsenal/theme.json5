@@ -8,15 +8,21 @@
   name: 'Amethyst Arsenal',
   author: 'nicholascathedu',
   license: 'CC0-1.0',
-  themeVersion: '1.0.0',
+  themeVersion: '1.1.0',
   description: 'Weapon-wheel hex tiles with see-through purple faces and a soft gold aura on the selected tile.',
 
   // Kando 3.0 uses theme engine version 1.
   engineVersion: 1,
 
-  // How close to a screen edge the menu may open. Covers the hovered tile and its aura,
-  // with room for menus of up to 12 items.
-  maxMenuRadius: 180,
+  // How close to a screen edge the menu may open, in pixels from the menu's center.
+  // Worked out from the "Tweak me" block in theme.css for a menu of 12 items:
+  //   tiles sit max(104px, 11px x 12) = 132px out,
+  //   the hovered tile grows 1.22 times, so its middle moves to 132 x 1.22 = 161px,
+  //   half its height adds 69 / 2 x 1.22 = 42px, which makes 203px,
+  //   and the outer gold aura reaches about 20px further: 223px.
+  // Menus with more than 12 items can still touch the screen edge with the hovered tile.
+  // If you make tiles, spacing, hover scale or aura bigger in theme.css, raise this too.
+  maxMenuRadius: 225,
 
   // Width of the center text. Fits inside the center tile's flat sides.
   centerTextWrapWidth: 68,
@@ -24,7 +30,7 @@
   drawChildrenBelow: true,
   drawCenterText: true,
 
-  // Both only show when "Selection wedges" is turned on in Kando's settings.
+  // Both only show when "Draw item wedges" is turned on in Kando's Menu Themes dialog.
   drawSelectionWedges: true,
   drawWedgeSeparators: true,
 
@@ -56,9 +62,13 @@
     'badge-text-color': 'rgb(255 255 255)',
   },
 
-  // Drawn top to bottom: the key chip, then the hex tile with its icon.
+  // Drawn top to bottom: the key chip, the submenu marker, then the hex tile with its
+  // icon. The key chip only appears when "Draw quick-select key" is turned on in Kando's
+  // Menu Themes dialog. The submenu marker is an empty layer that theme.css shows on
+  // items that open a submenu; delete its line here and its block in theme.css to drop it.
   layers: [
     { class: 'quick-key', content: 'quick-select-key' },
+    { class: 'submenu-mark', content: 'none' },
     { class: 'icon-layer', content: 'icon' },
   ],
 }

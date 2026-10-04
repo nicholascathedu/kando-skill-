@@ -76,7 +76,7 @@ theme in config.json, separately for light and dark mode:
 Only names the theme declares have an effect. Find them in the theme's `theme.json5` (built-in
 themes ship inside the install folder at `resources/app/.webpack/renderer/assets/menu-themes/`;
 read, don't edit) or in the editor's theme color pickers. For selection wedges also set
-`"enableSelectionWedges": true`.
+`"enableSelectionWedges": true` (the "Draw item wedges" switch in the Menu Themes dialog).
 
 ## 4. Route B: a color preset
 
@@ -97,9 +97,10 @@ Folder: `<config>/menu-themes/<theme-id>/` containing:
 - optional `presets/`, `assets/` (fonts, images), `REUSE.toml` (licenses)
 
 Fastest start: copy the built-in `default` theme folder and change it. Restart Kando after
-adding a theme; while editing, the editor's Development tab has "Reload Menu Theme" (or run
-`kando --reload-menu-theme`). CSS reloads live; theme.json5 changes need the menu reopened.
-The Development tab also has an inspector to explore the DOM.
+adding a theme. While editing, open General Settings, go to the Developer Options tab and
+click "Reload menu theme" (or run `kando --reload-menu-theme`). CSS reloads live; theme.json5
+changes need the menu reopened. The same tab has "Inspect menu", which opens the dev tools
+of the menu window so you can explore the DOM.
 
 ### theme.json5 keys
 
@@ -166,8 +167,11 @@ Every `colors` entry becomes `var(--<name>)` in CSS and gets a color picker in t
 
 A finished example is **Amethyst Arsenal**, in `themes/amethyst-arsenal/` of this skill's
 GitHub repo (github.com/nicholascathedu/kando-skill-). It shows hex tiles drawn with
-`clip-path`, a glow on the hovered item, quick-select key badges, presets, and a "Tweak me"
-block of CSS variables at the top of `theme.css` for sizes and speed. Read it when someone
+`clip-path`, a glow on the hovered item, quick-select key badges on the tile's inner side
+(so they never sit under a neighbor in crowded menus), a small marker on submenu items
+(`.type-submenu` plus an empty `content: 'none'` layer), a `maxMenuRadius` worked out from
+its sizes, presets, and a "Tweak me" block of CSS variables at the top of `theme.css` for
+sizes and speed. Read it when someone
 wants a game-HUD look or a well-commented theme to start from.
 
 ## 6. CSS cheat sheet
@@ -202,8 +206,13 @@ Useful selectors:
 ```
 
 Performance: fewer layers render faster; `backdrop-filter` and big blurs cost GPU, so test
-on the user's machine. When `enableMenuAnimations` is off, Kando keeps a `no-transitions`
-class on the menu container, so don't rely on transitions for anything functional.
+on the user's machine. When `enableMenuAnimations` is off ("Menu Animations" in the Menu
+Themes dialog), Kando keeps a `no-transitions` class on the menu container, so don't rely on
+transitions for anything functional. Its rule (`.no-transitions * { transition: none }`)
+does not reach `::before`/`::after`, so a theme that animates pseudo-elements should add
+`.no-transitions .menu-node *::before, .no-transitions .menu-node *::after { transition: none
+!important; animation: none !important; }` and cover the same parts in a
+`@media (prefers-reduced-motion: reduce)` block.
 
 ## 7. Icons
 

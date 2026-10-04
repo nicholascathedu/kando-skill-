@@ -166,10 +166,20 @@ they stop typing everywhere.
 
 - Degrees clockwise from up: 0 up, 45 up-right, 90 right, 135 down-right, 180 down,
   225 down-left, 270 left, 315 up-left.
-- Kando reads fixed angles in list order and wraps each one to the first equivalent angle
-  **after** the previous one (`[90, 270, 0]` becomes 90, 270, 360). An angle equal to the
-  previous one, or a full turn past the first, is dropped and that item placed
-  automatically. Simplest rule: list items clockwise and give each an angle.
+- Kando reads fixed angles in list order, exactly as written (`computeItemAngles` in
+  `src/common/math/index.ts`). It never wraps or reorders them:
+  - A negative angle is ignored and the item is placed automatically. Write 330, not -30.
+  - An angle smaller than the previous fixed one is ignored too. In
+    `[270, 30, 350, (none)]` the 30 is skipped, so the items land at 270, 310, 350 and 130.
+  - Two siblings with the same angle are both kept and drawn on top of each other, so only
+    one of them can be selected.
+  - An angle of 360 or more is kept as written. 360 after 300 behaves like 0, but an angle a
+    full turn past the first fixed one (`[90, 200, 460]`) lands among the earlier items and
+    their selection wedges overlap.
+  - Inside a submenu, a fixed angle exactly on the way back is nudged by 0.1°.
+- Simplest rule: list items clockwise, give each an angle from 0 to 359, each larger than the
+  one before. `kando_check.py` flags every case above. The settings editor keeps angles in
+  order while you drag items, but a hand-edited file is used as written.
 - Items without an angle are spread evenly in the gaps between fixed ones.
 - In a submenu, the back link to the parent sits at (submenu angle + 180). Keep children at
   least 45° away from it.

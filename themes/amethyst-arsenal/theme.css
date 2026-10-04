@@ -16,18 +16,22 @@
      2. the thin light line ......... .icon-layer::after
      3. the see-through face ........ .icon-container (it also holds the icon)
 
+   Items that open a submenu also get a small arrowhead on their outer edge (see
+   "Submenu marker" near the end of this file).
+
    The hovered tile grows, its frame turns cream, its face turns dark with a purple
    bloom, and it gets a soft gold aura. The aura is a drop-shadow on .icon-layer, which is
    never clipped, so the glow follows the hexagon's outline.
 
    HOW TO EDIT
 
-   - Colors: change them in Kando's settings (Menu Theme, then the color pickers), or edit
+   - Colors: change them in Kando's settings (Menu Themes, then the color pickers), or edit
      the `colors` list in theme.json5. The presets/ folder has ready-made color sets.
    - Sizes, spacing, glow and speed: change the variables in the "Tweak me" block right
      below. Everything else in this file reads from them.
-   - After editing, use "Reload Menu Theme" in Kando's settings (Development tab) to see
-     the change without restarting Kando.
+   - After editing, open Kando's General Settings, go to the Developer Options tab and
+     click "Reload menu theme" to see CSS changes without restarting Kando. Changes to
+     theme.json5 show up the next time you open a menu.
 */
 
 .menu-node {
@@ -55,7 +59,9 @@
   --center-icon-padding: 12px 8px;
   --hover-icon-padding: 10px 7px;
 
-  /* How much the hovered tile grows, and how far its gold aura reaches. */
+  /* How much the hovered tile grows, and how far its gold aura reaches. If you raise
+     these, or the tile sizes or spacing above, raise maxMenuRadius in theme.json5 too,
+     so the selected tile is not cut off at the screen edge. */
   --hover-scale: 1.22;
   --aura-near: 9px;
   --aura-far: 20px;
@@ -64,7 +70,8 @@
   --parent-opacity: 0.55;
 
   /* Animation. The curve overshoots a little, which gives the "pop" on hover. Turning
-     off "Menu animations" in Kando's settings disables all of this. */
+     off "Menu Animations" in Kando's Menu Themes dialog, or turning on your system's
+     "reduce motion" setting, disables all of it (see the last two blocks of this file). */
   --menu-transition: all 220ms cubic-bezier(0.775, 1.325, 0.535, 1);
   --fade-transition: opacity 200ms ease;
 
@@ -272,8 +279,9 @@
 
   /* Key chips ------------------------------------------------------------------------ */
 
-  /* Kando only creates this layer when "Draw quick-select keys" is turned on. The chip
-     looks like a controller button prompt and sits on the tile's lower right edge. */
+  /* Kando only creates this layer when "Draw quick-select key" is turned on in the Menu
+     Themes dialog. The chip looks like a controller button prompt and sits on the tile's
+     lower right edge. */
   .quick-key {
     display: none;
   }
@@ -326,6 +334,48 @@
   }
 }
 
+/* Submenu marker --------------------------------------------------------------------- */
+
+/* A small arrowhead on the outer edge of every tile that opens a submenu. It points the
+   way the submenu will open. It is drawn in the "submenu-mark" layer from theme.json5.
+   To remove the marker, delete this block. The empty layer then shows nothing, and you
+   can also delete its line in theme.json5. */
+
+.menu-node .submenu-mark {
+  display: none;
+}
+
+.menu-node.child.type-submenu>.submenu-mark {
+  /* Distance from the tile's middle to the arrowhead, before the hover scale. */
+  --mark-distance: 37px;
+
+  position: absolute;
+  display: block;
+  z-index: 3;
+  top: -4px;
+  left: -6px;
+  width: 12px;
+  height: 8px;
+  transform: rotate(var(--angle, 0deg)) translateY(calc(-1 * var(--mark-distance)));
+  filter: drop-shadow(0 0 1px var(--frame-color)) drop-shadow(0 0 1px var(--frame-color));
+  pointer-events: none;
+
+  /* The arrowhead itself. The dark outline comes from the filter above. */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--line-color);
+    clip-path: polygon(50% 0, 100% 62%, 100% 100%, 50% 50%, 0 100%, 0 62%);
+    transition: var(--menu-transition);
+  }
+}
+
+/* On the selected tile the arrowhead turns cream, like the frame. */
+.menu-node.child.type-submenu.hovered>.submenu-mark::before {
+  background: var(--rim-hover-color);
+}
+
 /* Center text ------------------------------------------------------------------------ */
 
 /* The hovered item's name, uppercase and bold like a weapon name in the game. Kando
@@ -344,8 +394,8 @@
 
 /* Selection wedges ------------------------------------------------------------------- */
 
-/* Kando draws these only when "Selection wedges" is turned on in its settings. The
-   hovered direction lights up and fades out with distance from the center. */
+/* Kando draws these only when "Draw item wedges" is turned on in the Menu Themes
+   dialog. The hovered direction lights up and fades out with distance from the center. */
 
 .selection-wedges {
   background: var(--wedge-color);
@@ -366,15 +416,29 @@
       transparent 230px);
 }
 
+/* Menu Animations off ---------------------------------------------------------------- */
+
+/* Kando's "Menu Animations" switch stops the transitions of every element in the menu,
+   but its rule does not reach pseudo-elements. The tile frames, the tile lines and the
+   submenu marker are pseudo-elements, so they are stopped here as well. */
+.no-transitions .menu-node *::before,
+.no-transitions .menu-node *::after {
+  transition: none !important;
+  animation: none !important;
+}
+
 /* Reduced motion --------------------------------------------------------------------- */
 
-/* Respect the system's "reduce motion" setting. */
+/* Respect the system's "reduce motion" setting. Nothing slides, pops or fades: tiles,
+   frames, icons, key chips, connectors, the submenu marker and the center text all
+   change state at once. */
 @media (prefers-reduced-motion: reduce) {
   .menu-node,
-  .menu-node .icon-layer,
-  .menu-node .icon-layer::before,
-  .menu-node .icon-layer::after,
-  .menu-node .icon-container {
-    transition: none;
+  .menu-node *,
+  .menu-node *::before,
+  .menu-node *::after,
+  .center-text {
+    transition: none !important;
+    animation: none !important;
   }
 }

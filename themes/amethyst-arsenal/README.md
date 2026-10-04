@@ -13,8 +13,9 @@ Inspired by the weapon selection wheel of **Ratchet & Clank Future: A Crack in T
 - The selected tile pops out with a cream frame, a dark face with a purple glow in the middle, and a soft gold aura.
 - The center tile shows the selected item's name in bold capitals.
 - Black logos like Steam or Unreal Engine get a thin light outline, so they stay visible on the dark tiles.
+- Items that open a submenu carry a small arrowhead on their outer edge, pointing the way the submenu opens. It turns cream on the selected tile.
 - With quick-select keys turned on, each tile shows its key as a small controller-style button.
-- With selection wedges turned on, the direction you point at lights up softly.
+- With item wedges turned on, the direction you point at lights up softly.
 
 ## Install
 
@@ -30,12 +31,14 @@ Inspired by the weapon selection wheel of **Ratchet & Clank Future: A Crack in T
    You should end up with `menu-themes/amethyst-arsenal/theme.json5`.
 
 2. Restart Kando.
-3. Open Kando's settings, go to **Menu Theme**, and pick **Amethyst Arsenal**. If you use a separate dark-mode theme, pick it there too.
+3. Open Kando's settings, go to **Menu Themes**, and pick **Amethyst Arsenal**. If you use a separate dark-mode theme, pick it there too.
 
 ### Optional settings that suit the theme
 
-- **Selection wedges** (General settings): lights up the direction you point at.
-- **Draw quick-select keys**: shows each item's key as a button on its tile.
+Both are switches in the **Menu Themes** dialog:
+
+- **Draw item wedges**: lights up the direction you point at.
+- **Draw quick-select key**: shows each item's key as a button on its tile.
 
 ## Color presets
 
@@ -53,14 +56,17 @@ Kando shows these under the theme's color settings:
 
 - **Colors:** change any color in Kando's settings under the theme's colors, or edit the `colors` list in `theme.json5`. Every color has a comment saying what it paints, and transparency works, for example `rgb(40 22 68 / 0.40)`.
 - **Sizes, glow and speed:** open `theme.css` and edit the **Tweak me** block at the top. You can change tile sizes, frame thickness, icon size, how much the selected tile grows, how far the aura reaches, and the animation speed.
-- **See changes live:** in Kando's settings, the Development tab has a **Reload Menu Theme** button. Changes to `theme.json5` show up the next time you open a menu.
+- **See changes live:** open Kando's **General Settings**, go to the **Developer Options** tab and click **Reload menu theme**. CSS changes show up right away. Changes to `theme.json5` show up the next time you open a menu.
+- **Bigger tiles or more glow:** `maxMenuRadius` in `theme.json5` keeps the menu far enough from the screen edge that the selected tile and its aura are not cut off. Its comment shows the math. If you make tiles, spacing, the hover scale or the aura bigger, raise it too.
+- **No submenu marker:** delete the "Submenu marker" block in `theme.css`.
 
 ## Compatibility
 
-- Made for Kando 3.0 (theme engine version 1) and tested against Kando 3.0.0's menu code.
-- It works with any number of items. Menus with more than 9 items spread out so tiles never overlap.
+- Made for Kando 3.0 (theme engine version 1) and checked against Kando 3.0.1's menu code.
+- Checked with 1 to 20 items. Menus with more than 9 items spread out so tiles keep their spacing. It looks best with up to 8 items per ring.
+- Near a screen edge, menus of up to 12 items keep the selected tile and its aura on screen. Bigger menus can touch the edge.
 - It works with every icon type Kando supports: app icons, icon fonts, emoji and images.
-- Turning off **Menu animations** in Kando, or turning on your system's "reduce motion" setting, switches off all animation.
+- Turning off **Menu Animations** in the Menu Themes dialog, or turning on your system's "reduce motion" setting, switches off all animation. Hover and selection still change at once.
 
 ## Credits and license
 
