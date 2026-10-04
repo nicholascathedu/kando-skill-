@@ -5,8 +5,8 @@ their app (each app has a hotkey editor) before building on them. Items marked *
 are from memory rather than the vendor's docs. Remember: in Kando, hotkeys use key codes
 (`ControlLeft+KeyS`), and letter keys are physical positions (matters on AZERTY / QWERTZ).
 
-`appName` values are the process file name without `.exe`, matched as "contains"
-(case-insensitive). Confirm with the editor's window picker.
+`appName` is the process file name, such as `maya.exe`, matched as "contains"
+(case-insensitive), so the shorter values below work. Confirm with the editor's window picker.
 
 Icons: `simple-icons` has slugs for `autodeskmaya`, `blender`, `unrealengine`,
 `googlechrome`, `firefoxbrowser`, `discord`, `steam` (check simpleicons.org; brands get

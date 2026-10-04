@@ -42,7 +42,7 @@ github.com/kando-menu/kando. The website docs (kando.menu/config-files) lag the 
 | `shortcutID` | `""` | For Linux desktops where Kando can't bind keys; bind the ID in the OS. |
 | `useFixedPosition` | false | Open at a fixed screen spot instead of the pointer. |
 | `fixedMenuPosition` | `{x:0.5,y:0.5}` | 0–1 fractions of the screen. |
-| `anchored` | false | Submenus open in place instead of at the pointer. Breaks marking mode; for touch/gamepad. |
+| `anchored` | false | Submenus open in place instead of at the pointer. Turns off marking mode and turbo mode; for touch/gamepad. |
 | `hoverMode` | false | Select by hovering, no click. Fastest, but accidental picks happen. |
 | `conditions` | none | Only show in certain apps / windows / screen areas (§6). |
 | `tags` | `[]` | For collections. |
@@ -131,9 +131,10 @@ Common combinations:
 - All set conditions must match. Among menus on the same shortcut, the one with the **most**
   matching conditions wins; a menu with none is the fallback.
 - `appName`, `windowName`: case-insensitive "contains"; a value starting with `/` is a regex.
-- On Windows `appName` is the focused process's **executable file name** (from
-  `QueryFullProcessImageName`), e.g. `maya.exe` → `maya`, `UnrealEditor.exe` → `UnrealEditor`.
-  The editor's window picker shows it.
+- On Windows `appName` is the focused process's **executable file name** including `.exe`
+  (from `QueryFullProcessImageName`, folder path stripped), e.g. `maya.exe`, `UnrealEditor.exe`.
+  Because the match is "contains", `maya` or `UnrealEditor` match too. The editor's window
+  picker shows it.
 - `screenArea`: pixels from the primary display's top-left; omitted bounds are open. Useful
   for "a different menu when I open it at the screen edge".
 - The shortcut is grabbed globally regardless of conditions; when nothing matches, the key

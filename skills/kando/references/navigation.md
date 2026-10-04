@@ -14,7 +14,7 @@ Sources: kando.menu/usage, the 3.0 changelog, and Simon's video "How to be FAST 
 | Keyboard | Quick-select keys, 1–9 by position, arrows + Enter, Backspace back, Esc close | Hands on keyboard; chains like `G` `D` |
 | Gamepad | Stick to point, buttons to select/back/close | Couch / Steam Deck |
 
-Closing without picking: Esc, right-click (unless `rmbSelectsParent`), or click the center.
+Closing without picking: Esc, right-click (unless `rmbSelectsParent`), or click outside the menu. Clicking the center of the main ring runs the root's own action if it has one, and does nothing otherwise.
 
 Single-key turbo was removed in 3.0; hover mode replaces it.
 
@@ -50,8 +50,8 @@ Learning tips:
   `--reload-menu-theme`, `--reload-sound-theme`, `--config-dir <dir>`, `--version`.
   `--menu` and `--trigger` behave like the shortcut (conditions apply).
 - **IPC (WebSocket)**: `ipc-info.json` in the config folder has the port (changes each run).
-  Messages `show-menu {name}` and `show-custom-menu {menu}` (a full menu in menus.json format,
-  built on the fly). Kando answers with `menu-interaction` / `error`. The protocol changed in
+  Messages `show-menu {name}` and `show-custom-menu {menu}` (a root menu item with its
+  children, built on the fly; no shortcut or conditions). Kando answers with `menu-interaction` / `error`. The protocol changed in
   3.0. Use it for generated menus, e.g. a script that builds a "recent projects" menu.
 
 ## Placement options per menu
