@@ -42,11 +42,11 @@ Both are switches in the **Menu Themes** dialog:
 
 ## Color presets
 
-Kando shows these under the theme's color settings:
+In Kando's Menu Themes dialog, the preset list shows **Default colors**, which is the theme's own look, and the four presets from the `presets` folder:
 
-| Preset | Look |
+| Name in Kando | Look |
 |---|---|
-| Amethyst Arsenal | Purple glass with a gold aura (default) |
+| Default colors | Purple glass with a gold aura (the theme's own colors, not a preset file) |
 | Lime HUD | Green aura, like a game health bar |
 | Pure Amethyst | Purple aura instead of gold |
 | Smoke | Grey glass with almost no purple |
