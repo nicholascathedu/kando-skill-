@@ -680,7 +680,7 @@
                 "icon": "dark_mode",
                 "iconTheme": "material-symbols-rounded",
                 "type": "button",
-                "angle": 120,
+                "angle": 110,
                 "selectWorkflow": {
                   "actions": [
                     {
@@ -698,7 +698,7 @@
                 "icon": "grid_on",
                 "iconTheme": "material-symbols-rounded",
                 "type": "button",
-                "angle": 240,
+                "angle": 200,
                 "selectWorkflow": {
                   "actions": [
                     {

@@ -110,7 +110,8 @@ Don't paste raw JSON at people to explain a menu. Instead:
 - Run `kando_preview.py` and show the compass outline (Up / Up-right / ... with names and keys).
 - For a visual, run it with `--html sheet.html` (palettes: `purple`, `midnight`, `light`). It
   draws every ring where Kando will really put each item, with the back link dashed, plus a
-  table per ring. It doubles as a printable cheat sheet while learning the gestures.
+  table per ring (direction, item, key, what it does). Red wedges mark items sitting on the way
+  back out of a submenu. It doubles as a printable cheat sheet while learning the gestures.
 - Explain *why* each item sits where it does (frequency, consistency with other menus).
 
 ## Key names vs key codes (the #1 mistake)
@@ -159,6 +160,9 @@ Read the one you need; each is self-contained.
 - `references/app-recipes.md`: ready hotkey sets for Maya, Substance Painter, Unreal, Blender,
   browsers, Discord, with what to verify
 - `references/sources.md`: official sources and the docs-vs-code differences in 3.0
+
+Scripts share `scripts/kando_layout.py`, a port of Kando's own placement code, so the checker
+and the preview agree with what Kando draws. Both run on Python 3.9+ with no installs.
 
 Examples: `examples/desktop-launcher.json` (a general launcher with clipboard and media),
 `examples/3d-work-menus.json` (Maya / Painter / Unreal menus on one key). Load them, run the
