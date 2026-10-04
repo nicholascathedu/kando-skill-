@@ -162,9 +162,13 @@ Every `colors` entry becomes `var(--<name>)` in CSS and gets a color picker in t
 .center-text { color: var(--text-color); font-size: 14px; }
 ```
 
-(`--glow-color` here is an extra color you'd add to `colors`.) A finished example in this
-style is the **Amethyst Veil** theme (dark purple glass, pointer-following halo, key badges),
-built alongside this skill.
+(`--glow-color` here is an extra color you'd add to `colors`.)
+
+A finished example is **Amethyst Arsenal**, in `themes/amethyst-arsenal/` of this skill's
+GitHub repo (github.com/nicholascathedu/kando-skill-). It shows hex tiles drawn with
+`clip-path`, a glow on the hovered item, quick-select key badges, presets, and a "Tweak me"
+block of CSS variables at the top of `theme.css` for sizes and speed. Read it when someone
+wants a game-HUD look or a well-commented theme to start from.
 
 ## 6. CSS cheat sheet
 
