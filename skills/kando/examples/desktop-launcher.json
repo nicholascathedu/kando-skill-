@@ -131,7 +131,7 @@
                 "icon": "content_paste",
                 "iconTheme": "material-symbols-rounded",
                 "type": "button",
-                "angle": 120,
+                "angle": 90,
                 "selectWorkflow": {
                   "quickSelectKey": "V",
                   "actions": [
@@ -150,7 +150,7 @@
                 "icon": "text_fields",
                 "iconTheme": "material-symbols-rounded",
                 "type": "button",
-                "angle": 180,
+                "angle": 150,
                 "selectWorkflow": {
                   "quickSelectKey": "T",
                   "actions": [
@@ -169,7 +169,7 @@
                 "icon": "history",
                 "iconTheme": "material-symbols-rounded",
                 "type": "button",
-                "angle": 240,
+                "angle": 210,
                 "selectWorkflow": {
                   "quickSelectKey": "H",
                   "actions": [

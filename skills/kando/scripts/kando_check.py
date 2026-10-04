@@ -21,6 +21,8 @@ import json
 import re
 import sys
 
+from kando_layout import angular_distance, compass, levels, use_utf8_output
+
 # --------------------------------------------------------------------------- schema --
 
 ACTION_FIELDS = {
@@ -316,15 +318,15 @@ def check_children(parent, where, rep, depth, stats):
 
     # Quick-select keys: duplicates among siblings (incl. this level's center key).
     keys = {}
-    center = parent.get("activateWorkflow") or {}
-    if center.get("quickSelectKey"):
+    center = parent.get("activateWorkflow")
+    if isinstance(center, dict) and isinstance(center.get("quickSelectKey"), str) and center["quickSelectKey"]:
         keys[center["quickSelectKey"].lower()] = "(center)"
     for c in children:
         if not isinstance(c, dict):
             continue
         wf = c.get("selectWorkflow") or c.get("openWorkflow") or {}
         k = wf.get("quickSelectKey") if isinstance(wf, dict) else None
-        if k:
+        if isinstance(k, str) and k:
             if k.lower() in keys:
                 rep.warn(where, f"Quick-select key '{k}' is used by both '{keys[k.lower()]}' "
                                 f"and '{c.get('name')}'.")
@@ -332,19 +334,6 @@ def check_children(parent, where, rep, depth, stats):
             if k.isdigit():
                 rep.tip(where, f"'{c.get('name')}' uses digit '{k}' as quick key; digits 1-9 already "
                                "select items without a key by position, which can clash.")
-
-    # The way back to the parent sits opposite the submenu's own direction. A child
-    # fixed on (or right next to) that direction fights the back link for the gesture.
-    if isinstance(parent.get("angle"), (int, float)) and parent.get("type") == "submenu":
-        back = (parent["angle"] + 180) % 360
-        for c in children:
-            a = c.get("angle") if isinstance(c, dict) else None
-            if isinstance(a, (int, float)):
-                diff = abs((a - back + 180) % 360 - 180)
-                if diff < 25:
-                    rep.warn(where, f"'{c.get('name')}' ({a:g}\u00b0) sits on the way back to the "
-                                    f"parent ({back:g}\u00b0). Flicking that way is ambiguous; "
-                                    "move it at least 45\u00b0 away.")
 
     names = {}
     for i, c in enumerate(children):
@@ -395,8 +384,39 @@ def check_item(item, where, rep, depth, stats):
             check_children(item, where, rep, depth, stats)
 
 
+def check_back_links(menu, where, rep):
+    """Inside a submenu the way back to the parent sits opposite the direction the submenu
+    was opened in. Kando keeps auto-placed items clear of it, but an item with a fixed angle
+    on (or right next to) it makes that flick ambiguous. Uses Kando's real placement, so it
+    also catches submenus whose own angle is automatic."""
+    try:
+        for path, node, parent_angle, angles in levels(menu):
+            if parent_angle is None:
+                continue
+            kids = [c for c in node.get("children", []) if isinstance(c, dict)]
+            for c, a in zip(kids, angles):
+                if not isinstance(c.get("angle"), (int, float)):
+                    continue  # Kando keeps auto-placed items clear of the back link itself
+                dist = angular_distance(a, parent_angle)
+                if 25 <= dist < 40:
+                    rep.tip(f"{where} > {' > '.join(path[1:])}",
+                            f"'{c.get('name')}' is only {dist:.0f}\u00b0 from the way back. "
+                            "45\u00b0 or more makes both flicks easy to tell apart.")
+                if dist < 25:
+                    rep.warn(f"{where} > {' > '.join(path[1:])}",
+                             f"'{c.get('name')}' ({a % 360:.0f}\u00b0, {compass(a)}) sits on the way back "
+                             f"to the parent ({parent_angle % 360:.0f}\u00b0). Flicking that way is "
+                             "ambiguous; move it at least 45\u00b0 away.")
+    except (TypeError, AttributeError, KeyError):
+        pass  # structural errors are already reported by check_item
+
+
 def condition_key(menu):
-    c = menu.get("conditions") or {}
+    """Conditions that actually filter: empty strings / empty objects don't count."""
+    c = menu.get("conditions")
+    if not isinstance(c, dict):
+        return "{}"
+    c = {k: v for k, v in c.items() if v not in ("", None, {}, [])}
     return json.dumps(c, sort_keys=True)
 
 
@@ -413,7 +433,7 @@ def check_menus(data, rep):
     seen_names = {}
     for mi, menu in enumerate(data["menus"]):
         root = menu.get("root", {}) if isinstance(menu, dict) else {}
-        name = root.get("name", f"menu #{mi}")
+        name = root.get("name", f"menu #{mi}") if isinstance(root, dict) else f"menu #{mi}"
         where = f"[{name}]"
         if not isinstance(menu, dict) or "root" not in menu:
             rep.error(where, "Each menu needs a 'root' item.")
@@ -460,18 +480,19 @@ def check_menus(data, rep):
             by_shortcut.setdefault(sc.lower(), []).append((name, condition_key(menu)))
         stats = {"items": 0, "max_depth": 0}
         check_item(root, where, rep, 0, stats)
+        if isinstance(root, dict):
+            check_back_links(menu, where, rep)
         if stats["max_depth"] > 3:
             rep.tip(where, f"Menu is {stats['max_depth'] + 1} levels deep; past 3 the gestures get "
                            "hard to remember.")
     for sc, menus in by_shortcut.items():
         conds = [c for _, c in menus]
-        if "{}" not in conds and "null" not in conds:
+        if "{}" not in conds:
             rep.tip(f"shortcut {sc}", "Every menu on this shortcut has conditions. In any other "
                                       "app the key is still swallowed but no menu opens. Add a "
                                       "fallback menu with no conditions.")
         if len(menus) < 2:
             continue
-        conds = [c for _, c in menus]
         dupes = {c for c in conds if conds.count(c) > 1}
         for c in dupes:
             names = [n for n, cc in menus if cc == c]
@@ -517,7 +538,7 @@ def check_config(cfg, rep):
 # ----------------------------------------------------------------- privacy scanning --
 
 PRIVACY_PATTERNS = [
-    (r"[A-Za-z]:\\\\?Users\\\\?(?!Public)[^\\\\\"/]+", "Windows user folder (reveals your account name)"),
+    (r"[A-Za-z]:(?:\\\\?|/)Users(?:\\\\?|/)(?!Public)[^\\\\\"/]+", "Windows user folder (reveals your account name)"),
     (r"/(?:home|Users)/[^/\"]+", "home folder path (reveals your account name)"),
     (r"[\w.+-]+@[\w-]+\.[\w.]+", "email address"),
     (r"(?<!\d)\d{9,}(?!\d)", "long number (account / friend / phone ID?)"),
@@ -556,6 +577,7 @@ def main():
     ap.add_argument("--config", help="config.json to check as well")
     ap.add_argument("--publish", action="store_true", help="scan for personal data before sharing")
     args = ap.parse_args()
+    use_utf8_output()
     rep = Report()
     data, text = load(args.menus, rep)
     if data is not None:
