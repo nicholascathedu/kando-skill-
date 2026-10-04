@@ -1,0 +1,469 @@
+{
+  "version": "3.0.0",
+  "menus": [
+    {
+      "root": {
+        "name": "Desktop",
+        "icon": "apps",
+        "iconTheme": "material-symbols-rounded",
+        "type": "root",
+        "activateWorkflow": {
+          "quickSelectKey": "Backspace",
+          "actions": [
+            {
+              "type": "close-menu"
+            }
+          ]
+        },
+        "children": [
+          {
+            "name": "Games",
+            "icon": "sports_esports",
+            "iconTheme": "material-symbols-rounded",
+            "type": "submenu",
+            "angle": 0,
+            "children": [
+              {
+                "name": "Discord",
+                "icon": "discord",
+                "iconTheme": "simple-icons-colored",
+                "type": "button",
+                "angle": 90,
+                "selectWorkflow": {
+                  "quickSelectKey": "D",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "execute-command",
+                      "command": "start \"\" \"%LOCALAPPDATA%\\Discord\\Update.exe\" --processStart Discord.exe",
+                      "detached": true,
+                      "isolated": false
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Steam",
+                "icon": "steam",
+                "iconTheme": "simple-icons-colored",
+                "type": "button",
+                "angle": 270,
+                "selectWorkflow": {
+                  "quickSelectKey": "S",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "execute-command",
+                      "command": "start \"\" steam://open/main",
+                      "detached": true,
+                      "isolated": false
+                    }
+                  ]
+                }
+              }
+            ],
+            "activateWorkflow": {
+              "quickSelectKey": "Backspace",
+              "actions": [
+                {
+                  "type": "close-submenu"
+                }
+              ]
+            },
+            "openWorkflow": {
+              "quickSelectKey": "G",
+              "actions": []
+            }
+          },
+          {
+            "name": "Browser",
+            "icon": "googlechrome",
+            "iconTheme": "simple-icons-colored",
+            "type": "button",
+            "angle": 45,
+            "selectWorkflow": {
+              "quickSelectKey": "B",
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "execute-command",
+                  "command": "start \"\" chrome",
+                  "detached": true,
+                  "isolated": false
+                }
+              ]
+            }
+          },
+          {
+            "name": "Clipboard",
+            "icon": "content_paste",
+            "iconTheme": "material-symbols-rounded",
+            "type": "submenu",
+            "angle": 90,
+            "children": [
+              {
+                "name": "Copy",
+                "icon": "content_copy",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 0,
+                "selectWorkflow": {
+                  "quickSelectKey": "C",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyC"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Paste",
+                "icon": "content_paste",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 120,
+                "selectWorkflow": {
+                  "quickSelectKey": "V",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyV"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Paste plain text",
+                "icon": "text_fields",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 180,
+                "selectWorkflow": {
+                  "quickSelectKey": "T",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+ShiftLeft+KeyV"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Clipboard history",
+                "icon": "history",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 240,
+                "selectWorkflow": {
+                  "quickSelectKey": "H",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "MetaLeft+KeyV"
+                    }
+                  ]
+                }
+              }
+            ],
+            "activateWorkflow": {
+              "quickSelectKey": "Backspace",
+              "actions": [
+                {
+                  "type": "close-submenu"
+                }
+              ]
+            },
+            "openWorkflow": {
+              "quickSelectKey": "C",
+              "actions": []
+            }
+          },
+          {
+            "name": "Files",
+            "icon": "folder",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 135,
+            "selectWorkflow": {
+              "quickSelectKey": "F",
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "execute-command",
+                  "command": "start \"\" explorer",
+                  "detached": true,
+                  "isolated": false
+                }
+              ]
+            }
+          },
+          {
+            "name": "3D apps",
+            "icon": "view_in_ar",
+            "iconTheme": "material-symbols-rounded",
+            "type": "submenu",
+            "angle": 180,
+            "children": [
+              {
+                "name": "Maya",
+                "icon": "autodeskmaya",
+                "iconTheme": "simple-icons-colored",
+                "type": "button",
+                "angle": 90,
+                "selectWorkflow": {
+                  "quickSelectKey": "M",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "execute-command",
+                      "command": "start \"\" maya",
+                      "detached": true,
+                      "isolated": false
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Blender",
+                "icon": "blender",
+                "iconTheme": "simple-icons-colored",
+                "type": "button",
+                "angle": 135,
+                "selectWorkflow": {
+                  "quickSelectKey": "L",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "execute-command",
+                      "command": "start \"\" blender",
+                      "detached": true,
+                      "isolated": false
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Substance Painter",
+                "icon": "adobe",
+                "iconTheme": "simple-icons-colored",
+                "type": "button",
+                "angle": 225,
+                "selectWorkflow": {
+                  "quickSelectKey": "P",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "execute-command",
+                      "command": "echo Use the editor's app picker to fill this command",
+                      "detached": true,
+                      "isolated": false
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Unreal Engine",
+                "icon": "unrealengine",
+                "iconTheme": "simple-icons-colored",
+                "type": "button",
+                "angle": 270,
+                "selectWorkflow": {
+                  "quickSelectKey": "U",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "execute-command",
+                      "command": "start \"\" \"com.epicgames.launcher://apps\"",
+                      "detached": true,
+                      "isolated": false
+                    }
+                  ]
+                }
+              }
+            ],
+            "activateWorkflow": {
+              "quickSelectKey": "Backspace",
+              "actions": [
+                {
+                  "type": "close-submenu"
+                }
+              ]
+            },
+            "openWorkflow": {
+              "quickSelectKey": "A",
+              "actions": []
+            }
+          },
+          {
+            "name": "Settings",
+            "icon": "settings",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 225,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "execute-command",
+                  "command": "start \"\" ms-settings:",
+                  "detached": true,
+                  "isolated": false
+                }
+              ]
+            }
+          },
+          {
+            "name": "Media",
+            "icon": "play_circle",
+            "iconTheme": "material-symbols-rounded",
+            "type": "submenu",
+            "angle": 270,
+            "children": [
+              {
+                "name": "Twitch",
+                "icon": "twitch",
+                "iconTheme": "simple-icons-colored",
+                "type": "button",
+                "angle": 0,
+                "selectWorkflow": {
+                  "quickSelectKey": "T",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "open-uri",
+                      "uri": "https://www.twitch.tv/"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Play / pause",
+                "icon": "play_pause",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 180,
+                "selectWorkflow": {
+                  "quickSelectKey": "P",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "MediaPlayPause"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "YouTube",
+                "icon": "youtube",
+                "iconTheme": "simple-icons-colored",
+                "type": "button",
+                "angle": 270,
+                "selectWorkflow": {
+                  "quickSelectKey": "Y",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "open-uri",
+                      "uri": "https://www.youtube.com/"
+                    }
+                  ]
+                }
+              }
+            ],
+            "activateWorkflow": {
+              "quickSelectKey": "Backspace",
+              "actions": [
+                {
+                  "type": "close-submenu"
+                }
+              ]
+            },
+            "openWorkflow": {
+              "quickSelectKey": "M",
+              "actions": []
+            }
+          },
+          {
+            "name": "Screenshot",
+            "icon": "screenshot_region",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 315,
+            "selectWorkflow": {
+              "quickSelectKey": "X",
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "MetaLeft+ShiftLeft+KeyS"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "shortcut": "Control+Space",
+      "shortcutID": "",
+      "useFixedPosition": false,
+      "fixedMenuPosition": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "anchored": false,
+      "hoverMode": false,
+      "tags": [
+        "Desktop"
+      ]
+    }
+  ],
+  "collections": [
+    {
+      "name": "Desktop",
+      "icon": "desktop_windows",
+      "iconTheme": "material-symbols-rounded",
+      "tags": [
+        "Desktop"
+      ]
+    }
+  ]
+}
