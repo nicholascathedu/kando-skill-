@@ -31,9 +31,10 @@ days faster, [support Simon on Ko-fi](https://ko-fi.com/schneegans) or
 
 ## Why install it
 
-Kando is easy to start and deep to master. A menu is a JSON file, and it is strict: write
-`Ctrl` where it wants `ControlLeft`, or place an item at an angle Kando drops, and Kando quietly
-keeps your old menu without saying why. Blessed knows those traps before you hit them.
+Kando is easy to start and deep to master. A menu is a JSON file, and it is strict: one missing
+comma or wrong value and Kando quietly keeps your old menu without saying why. Write `Ctrl` where
+it wants `ControlLeft` and the item only fails when you pick it. Give an item an angle Kando
+ignores and it lands somewhere you didn't plan. Blessed knows those traps before you hit them.
 
 - **Menus that work the first time.** Claude writes Kando 3.0's real format, then runs a checker
   built from Kando's own source before anything is saved.
@@ -45,7 +46,7 @@ keeps your old menu without saying why. Blessed knows those traps before you hit
   preset or a full menu theme, written with Kando's real class names.
 - **It gets personal.** A small profile keeps your apps, the directions you've locked in, your
   colors and the ideas you said no to. Every session starts from there.
-- **Nothing hidden.** Three short Python scripts, no installs, tested on Windows and Linux.
+- **Nothing hidden.** A few short Python scripts, no installs, tested on Windows and Linux.
 
 ## Art and AI, side by side
 
