@@ -57,6 +57,13 @@ IDs, emails) before you share a menu.
 color override, a preset, or a full menu theme (`theme.json5` + CSS), using Kando's real class
 names and CSS variables.
 
+**🔫 A ready-made theme: Amethyst Arsenal.** Hex tiles with see-through purple faces and a soft
+gold aura on the selected item, inspired by the weapon wheel in *Ratchet & Clank Future: A Crack
+in Time*. It comes with five color presets. Install steps are in
+[`themes/amethyst-arsenal`](themes/amethyst-arsenal).
+
+<p align="center"><img src="themes/amethyst-arsenal/showcase.jpg" alt="The Amethyst Arsenal menu theme: purple hex tiles with a gold glow on the selected one" width="600"></p>
+
 **📚 Learn it properly.** Every setting explained with tuning recipes ("make it snappier",
 "it picks things I didn't mean"), and Simon's path from point-and-click to marking and turbo mode.
 
@@ -100,6 +107,8 @@ skills/kando/
 │   ├── kando_preview.py  compass outline and radial HTML cheat sheet
 │   └── kando_layout.py   Kando's placement algorithm, ported
 └── examples/           a desktop launcher and Maya / Painter / Unreal work menus
+themes/
+└── amethyst-arsenal/   a Kando menu theme (CC0), drop it in your menu-themes folder
 tests/                  python -m unittest discover -s tests
 ```
 
@@ -111,4 +120,6 @@ code disagree, the skill follows the code; the differences are listed in
 [`references/sources.md`](skills/kando/references/sources.md).
 
 Not affiliated with Kando. Kando is MIT-licensed by Simon Schneegans, and so is this skill.
+The Amethyst Arsenal theme is CC0 and is a fan tribute, not affiliated with Insomniac Games or
+Sony Interactive Entertainment.
 If Kando makes your day faster, consider [supporting Simon](https://kando.menu/donating/).

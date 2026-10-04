@@ -1,0 +1,380 @@
+/* SPDX-FileCopyrightText: Nicholas (github.com/nicholascathedu) */
+/* SPDX-FileCopyrightText: Simon Schneegans <code@simonschneegans.de> */
+/* SPDX-License-Identifier: CC0-1.0 */
+
+/* =====================================================================================
+   Amethyst Arsenal, a menu theme for Kando 3.0
+   Inspired by the weapon selection wheel of Ratchet & Clank Future: A Crack in Time.
+   Positioning is based on Kando's built-in "Default" theme.
+   =====================================================================================
+
+   HOW A TILE IS BUILT
+
+   Every menu item is a pointy-top hexagon made of three stacked shapes:
+
+     1. the dark outer frame ........ .icon-layer::before
+     2. the thin light line ......... .icon-layer::after
+     3. the see-through face ........ .icon-container (it also holds the icon)
+
+   The hovered tile grows, its frame turns cream, its face turns dark with a purple
+   bloom, and it gets a soft gold aura. The aura is a drop-shadow on .icon-layer, which is
+   never clipped, so the glow follows the hexagon's outline.
+
+   HOW TO EDIT
+
+   - Colors: change them in Kando's settings (Menu Theme, then the color pickers), or edit
+     the `colors` list in theme.json5. The presets/ folder has ready-made color sets.
+   - Sizes, spacing, glow and speed: change the variables in the "Tweak me" block right
+     below. Everything else in this file reads from them.
+   - After editing, use "Reload Menu Theme" in Kando's settings (Development tab) to see
+     the change without restarting Kando.
+*/
+
+.menu-node {
+
+  /* Tweak me ------------------------------------------------------------------------- */
+
+  /* Distance from the center to the items around it. Menus with more than 9 items
+     spread out further automatically, so tiles never overlap. */
+  --child-distance: 104px;
+
+  /* Tile sizes. A regular pointy-top hexagon is 1.155 times taller than it is wide,
+     so if you change a width, set its height to width x 1.155. */
+  --center-w: 80px;
+  --center-h: 92px;
+  --child-w: 60px;
+  --child-h: 69px;
+
+  /* Frame and line thickness. */
+  --frame-width: 5px;
+  --line-width: 1.5px;
+  --hover-frame-width: 3.5px;
+
+  /* Icon size: the space between the icon and the tile's edge. Smaller = bigger icon. */
+  --child-icon-padding: 7px 4px;
+  --center-icon-padding: 12px 8px;
+  --hover-icon-padding: 10px 7px;
+
+  /* How much the hovered tile grows, and how far its gold aura reaches. */
+  --hover-scale: 1.22;
+  --aura-near: 9px;
+  --aura-far: 20px;
+
+  /* Opacity of the item that leads back to the previous menu. */
+  --parent-opacity: 0.55;
+
+  /* Animation. The curve overshoots a little, which gives the "pop" on hover. Turning
+     off "Menu animations" in Kando's settings disables all of this. */
+  --menu-transition: all 220ms cubic-bezier(0.775, 1.325, 0.535, 1);
+  --fade-transition: opacity 200ms ease;
+
+  --connector-width: 2px;
+
+  /* Internal: do not edit ------------------------------------------------------------ */
+
+  --line-inset: calc(var(--frame-width) + var(--line-width));
+  --spread: max(var(--child-distance), 11px * var(--sibling-count));
+
+  transition: var(--menu-transition);
+
+  /* Positioning ---------------------------------------------------------------------- */
+
+  &.child {
+    transform: translate(calc(var(--spread) * var(--dir-x)),
+        calc(var(--spread) * var(--dir-y)));
+  }
+
+  /* Grandchildren are not drawn (see "Sizes" below), but they still need a position so
+     they animate smoothly when a submenu opens. */
+  &.grandchild {
+    transform: translate(calc(20px * var(--dir-x)), calc(20px * var(--dir-y)));
+  }
+
+  /* The hovered tile pops out, like a selected weapon, and is drawn above its
+     neighbors so its aura is never covered. */
+  &.active:has(>.hovered)>.child.hovered {
+    z-index: 1;
+    transform: scale(var(--hover-scale)) translate(calc(var(--spread) * var(--dir-x)),
+        calc(var(--spread) * var(--dir-y)));
+  }
+
+  /* Tiles dragged in marking or turbo mode follow the pointer directly. */
+  &.dragged {
+    transition: none;
+  }
+
+  /* Hex shapes ----------------------------------------------------------------------- */
+
+  .icon-layer {
+    position: absolute;
+    transition: var(--menu-transition);
+  }
+
+  /* The frame and the line are hexagonal rings. Each ring is cut out between an outer
+     inset (--o) and an inner inset (--i), traced as one even-odd polygon. The factors
+     1.155 and 0.577 keep the ring the same thickness on the slanted edges. */
+  .icon-layer::before,
+  .icon-layer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transition: var(--menu-transition);
+    clip-path: polygon(evenodd,
+        50% calc(var(--o) * 1.155),
+        calc(100% - var(--o)) calc(25% + var(--o) * 0.577),
+        calc(100% - var(--o)) calc(75% - var(--o) * 0.577),
+        50% calc(100% - var(--o) * 1.155),
+        var(--o) calc(75% - var(--o) * 0.577),
+        var(--o) calc(25% + var(--o) * 0.577),
+        50% calc(var(--o) * 1.155),
+        50% calc(var(--i) * 1.155),
+        calc(100% - var(--i)) calc(25% + var(--i) * 0.577),
+        calc(100% - var(--i)) calc(75% - var(--i) * 0.577),
+        50% calc(100% - var(--i) * 1.155),
+        var(--i) calc(75% - var(--i) * 0.577),
+        var(--i) calc(25% + var(--i) * 0.577),
+        50% calc(var(--i) * 1.155));
+  }
+
+  /* 1. Dark outer frame. */
+  .icon-layer::before {
+    --o: 0px;
+    --i: var(--frame-width);
+    background: var(--frame-color);
+  }
+
+  /* 2. Thin light line, drawn above the face. */
+  .icon-layer::after {
+    --o: var(--frame-width);
+    --i: var(--line-inset);
+    z-index: 2;
+    background: var(--line-color);
+  }
+
+  /* 3. See-through face. It fills the inside of the line, and its padding sets the icon
+     size. Kando's own styles give this element a square shape, which the !important
+     rules replace with the hexagon. */
+  .icon-container {
+    position: absolute;
+    z-index: 1;
+    inset: var(--line-inset);
+    width: auto !important;
+    height: auto !important;
+    aspect-ratio: auto !important;
+    padding: var(--child-icon-padding);
+    opacity: 0;
+    color: var(--icon-color);
+    transition: var(--menu-transition);
+    background:
+      radial-gradient(circle at 50% 45%, transparent 35%, rgb(0 0 0 / 0.25)),
+      var(--glass-color);
+    clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+
+    /* A thin light outline keeps dark logos (Steam, Unreal) visible on the dark glass.
+       It works for font icons, images and emoji alike. */
+    &>* {
+      filter: drop-shadow(0 0 0.6px rgb(255 255 255 / 0.9)) drop-shadow(0 0 0.6px rgb(255 255 255 / 0.6));
+      transition: var(--fade-transition);
+    }
+  }
+
+  /* Sizes ---------------------------------------------------------------------------- */
+
+  &.active>.icon-layer {
+    top: calc(-1 * var(--center-h) / 2);
+    left: calc(-1 * var(--center-w) / 2);
+    width: var(--center-w);
+    height: var(--center-h);
+  }
+
+  &.parent>.icon-layer,
+  &.child>.icon-layer {
+    top: calc(-1 * var(--child-h) / 2);
+    left: calc(-1 * var(--child-w) / 2);
+    width: var(--child-w);
+    height: var(--child-h);
+  }
+
+  /* The center tile is less see-through, so its text stays readable over bright apps. */
+  &.active>.icon-layer>.icon-container {
+    padding: var(--center-icon-padding);
+    background:
+      radial-gradient(circle at 50% 45%, transparent 35%, rgb(0 0 0 / 0.25)),
+      var(--center-color);
+  }
+
+  &.active>.icon-layer>.icon-container,
+  &.parent>.icon-layer>.icon-container,
+  &.child>.icon-layer>.icon-container {
+    opacity: 1;
+  }
+
+  /* The item that leads back to the previous menu reads quieter than the choices. */
+  &.parent:not(.hovered)>.icon-layer {
+    opacity: var(--parent-opacity);
+  }
+
+  /* While a tile is hovered, the center hides its icon and shows the tile's name. */
+  &.active:has(>.hovered)>.icon-layer>.icon-container>* {
+    opacity: 0;
+  }
+
+  /* Grandchildren stay invisible, like the game's wheel, which shows one ring at a
+     time. They are only sized so the opening animation is smooth. */
+  &.grandchild>.icon-layer {
+    top: -4px;
+    left: -4px;
+    width: 8px;
+    height: 8px;
+    opacity: 0;
+  }
+
+  /* Selected tile -------------------------------------------------------------------- */
+
+  /* Cream frame, a thin line further in, and a soft gold aura around the outside. */
+  &.active.hovered>.icon-layer,
+  &.parent.hovered>.icon-layer,
+  &.child.hovered>.icon-layer {
+    filter:
+      drop-shadow(0 0 2px var(--rim-hover-color))
+      drop-shadow(0 0 var(--aura-near) var(--aura-color))
+      drop-shadow(0 0 var(--aura-far) color-mix(in srgb, var(--aura-color) 55%, transparent));
+
+    &::before {
+      --i: var(--hover-frame-width);
+      background: var(--rim-hover-color);
+    }
+
+    &::after {
+      --o: calc(var(--hover-frame-width) + 4.5px);
+      --i: calc(var(--hover-frame-width) + 4.5px + var(--line-width) * 0.8);
+      background: color-mix(in srgb, var(--line-color) 70%, transparent);
+    }
+  }
+
+  /* The face behind the selected icon turns dark, with a purple bloom in the middle. */
+  &.active.hovered>.icon-layer>.icon-container,
+  &.parent.hovered>.icon-layer>.icon-container,
+  &.child.hovered>.icon-layer>.icon-container {
+    inset: var(--hover-frame-width);
+    padding: var(--hover-icon-padding);
+    background:
+      radial-gradient(circle at 50% 50%, var(--bloom-color), transparent 70%),
+      var(--glass-hover-color);
+  }
+
+  /* Press feedback. */
+  &.parent.hovered.clicked>.icon-layer,
+  &.child.hovered.clicked>.icon-layer,
+  &.active.hovered.clicked>.icon-layer {
+    transform: scale(0.92);
+  }
+
+  /* Key chips ------------------------------------------------------------------------ */
+
+  /* Kando only creates this layer when "Draw quick-select keys" is turned on. The chip
+     looks like a controller button prompt and sits on the tile's lower right edge. */
+  .quick-key {
+    display: none;
+  }
+
+  &.child>.quick-key {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: calc(var(--child-h) / 2 - 13px);
+    left: calc(var(--child-w) / 2 - 15px);
+    min-width: 20px;
+    height: 16px;
+    padding: 0 4px;
+    border-radius: 4px;
+    border: 1.5px solid rgb(255 255 255 / 0.9);
+    background: var(--badge-color);
+    color: var(--badge-text-color);
+    font-size: 10px;
+    font-weight: 800;
+    line-height: 1;
+    text-transform: uppercase;
+    box-shadow: 0 2px 5px rgb(0 0 0 / 0.5);
+    pointer-events: none;
+    transition: var(--menu-transition);
+  }
+
+  /* Connectors ----------------------------------------------------------------------- */
+
+  /* The line from the previous menu to the open submenu. */
+  .connector {
+    transition: var(--menu-transition);
+    height: var(--connector-width);
+    top: calc(-1 * var(--connector-width) / 2);
+    background: var(--connector-color);
+  }
+
+  &:has(.dragged)>.connector {
+    transition: none;
+  }
+
+  /* The faces are see-through, so the line stops at the edge of both tiles instead of
+     showing through them. */
+  &.parent>.connector {
+    background: linear-gradient(to right,
+        transparent calc(var(--child-w) / 2),
+        var(--connector-color) calc(var(--child-w) / 2),
+        var(--connector-color) calc(100% - var(--center-w) / 2),
+        transparent calc(100% - var(--center-w) / 2));
+  }
+}
+
+/* Center text ------------------------------------------------------------------------ */
+
+/* The hovered item's name, uppercase and bold like a weapon name in the game. Kando
+   shrinks the text automatically when a long name does not fit. */
+.center-text {
+  color: var(--text-color);
+  transition: var(--fade-transition);
+  font-family: 'Segoe UI Variable Display', 'Segoe UI', system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 14px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 3px rgb(0 0 0 / 0.9);
+}
+
+/* Selection wedges ------------------------------------------------------------------- */
+
+/* Kando draws these only when "Selection wedges" is turned on in its settings. The
+   hovered direction lights up and fades out with distance from the center. */
+
+.selection-wedges {
+  background: var(--wedge-color);
+  mask: radial-gradient(circle at var(--center-x) var(--center-y), black 90px, transparent 270px);
+
+  &.hovered {
+    --width: calc(var(--end-angle) - var(--start-angle));
+    background: conic-gradient(from var(--start-angle) at var(--center-x) var(--center-y),
+        var(--wedge-highlight-color) var(--width),
+        var(--wedge-color) var(--width));
+  }
+}
+
+.wedge-separators .separator {
+  background: linear-gradient(to right,
+      transparent 50px,
+      var(--separator-color) 62px,
+      transparent 230px);
+}
+
+/* Reduced motion --------------------------------------------------------------------- */
+
+/* Respect the system's "reduce motion" setting. */
+@media (prefers-reduced-motion: reduce) {
+  .menu-node,
+  .menu-node .icon-layer,
+  .menu-node .icon-layer::before,
+  .menu-node .icon-layer::after,
+  .menu-node .icon-container {
+    transition: none;
+  }
+}
