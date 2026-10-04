@@ -72,7 +72,7 @@ up with looks and moves like you, because you made every call that counts.
 4. **See it.** `kando_preview.py` draws a cheat sheet with every item where Kando will really put it.
 5. **Keep it.** Your profile learns what you chose, so the next request needs fewer words.
 
-<p align="center"><img src="docs/example-sheet.png" alt="Radial cheat sheet of Maya, Painter and Unreal work menus" width="100%"></p>
+<p align="center"><img src="docs/example-sheet.png" alt="Radial cheat sheet of the Maya work menu: the root ring, its Display submenu and its Switch app submenu" width="100%"></p>
 
 The checker speaks plainly:
 
@@ -87,6 +87,24 @@ TIP    shortcut control+4
        Every menu on this shortcut has conditions. In any other app the key is
        still swallowed but no menu opens. Add a fallback menu with no conditions.
 ```
+
+## A workflow for Substance 3D Designer
+
+Designer is where I build materials from nothing: noise and patterns become a height map, the
+height map becomes normal, AO and curvature, and all of it ends up as a .sbsar that Painter and
+Unreal can open. It is also a lot of small keys spread across three views, which is exactly
+what a pie menu is good at.
+
+<p align="center"><img src="docs/designer-sheet.png" alt="Cheat sheet of the Substance 3D Designer work menu. Root ring: Add node up, Find node up-right, Frame view right, Tidy down-right, Switch app down, Save down-left, Publish .sbsar left, Node up-left. Submenus: Tidy with snap to grid and align, Switch app with Painter, Maya and Unreal, and Node with duplicate, disable and open in context." width="100%"></p>
+
+- **Up adds a node** (Space), because it is the move I make most.
+- **Left publishes the .sbsar** (Ctrl+P). In Painter, Left exports textures. Same flick, same
+  meaning: send it out.
+- **Down twice** jumps to Painter, and Down twice in Painter comes back. Down is "Switch app" in
+  every work menu, and Designer sits straight down inside it from Maya, Painter and Unreal.
+- Every key comes from Adobe's current Designer docs (version 16.0). The menu is in
+  [`examples/3d-work-menus.json`](skills/kando/examples/3d-work-menus.json), with notes in
+  [`app-recipes.md`](skills/kando/references/app-recipes.md).
 
 ## It remembers you
 

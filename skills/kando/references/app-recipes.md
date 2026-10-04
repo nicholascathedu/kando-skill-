@@ -16,6 +16,7 @@ removed sometimes). Adobe apps aren't reliably there, so use Material Symbols
 ## Contents
 - Autodesk Maya
 - Adobe Substance 3D Painter
+- Adobe Substance 3D Designer
 - Unreal Engine 5
 - Blender
 - Browsers (Chrome / Edge / Firefox)
@@ -52,6 +53,38 @@ once the user binds them in Windows → Settings/Preferences → Hotkey Editor.
 
 Adding generators, filters and smart masks goes through the layer stack's right-click menu
 with no default key; the shelf (drag and drop) is faster there than Kando.
+
+## Adobe Substance 3D Designer — `appName: "Substance 3D Designer"`
+
+The process is `Adobe Substance 3D Designer.exe` (Adobe's install-path docs). Use
+`Substance 3D Designer` as the condition; `Designer` alone also matches other apps.
+Checked against Adobe's Designer 16.0 docs (Experience League, 2026); sources in `sources.md`.
+
+| Action | Default key | Kando hotkey |
+|---|---|---|
+| Node menu (add a node) | Space in the Graph view | `Space` |
+| Node finder | Ctrl+F | `ControlLeft+KeyF` |
+| Fit in view / focus selection | F | `KeyF` |
+| Reset zoom | Z | `KeyZ` |
+| Align horizontally / vertically / snap to grid | H / V / S | `KeyH` / `KeyV` / `KeyS` |
+| Duplicate / duplicate without links | Ctrl+D / Ctrl+Shift+D | `ControlLeft+KeyD` / `ControlLeft+ShiftLeft+KeyD` |
+| Disable node | Shift+D | `ShiftLeft+KeyD` |
+| Open reference in context (or edit a Pixel Processor / FX-Map function) | Ctrl+E | `ControlLeft+KeyE` |
+| Link creation mode: standard / material / compact | 1 / 2 / 3 | `Digit1` / `Digit2` / `Digit3` |
+| New Substance graph | Ctrl+N | `ControlLeft+KeyN` |
+| Save package / save all | Ctrl+S / Ctrl+Shift+S | `ControlLeft+KeyS` / `ControlLeft+ShiftLeft+KeyS` |
+| Publish .sbsar | Ctrl+P | `ControlLeft+KeyP` |
+| Cancel rendering / suspend engine / switch engine | Esc / Shift+Esc / F9 | `Escape` / `ShiftLeft+Escape` / `F9` |
+| 2D view: tiled display / fit / 1:1 | Space / F / Z | `Space` / `KeyF` / `KeyZ` |
+| 3D view: focus mesh / reset camera | F / R | `KeyF` / `KeyR` |
+
+Designer's keys act on the panel that has focus, and some letters mean different things in
+the Graph, 2D and 3D views (Space adds a node in the graph but toggles tiling in the 2D view).
+Kando gives focus back to Designer when the menu closes, so the key lands in the panel you
+were last working in. Put graph actions in one menu and keep 2D/3D view actions out of it,
+or put them in a submenu named for the view. Adobe lists Ctrl+P with the Explorer's right-click menu
+and the toolbar, so try it once with your graph open. Export outputs, frames and comments have no default key;
+bind one in Preferences first. Designer 16.0 removed Iray (the GPU Pathtracer replaces it).
 
 ## Unreal Engine 5 — `appName: "UnrealEditor"`
 
@@ -125,7 +158,10 @@ Discord's settings; a `focus-window` first, or global binds, make them work from
 ## Cross-app pipeline ideas
 
 - **Switch app submenu** in the same direction in every work menu: `focus-window` with
-  `appName` of each other app in the pipeline (Maya → Painter → Unreal).
+  `appName` of each other app in the pipeline (Maya → Designer → Painter → Unreal).
+- **Material pipeline**: build in Designer, publish the .sbsar (Ctrl+P), switch to Painter or
+  Unreal, which both load .sbsar files. Put publish in Designer on the same flick as export
+  in Painter, so "send it out" feels the same in both apps.
 - **Search selected text** in the browser from any app (Ctrl+C → focus browser → Ctrl+T →
   paste → Enter).
 - **Open the project folder**: `open-file` with the folder path (keep personal paths out of

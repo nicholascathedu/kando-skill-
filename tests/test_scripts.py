@@ -370,7 +370,7 @@ class CommandLine(unittest.TestCase):
         r = self.run_script(os.path.join(SCRIPTS, "kando_profile.py"),
                             os.path.join(EXAMPLES, "3d-work-menus.json"))
         self.assertEqual(r.returncode, 0, r.stderr)
-        self.assertIn("Switch app: Down in Maya, Painter, Unreal", r.stdout)
+        self.assertIn("Switch app: Down in Maya, Painter, Designer, Unreal", r.stdout)
         self.assertIn("(0°)", r.stdout)
 
     def test_profile_out_does_not_overwrite_notes(self):
