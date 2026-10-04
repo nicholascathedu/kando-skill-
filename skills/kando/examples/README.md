@@ -3,7 +3,7 @@
 | File | What it is |
 |---|---|
 | `desktop-launcher.json` | A general launcher on Ctrl+Space: games, browser, clipboard tools, files, 3D apps, settings, media, screenshot. Every ring uses fixed angles, and most items have quick-select keys. |
-| `3d-work-menus.json` | Maya, Substance Painter and Unreal menus that all open on Ctrl+4, chosen by the app in front. "Switch app" is Down in all three. Add a menu without conditions on Ctrl+4 as the fallback (e.g. the launcher). |
+| `3d-work-menus.json` | Maya, Substance Painter, Substance Designer and Unreal menus that all open on Ctrl+4, chosen by the app in front. "Switch app" is Down in all four, and Down twice goes from Painter to Designer and back. Designer's Left publishes the .sbsar, like Painter's Left exports textures. Add a menu without conditions on Ctrl+4 as the fallback (e.g. the launcher). |
 
 Try them safely without touching your own setup:
 

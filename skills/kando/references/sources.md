@@ -14,6 +14,7 @@ Everything in this skill comes from Kando's official sources, checked for **Kand
 | … `docs/changelog.md` | What changed in each version |
 | Simon Schneegans' YouTube channel (youtube.com/@simonschneegans) | Kando 3.0 workflows (PhUnN2cx5sI), 2.1 features (wNNS7vrur3M), "How to be FAST" (elHUCarOiXQ) |
 | Kando Discord (linked from kando.menu) | Community help, #menu-themes |
+| experienceleague.adobe.com/en/docs/substance-3d-designer (Shortcuts, Graph view, 2D view, 3D view, Main toolbar, Node alignment tools, Node finder, Publishing .sbsar, Retrieving the installation path, 16.0 release notes) | Designer's default keys and process name in `app-recipes.md` |
 
 ## Where the 3.0 docs and code disagree
 
