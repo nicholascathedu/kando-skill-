@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/img/hero.jpg" alt="Blessed, a Claude agent for Kando. On the left, the author's real Kando menu in the Amethyst Arsenal theme, glass hex tiles around a glowing yin-yang. On the right, five hovered tiles, one per color preset: gold, lime, violet, smoke and Work Mode" width="100%">
+  <img src="docs/img/hero.jpg" alt="Blessed, a Claude agent for Kando. On the left, the author's real Kando menu in the Amethyst Arsenal theme, glass hex tiles around a glowing yin-yang. On the right, five hovered tiles, one per color choice in Kando's theme settings: Default colors (the gold aura), Lime HUD, Pure Amethyst, Smoke and Work Mode" width="100%">
 </p>
 
 <p align="center">
@@ -111,8 +111,8 @@ back in the fight with exactly what you needed. Kando gives that feeling to a de
 a theme that honors it — smoky hex tiles you can see through, a dark frame, and a soft gold aura on
 the one you're reaching for, all washed in amethyst.
 
-It ships with five color presets: gold, lime HUD, pure amethyst, smoke, and a calmer Work Mode
-for busy 3D viewports. [Install it from `themes/amethyst-arsenal`.](themes/amethyst-arsenal)
+Its own look, the gold aura, is what Kando lists as **Default colors**. Four presets come with
+it: **Lime HUD**, **Pure Amethyst**, **Smoke**, and **Work Mode**, a calmer one for busy 3D viewports. [Install it from `themes/amethyst-arsenal`.](themes/amethyst-arsenal)
 
 ### A menu with a yin-yang at its heart
 
@@ -121,9 +121,9 @@ two halves most software keeps apart. A pie menu holds both. The center is still
 direction around it is motion.
 
 The tiles are glass, so whatever I'm working in still shows through. Here it is over a few
-different apps, in each color preset, reaching in a different direction every time.
+different apps, in the default colors and each preset, reaching in a different direction every time.
 
-<p align="center"><img src="docs/img/my-menu.jpg" alt="Six real renders of the author's menu. At rest, the yin-yang in the middle of a night-sky desktop. Creativity, up-left, glowing gold over a 3D viewport. Games, straight up, glowing lime over the night sky. Browser, down-right, glowing violet over a bright web page. The Media submenu open on YouTube in the Smoke preset over a video site. Settings, down-left, in Work Mode over a colorful painting." width="100%"></p>
+<p align="center"><img src="docs/img/my-menu.jpg" alt="Six real renders of the author's menu. At rest in Default colors, the yin-yang in the middle of a night-sky desktop. Creativity, up-left, with the gold aura of Default colors over a 3D viewport. Games, straight up, glowing green in Lime HUD over the night sky. Browser, down-right, glowing violet in Pure Amethyst over a bright web page. The Media submenu open on YouTube in the Smoke preset over a video site. Settings, down-left, in Work Mode over a colorful painting." width="100%"></p>
 
 ## Install
 
