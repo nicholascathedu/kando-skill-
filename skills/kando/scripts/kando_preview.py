@@ -24,9 +24,13 @@ import json
 import math
 import sys
 
-from kando_layout import COMPASS, angular_distance, child_items, compass, levels, use_utf8_output
+from kando_layout import (COMPASS, angle_problems, angular_distance, child_items, compass,
+                          item_name, levels, raw_angle, use_utf8_output)
 
 ARROWS = ["↑", "↗", "→", "↘", "↓", "↙", "←", "↖"]
+
+# Same major as the simple-icons-font Kando 3.0 bundles, so slugs match what Kando shows.
+SIMPLE_ICONS = "https://cdn.jsdelivr.net/npm/simple-icons@16/icons/"
 
 PALETTES = {
     "purple": {
@@ -112,6 +116,7 @@ def workflow_summary(item):
         elif t:
             parts.append(t)
     key = wf.get("quickSelectKey") if isinstance(wf, dict) else None
+    key = key if isinstance(key, str) and key else None  # anything else is a checker error
     return " → ".join(parts[:3]) + (" …" if len(parts) > 3 else ""), key
 
 
@@ -127,22 +132,31 @@ def conditions_text(menu):
     return ", ".join(bits) or "everywhere"
 
 
+def fixed_flags(children, parent_angle):
+    """True for each item whose fixed angle Kando actually uses (it ignores negative and
+    out-of-order angles and auto-places those items)."""
+    ignored = {i for i, *_ in angle_problems(children, parent_angle)[0]}
+    return [raw_angle(c) is not None and i not in ignored for i, c in enumerate(children)]
+
+
 def outline(menu):
     lines = []
     sc = menu.get("shortcut") or menu.get("shortcutID") or "no shortcut"
-    lines.append(f"{menu['root'].get('name')}  [{sc}]  ({conditions_text(menu)})")
+    lines.append(f"{item_name(menu['root'])}  [{sc}]  ({conditions_text(menu)})")
     for path, node, parent_angle, angles in levels(menu):
         indent = "  " * len(path)
         if len(path) > 1:
             lines.append(f"{'  ' * (len(path) - 1)}▸ {' ▸ '.join(path[1:])}"
                          f"  (back = {compass(parent_angle)})")
-        for c, a in sorted(zip(child_items(node), angles), key=lambda p: p[1]):
+        children = child_items(node)
+        flags = fixed_flags(children, parent_angle)
+        for c, a, is_fixed in sorted(zip(children, angles, flags), key=lambda p: p[1]):
             what, key = workflow_summary(c)
-            fixed = "" if isinstance(c.get("angle"), (int, float)) else " (auto)"
+            fixed = "" if is_fixed else " (auto)"
             sub = " ▸" if c.get("type") == "submenu" else ""
             if parent_angle is not None and angular_distance(a, parent_angle) < 25:
                 sub += "  ⚠ on the back link"
-            lines.append(f"{indent}{compass(a):10} {a % 360:5.0f}°{fixed:7} {c.get('name')}{sub}"
+            lines.append(f"{indent}{compass(a):10} {a % 360:5.0f}°{fixed:7} {item_name(c)}{sub}"
                          f"{'  [' + key + ']' if key else ''}{'  ' + what if what else ''}")
     return "\n".join(lines)
 
@@ -197,12 +211,12 @@ def esc(s):
 
 def icon_html(item, size):
     theme, icon = item.get("iconTheme", ""), str(item.get("icon", ""))
-    initials = esc((item.get("name") or "?")[:1].upper())
+    initials = esc(item_name(item)[:1].upper() or "?")
     fallback = f'<span class="ini" style="--s:{size}px">{initials}</span>'
     if theme == "material-symbols-rounded":
         return f'<span class="ms" style="font-size:{size}px">{esc(icon)}</span>'
     if theme in ("simple-icons", "simple-icons-colored"):
-        url = f"https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/{esc(icon)}.svg"
+        url = f"{SIMPLE_ICONS}{esc(icon)}.svg"
         return (f'<span class="si" style="--s:{size}px"><img src="{url}" alt="" loading="lazy" '
                 f'onerror="this.parentNode.classList.add(\'broken\')">{fallback}</span>')
     if theme == "emoji":
@@ -227,13 +241,14 @@ def render_level(path, node, parent_angle, angles):
         x1, y1 = pt(cx, cy, r_out + (14 if k % 2 == 0 else 10), k * 45)
         svg.append(f'<line x1="{x0:.1f}" y1="{y0:.1f}" x2="{x1:.1f}" y2="{y1:.1f}" '
                    f'class="tick{" major" if k % 2 == 0 else ""}"/>')
+    flags = fixed_flags(children, parent_angle)
     for i, (c, a) in enumerate(zip(children, angles)):
         a0, a1 = bounds[i]
         cls = "w sub" if c.get("type") == "submenu" else "w"
         svg.append(f'<path class="{cls}" d="{ring_path(cx, cy, r_in, r_out, a0 + gap, a1 - gap)}"/>')
         if c.get("type") == "submenu":
             svg.append(f'<path class="subarc" d="{arc(cx, cy, r_out - 4, a0 + 4, a1 - 4)}"/>')
-        if parent_angle is not None and isinstance(c.get("angle"), (int, float)) \
+        if parent_angle is not None and flags[i] \
                 and angular_distance(a, parent_angle) < 25:
             svg.append(f'<path class="clash" d="{ring_path(cx, cy, r_in, r_out, a0 + gap, a1 - gap)}"/>')
     if parent_angle is not None:
@@ -249,7 +264,7 @@ def render_level(path, node, parent_angle, angles):
         sub = '<i class="arrow">▸</i>' if c.get("type") == "submenu" else ""
         k = f'<b class="key">{esc(key)}</b>' if key else ""
         labels.append(f'<div class="lbl" style="left:{x / S * 100:.2f}%;top:{y / S * 100:.2f}%">'
-                      f'{icon_html(c, 22)}<span class="nm">{esc(c.get("name", ""))}{sub}</span>{k}</div>')
+                      f'{icon_html(c, 22)}<span class="nm">{esc(item_name(c, ""))}{sub}</span>{k}</div>')
     if parent_angle is not None:
         x, y = pt(cx, cy, r_lbl, parent_angle)
         labels.append(f'<div class="lbl backlbl" style="left:{x / S * 100:.2f}%;top:{y / S * 100:.2f}%">'
@@ -259,7 +274,7 @@ def render_level(path, node, parent_angle, angles):
     rows = []
     for c, a in sorted(zip(children, angles), key=lambda p: p[1] % 360):
         what, key = workflow_summary(c)
-        name = esc(c.get("name", "")) + (' <i class="arrow">▸</i>' if c.get("type") == "submenu" else "")
+        name = esc(item_name(c, "")) + (' <i class="arrow">▸</i>' if c.get("type") == "submenu" else "")
         rows.append(f'<tr><td class="dir"><span class="ar">{ARROWS[COMPASS.index(compass(a))]}</span>'
                     f'{compass(a)}</td><td>{name}</td><td>{kbd(key) if key else ""}</td>'
                     f'<td class="what">{esc(what)}</td></tr>')
@@ -361,7 +376,7 @@ def render_html(menus, palette, accent):
     for m in menus:
         sc = m.get("shortcut") or m.get("shortcutID")
         cards = "".join(render_level(*lv) for lv in levels(m))
-        body.append(f'<section class="menu"><h2>{esc(m["root"].get("name", ""))}'
+        body.append(f'<section class="menu"><h2>{esc(item_name(m["root"], ""))}'
                     f'<span>{kbd(sc) if sc else "<span class=pill>no shortcut</span>"}</span>'
                     f'<span class="pill">{esc(conditions_text(m))}</span></h2>'
                     f'<div class="grid">{cards}</div></section>')
@@ -382,6 +397,38 @@ def render_html(menus, palette, accent):
             f'<a href="https://kando.menu">kando.menu</a></footer></div></body></html>')
 
 
+def load(path):
+    """Parsed JSON, or exit with a one-line reason (never a traceback)."""
+    try:
+        with open(path, encoding="utf-8-sig") as f:
+            text = f.read()
+    except FileNotFoundError:
+        sys.exit(f"Cannot find {path}.")
+    except UnicodeDecodeError:
+        sys.exit(f"{path} is not UTF-8 text. Kando reads its files as UTF-8; re-save it as UTF-8.")
+    except OSError as e:
+        sys.exit(f"Cannot read {path}: {e.strerror or e.__class__.__name__}.")
+    if not text.strip():
+        sys.exit(f"{path} is empty.")
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError as e:
+        sys.exit(f"{path} is not valid JSON (line {e.lineno}, column {e.colno}). "
+                 "Run kando_check.py on it first.")
+    except RecursionError:
+        sys.exit(f"{path} is nested too deeply to read.")
+
+
+def menu_list(data):
+    """The drawable menus of a menus.json or a single exported menu; skips the rest."""
+    if isinstance(data, dict) and "menus" not in data and isinstance(data.get("menu"), dict):
+        data = {"menus": [data["menu"]]}
+    menus = data.get("menus") if isinstance(data, dict) else None
+    if not isinstance(menus, list):
+        return []
+    return [m for m in menus if isinstance(m, dict) and isinstance(m.get("root"), dict)]
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("menus", help="menus.json or a single exported menu")
@@ -391,13 +438,13 @@ def main():
     ap.add_argument("--accent", help="override the accent color, e.g. #b06cff")
     args = ap.parse_args()
     use_utf8_output()
-    with open(args.menus, encoding="utf-8-sig") as f:
-        data = json.load(f)
-    menus = data.get("menus") or ([data["menu"]] if "menu" in data else [])
-    menus = [m for m in menus if isinstance(m, dict) and isinstance(m.get("root"), dict)]
+    menus = menu_list(load(args.menus))
+    if not menus:
+        sys.exit(f"No menus found in {args.menus}. Expected a menus.json with a 'menus' list, "
+                 "or a single exported menu. Run kando_check.py on it for details.")
     if args.menu:
         wanted = {m.lower() for m in args.menu}
-        menus = [m for m in menus if str(m["root"].get("name", "")).lower() in wanted]
+        menus = [m for m in menus if item_name(m["root"], "").lower() in wanted]
         if not menus:
             sys.exit(f"No menu named {', '.join(args.menu)}.")
     for m in menus:

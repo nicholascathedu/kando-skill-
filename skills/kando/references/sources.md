@@ -8,7 +8,7 @@ Everything in this skill comes from Kando's official sources, checked for **Kand
 | kando.menu (site source: github.com/kando-menu/kando-menu.github.io, `src/content/docs/*.mdx`) | User docs: usage, config files, actions, themes, opening menus, CLI, IPC |
 | github.com/kando-menu/kando `src/common/settings-schemata/menu-settings-v2.ts` | The exact menus.json format Kando validates |
 | … `general-settings-v1.ts` | The exact config.json format and defaults |
-| … `src/common/math/index.ts` | How fixed angles are read and items placed (`fixFixedAngles`, `computeItemAngles`) |
+| … `src/common/math/index.ts` | How fixed angles are read and items placed (`computeItemAngles`; the live menu calls it on the raw angles in `src/menu-renderer/menu.ts`) |
 | … `src/main/actions/*.ts` | What each action really does |
 | … `assets/menu-themes/` | The built-in themes, best starting points for new ones |
 | … `docs/changelog.md` | What changed in each version |
@@ -33,7 +33,10 @@ Everything in this skill comes from Kando's official sources, checked for **Kand
 - Every menu shortcut is registered globally, whatever its conditions; with no matching menu
   the key is swallowed.
 - `simulate-hotkey` sends keys to whatever has focus; while the menu is open that's Kando.
-- Fixed angles are wrapped forward in list order; equal or full-lap angles are dropped.
+- Fixed angles are used as written, in list order: negative angles and angles smaller than
+  the previous fixed one are ignored (the item is auto-placed), and equal angles are both
+  kept, so those items overlap. Only the settings editor's drag preview runs
+  `fixFixedAngles`.
 - `warpMouse` moves the pointer when Kando shifts a menu inside the screen edge, and onto
   fixed-position menus.
 

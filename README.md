@@ -1,41 +1,79 @@
-<h1 align="center">Kando skill for Claude</h1>
-
 <p align="center">
-  <b>Design, fix, theme and learn pie menus for <a href="https://kando.menu">Kando</a>, just by asking Claude.</b>
+  <img src="docs/img/hero.jpg" alt="Blessed, a Claude agent for Kando. On the left, the author's real Kando menu in the Amethyst Arsenal theme, glass hex tiles around a glowing yin-yang. On the right, five hovered tiles, one per color preset: gold, lime, violet, smoke and Work Mode" width="100%">
 </p>
 
 <p align="center">
   <a href="https://github.com/nicholascathedu/kando-skill-/actions/workflows/test.yml"><img alt="tests" src="https://github.com/nicholascathedu/kando-skill-/actions/workflows/test.yml/badge.svg"></a>
-  <img alt="Kando 3.0" src="https://img.shields.io/badge/Kando-3.0-b57bff">
+  <a href="https://kando.menu"><img alt="Kando 3.0" src="https://img.shields.io/badge/Kando-3.0-b57bff"></a>
   <img alt="Python 3.9+, no dependencies" src="https://img.shields.io/badge/python-3.9%2B%20%C2%B7%20no%20deps-3776ab">
   <img alt="MIT" src="https://img.shields.io/badge/license-MIT-2ea44f">
 </p>
 
-<p align="center">
-  <img src="docs/example-sheet.png" alt="A radial cheat sheet of Maya, Painter and Unreal work menus, drawn where Kando places each item" width="900">
-</p>
+<p align="center"><b>Blessed</b> is a Claude agent for <a href="https://kando.menu">Kando</a>, the pie menu by Simon Schneegans.<br>
+Tell it what you want in plain words. It designs the menu, checks it, draws it, dresses it in a theme,<br>
+and then it remembers you, so the next menu begins where the last one left off.</p>
 
-Kando is the free, open-source pie menu by Simon Schneegans: press a shortcut, a ring of
-items appears around your mouse, and you flick toward the one you want. This skill teaches
-Claude the Kando 3.0 file format, how Kando actually places items, and what makes a pie menu
-fast, so you can say *"make me a Blender menu on Ctrl+4"* and get one that works the first time.
+---
 
-## What you get
+## 🌸 Kando first
 
-**🧭 Menus designed for muscle memory.** Fixed directions, about 8 items per ring, the same
-gesture for the same idea in every app, and the way back out of each submenu kept clear.
+Everything here stands on [**Kando**](https://kando.menu), made by
+[Simon Schneegans](https://github.com/Schneegans), a developer from Germany. Press a key and a ring
+of your apps and shortcuts blooms around the cursor; flick toward one and it's done. Simon calls it
+*"an unconventional, fast, highly efficient, and fun way of interacting with your computer"*, and
+Kando is his third pie menu, after Gnome-Pie and Fly-Pie. It is free, open source and runs on
+Windows, macOS and Linux.
 
-**🎯 Per-app work menus on one key.** One shortcut opens a Maya, Painter, Unreal or Blender
-menu depending on the app in front, with your normal menu everywhere else.
+Blessed sits on top of Kando as a guide. It knows Kando's files and math, so you can spend your
+time on how the menu feels in your hand. If Kando makes your
+days faster, [support Simon on Ko-fi](https://ko-fi.com/schneegans) or
+[GitHub Sponsors](https://github.com/sponsors/Schneegans).
 
-**🗺️ A cheat sheet that matches reality.** `kando_preview.py` runs a port of Kando's own
-placement code and draws every ring exactly where Kando will put it. Print it and keep it next
-to your screen while the flicks sink in.
+## Why install it
 
-<p align="center"><img src="docs/launcher-sheet.png" alt="Cheat sheet of a desktop launcher with quick-select keys" width="900"></p>
+Kando is easy to start and deep to master. A menu is a JSON file, and it is strict: write
+`Ctrl` where it wants `ControlLeft`, or place an item at an angle Kando drops, and Kando quietly
+keeps your old menu without saying why. Blessed knows those traps before you hit them.
 
-**🛡️ A checker that catches what Kando silently ignores.** Kando refuses an invalid file
-without telling you. `kando_check.py` finds the problem first:
+- **Menus that work the first time.** Claude writes Kando 3.0's real format, then runs a checker
+  built from Kando's own source before anything is saved.
+- **Designed for your hands.** Eight directions, the same flick for the same idea in every app,
+  and the way back out of each submenu kept clear, so your hand learns the menu for good.
+- **Per-app work menus.** One key opens your Maya menu in Maya, your Unreal menu in Unreal, and
+  your everyday menu everywhere else.
+- **Themes from a feeling.** Say *"dark purple glass, smoky, a gold glow"* and get a palette, a
+  preset or a full menu theme, written with Kando's real class names.
+- **It gets personal.** A small profile keeps your apps, the directions you've locked in, your
+  colors and the ideas you said no to. Every session starts from there.
+- **Nothing hidden.** Three short Python scripts, no installs, tested on Windows and Linux.
+
+## Art and AI, side by side
+
+<p align="center"><img src="docs/img/balance.jpg" alt="The author's yin-yang icon between two columns. You: the taste and the story, which way feels like home, icons that mean something, the last word. Claude: Kando's file format, the angle math, checks before anything breaks, memory of what you chose." width="100%"></p>
+
+I make art, and I didn't want a tool that makes it for me. I wanted one that carries the weight
+I don't need to carry — the file format, the angles, the bookkeeping — so the choices that carry
+meaning stay mine. Which icon sits at the top of my menu, which color glows when I reach for it,
+which direction my hand already knows: that's taste, and taste belongs to the person.
+
+So Blessed works like the two halves of a yin-yang. You bring the story and the final word.
+Claude brings precision and memory. Neither half pretends to be the other, and the menu you end
+up with looks and moves like you, because you made every call that counts.
+
+## How it works
+
+<p align="center"><img src="docs/img/flow.jpg" alt="Five steps: say it, shape it, check it, see it, keep it" width="100%"></p>
+
+1. **Say it.** *"A Blender menu on Ctrl+4, only in Blender, fast for sculpting."*
+2. **Shape it.** Claude lays it out on the compass, keeps the directions you already use, and
+   names things the way you do.
+3. **Check it.** `kando_check.py` catches what Kando would refuse without a word.
+4. **See it.** `kando_preview.py` draws a cheat sheet with every item where Kando will really put it.
+5. **Keep it.** Your profile learns what you chose, so the next request needs fewer words.
+
+<p align="center"><img src="docs/example-sheet.png" alt="Radial cheat sheet of Maya, Painter and Unreal work menus" width="100%"></p>
+
+The checker speaks plainly:
 
 ```text
 $ python kando_check.py menus.json
@@ -49,23 +87,43 @@ TIP    shortcut control+4
        still swallowed but no menu opens. Add a fallback menu with no conditions.
 ```
 
-It also knows Kando 2.x leftovers, angles Kando will drop, hotkeys that fire before the menu
-closes, clashing quick-select keys, and with `--publish` it flags personal data (user folders,
-IDs, emails) before you share a menu.
+## It remembers you
 
-**🎨 Themes from a vibe.** Say "dark purple glass" and Claude turns it into a palette, then a
-color override, a preset, or a full menu theme (`theme.json5` + CSS), using Kando's real class
-names and CSS variables.
+The first time you work together, Claude offers to write a `kando-profile.md` next to your
+`menus.json`. `kando_profile.py` drafts it from the menus you already have: your shortcuts, the
+apps you work in, the directions each menu uses, the items that sit in the same place everywhere
+(your anchors), and the ones that drift between menus. Then you and Claude add the human part:
+palette words, how you like things named, the workflows you care about, the ideas you turned down.
 
-**🔫 A ready-made theme: Amethyst Arsenal.** Hex tiles with see-through purple faces and a soft
-gold aura on the selected item, inspired by the weapon wheel in *Ratchet & Clank Future: A Crack
-in Time*. It comes with five color presets. Install steps are in
-[`themes/amethyst-arsenal`](themes/amethyst-arsenal).
+From then on, Claude reads it first. Anchors stay put. New menus borrow your voice and your
+colors. A rejected idea doesn't come back. Nothing is written without your OK, and no paths, IDs
+or secrets go in it.
 
-<p align="center"><img src="themes/amethyst-arsenal/showcase.jpg" alt="The Amethyst Arsenal menu theme: purple hex tiles with a gold glow on the selected one" width="600"></p>
+## Showcase
 
-**📚 Learn it properly.** Every setting explained with tuning recipes ("make it snappier",
-"it picks things I didn't mean"), and Simon's path from point-and-click to marking and turbo mode.
+### Amethyst Arsenal
+
+<p align="center"><img src="themes/amethyst-arsenal/showcase.jpg" alt="The Amethyst Arsenal theme: see-through purple hex tiles, the selected one glowing gold" width="80%"></p>
+
+Some menus you remember for years. The weapon wheel in *Ratchet & Clank Future: A Crack in Time*
+is one of mine: a ring of glowing tiles you open in the middle of chaos, one flick, and you're
+back in the fight with exactly what you needed. Kando gives that feeling to a desktop, so I built
+a theme that honors it — smoky hex tiles you can see through, a dark frame, and a soft gold aura on
+the one you're reaching for, all washed in amethyst.
+
+It ships with five color presets: gold, lime HUD, pure amethyst, smoke, and a calmer Work Mode
+for busy 3D viewports. [Install it from `themes/amethyst-arsenal`.](themes/amethyst-arsenal)
+
+### A menu with a yin-yang at its heart
+
+My own everyday menu opens around a yin-yang, and it fits Kando well: Simon built a tool that is *fast and efficient* and also *fun*,
+two halves most software keeps apart. A pie menu holds both. The center is stillness; every
+direction around it is motion.
+
+The tiles are glass, so whatever I'm working in still shows through. Here it is over a few
+different apps, in each color preset, reaching in a different direction every time.
+
+<p align="center"><img src="docs/img/my-menu.jpg" alt="Six real renders of the author's menu. At rest, the yin-yang in the middle of a night-sky desktop. Creativity, up-left, glowing gold over a 3D viewport. Games, straight up, glowing lime over the night sky. Browser, down-right, glowing violet over a bright web page. The Media submenu open on YouTube in the Smoke preset over a video site. Settings, down-left, in Work Mode over a colorful painting." width="100%"></p>
 
 ## Install
 
@@ -78,48 +136,58 @@ cp -r kando-skill-/skills/kando ~/.claude/skills/
 
 **Claude apps:** zip the `skills/kando` folder and upload it in Settings → Capabilities → Skills.
 
-The scripts need Python 3.9+ and nothing else. They also run on their own:
+The scripts need Python 3.9+ and nothing else. They run on their own too:
 
 ```bash
-python skills/kando/scripts/kando_check.py "%APPDATA%\kando\menus.json"
+python skills/kando/scripts/kando_check.py   "%APPDATA%\kando\menus.json"
 python skills/kando/scripts/kando_preview.py "%APPDATA%\kando\menus.json" --html sheet.html
+python skills/kando/scripts/kando_profile.py "%APPDATA%\kando\menus.json" --out kando-profile.md
 ```
 
 ## Try asking
 
 | You say | Claude does |
 |---|---|
-| "Look at my Kando menus and tell me what would make them faster." | Checks and previews your files, then proposes changes ring by ring |
+| "Look at my Kando menus. What would make them faster?" | Reads your files and profile, checks and previews them, then suggests changes ring by ring |
 | "Make me a Blender menu on Ctrl+4 that only shows in Blender." | Designs the compass layout, writes the JSON, checks it, shows the sheet |
 | "I edited menus.json and now nothing changes." | Finds the error Kando hit and fixes it |
-| "I want a dark purple transparent look." | Builds a palette, then a color override or a full theme |
-| "How do I open Kando with my mouse's side button?" | Walks you through Ctrl+F13 mapping and turbo mode |
+| "I want it to feel like smoke and amethyst." | Builds a palette, then a color preset or a full theme |
+| "Remember that up is always Save for me." | Adds it to your profile as an anchor and keeps it in every menu |
+| "How do I open Kando with my mouse's side button?" | Walks you through mapping a spare key and using turbo mode |
 
 ## What's inside
 
 ```text
 skills/kando/
-├── SKILL.md            the workflow Claude follows
-├── references/         menus.json format · settings · navigation · menu design
-│                       themes · app hotkeys (Maya, Painter, Unreal, Blender…) · sources
+├── SKILL.md              the workflow Claude follows
+├── references/           menus.json format · settings · navigation · menu design
+│                         themes · app hotkeys (Maya, Painter, Unreal, Blender…)
+│                         your profile · sources
 ├── scripts/
-│   ├── kando_check.py    validator and linter
-│   ├── kando_preview.py  compass outline and radial HTML cheat sheet
-│   └── kando_layout.py   Kando's placement algorithm, ported
-└── examples/           a desktop launcher and Maya / Painter / Unreal work menus
+│   ├── kando_check.py      validator and linter
+│   ├── kando_preview.py    compass outline and radial HTML cheat sheet
+│   ├── kando_profile.py    drafts your personal profile from your menus
+│   └── kando_layout.py     Kando's placement algorithm, ported
+└── examples/             a desktop launcher and Maya / Painter / Unreal work menus
 themes/
-└── amethyst-arsenal/   a Kando menu theme (CC0), drop it in your menu-themes folder
-tests/                  python -m unittest discover -s tests
+└── amethyst-arsenal/     a Kando menu theme (CC0), drop it in your menu-themes folder
+tests/                    python -m unittest discover -s tests
 ```
 
-## Sources
+## Sources and credits
 
-Built from Kando's official docs, its source code (the settings schemas, the placement math
-and the action implementations) and Simon's videos, for **Kando 3.0**. Where the 3.0 docs and
-code disagree, the skill follows the code; the differences are listed in
-[`references/sources.md`](skills/kando/references/sources.md).
+- **Kando** is made by [Simon Schneegans](https://github.com/Schneegans) and its contributors,
+  MIT licensed. The skill was built from Kando's official docs at [kando.menu](https://kando.menu),
+  its source code (the settings schemas, the placement math and the actions) and Simon's videos,
+  for **Kando 3.0**. Where the docs and the code disagree, the skill follows the code; the
+  differences are listed in [`references/sources.md`](skills/kando/references/sources.md).
+- The Amethyst Arsenal theme builds on the tile positioning of Kando's built-in Default theme by
+  Simon Schneegans (CC0).
+- *Ratchet & Clank* is a trademark of Sony Interactive Entertainment LLC. Amethyst Arsenal is a fan
+  tribute that uses none of the game's files and is not affiliated with or endorsed by Insomniac
+  Games or Sony Interactive Entertainment.
+- Blessed is an independent project and is not affiliated with Kando or Anthropic.
+- App logos in the artwork come from [Simple Icons](https://simpleicons.org) and belong to their owners.
 
-Not affiliated with Kando. Kando is MIT-licensed by Simon Schneegans, and so is this skill.
-The Amethyst Arsenal theme is CC0 and is a fan tribute, not affiliated with Insomniac Games or
-Sony Interactive Entertainment.
-If Kando makes your day faster, consider [supporting Simon](https://kando.menu/donating/).
+Made with care by **Nicholas Cath**. The skill is MIT licensed and the theme is CC0: take them,
+change them, make them yours.

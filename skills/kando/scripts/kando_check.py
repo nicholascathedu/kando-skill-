@@ -11,7 +11,7 @@ Usage:
     python kando_check.py menus.json --publish     # also scan for personal data
     python kando_check.py exported-menu.json        # single exported menu works too
 
-Exit code: 0 = no errors (warnings allowed), 1 = errors found, 2 = file unreadable.
+Exit code: 0 = no errors (warnings allowed), 1 = errors found, 2 = file missing or unreadable.
 Standard library only. Written against Kando 3.0 schemas
 (src/common/settings-schemata/menu-settings-v2.ts and general-settings-v1.ts).
 """
@@ -21,7 +21,14 @@ import json
 import re
 import sys
 
-from kando_layout import angular_distance, compass, levels, use_utf8_output
+from kando_layout import (angle_problems, angular_distance, compass, item_name, levels,
+                          raw_angle, use_utf8_output)
+
+# The newest settings format this checker knows. Kando refuses files from a newer major.
+KANDO_MAJOR = 3
+# Deeper than this the checker stops descending (nobody flicks 100 rings deep, and it keeps
+# Python's recursion limit out of reach).
+MAX_DEPTH = 100
 
 # --------------------------------------------------------------------------- schema --
 
@@ -104,6 +111,9 @@ CONFIG_ENUMS = {
                              "transparent-light", "transparent-dark", "transparent-system"},
     "trayIconFlavor": {"light", "dark", "color", "black", "white", "none"},
     "settingsButtonPosition": {"top-left", "top-right", "bottom-left", "bottom-right"},
+    "wlrootsPointerGetTimeoutDefaultBehavior": {"top-left", "top-right", "bottom-left",
+                                                "bottom-right", "center",
+                                                "previously-reported-position"},
 }
 CONFIG_TYPES = {
     bool: "showIntroductionDialog enableDarkModeForMenuThemes enableSelectionWedges "
@@ -119,10 +129,16 @@ CONFIG_TYPES = {
                   "gestureMinStrokeAngle gestureJitterThreshold gesturePauseTimeout "
                   "fixedStrokeLength gamepadBackButton gamepadCloseButton "
                   "wlrootsPointerGetTimeoutMouse wlrootsPointerGetTimeoutTouch",
-    str: "version locale menuTheme darkMenuTheme soundTheme wlrootsPointerGetTimeoutDefaultBehavior",
+    str: "version locale menuTheme darkMenuTheme soundTheme",
     dict: "menuThemeColors darkMenuThemeColors",
 }
 CONFIG_KEYS = {k for v in CONFIG_TYPES.values() for k in v.split()} | set(CONFIG_ENUMS)
+# Lower bounds from general-settings-v1.ts (z.number().min(...)). Every other number is >= 0.
+CONFIG_MIN = {"zoomFactor": 0.5, "gamepadBackButton": -1, "gamepadCloseButton": -1}
+
+
+def is_number(value):
+    return isinstance(value, (int, float)) and not isinstance(value, bool)
 
 # ------------------------------------------------------------------------- reporting --
 
@@ -130,9 +146,13 @@ CONFIG_KEYS = {k for v in CONFIG_TYPES.values() for k in v.split()} | set(CONFIG
 class Report:
     def __init__(self):
         self.items = []  # (level, where, message)
+        self.load_errors = 0  # errors that make Kando reject the whole file
 
-    def error(self, where, msg):
+    def error(self, where, msg, blocks_load=True):
+        """blocks_load=False: Kando loads the file, but the menu is broken."""
         self.items.append(("ERROR", where, msg))
+        if blocks_load:
+            self.load_errors += 1
 
     def warn(self, where, msg):
         self.items.append(("WARN", where, msg))
@@ -149,8 +169,10 @@ class Report:
             print(f"{level:5}  {where}\n       {msg}")
         print(f"\n{self.count('ERROR')} error(s), {self.count('WARN')} warning(s), "
               f"{self.count('TIP')} tip(s).")
-        if self.count("ERROR"):
+        if self.load_errors:
             print("Kando will refuse to load this file until the errors are fixed.")
+        elif self.count("ERROR"):
+            print("Kando loads this file, but the errors above break the menu. Fix them first.")
 
 
 # ---------------------------------------------------------------------- key checks --
@@ -209,6 +231,9 @@ def check_workflow(wf, where, rep, kind):
     for k in wf:
         if k not in ("actions", "quickSelectKey"):
             rep.warn(where, f"Unknown key '{k}' in {kind}; Kando drops it.")
+    if "quickSelectKey" in wf and not isinstance(wf["quickSelectKey"], str):
+        rep.error(where, f"{kind}.quickSelectKey must be a string, e.g. \"a\" or \"3\" "
+                         "(in quotes), not a number.")
     actions = wf.get("actions", [])
     if not isinstance(actions, list):
         rep.error(where, f"{kind}.actions must be a list.")
@@ -288,34 +313,6 @@ def check_children(parent, where, rep, depth, stats):
                        "gestures (the 8 compass directions).")
     stats["max_depth"] = max(stats["max_depth"], depth)
 
-    # Fixed angles, the way Kando reads them (fixFixedAngles in src/common/math): each
-    # angle is wrapped to the first equivalent angle above the previous one, so
-    # [90, 270, 0] means 90, 270, 360. An angle equal to the previous one, or a full turn
-    # or more past the first, is dropped and the item is placed automatically.
-    first = last = None
-    for c in children:
-        if not isinstance(c, dict) or not isinstance(c.get("angle"), (int, float)):
-            continue
-        raw = c["angle"]
-        a = raw
-        floor = 0 if last is None else last
-        while a < floor:
-            a += 360
-        while a - 360 >= floor:
-            a -= 360
-        name = c.get("name")
-        if last is not None and a == last:
-            rep.warn(where, f"'{name}' has the same direction ({raw:g}\u00b0) as the item before "
-                            "it. Kando drops its fixed angle and places it automatically.")
-            continue
-        if first is None:
-            first = a
-        elif a >= first + 360:
-            rep.warn(where, f"'{name}' ({raw:g}\u00b0) would need a second lap around the ring. "
-                            "Kando drops its fixed angle. List items clockwise from the first one.")
-            continue
-        last = a
-
     # Quick-select keys: duplicates among siblings (incl. this level's center key).
     keys = {}
     center = parent.get("activateWorkflow")
@@ -329,18 +326,18 @@ def check_children(parent, where, rep, depth, stats):
         if isinstance(k, str) and k:
             if k.lower() in keys:
                 rep.warn(where, f"Quick-select key '{k}' is used by both '{keys[k.lower()]}' "
-                                f"and '{c.get('name')}'.")
-            keys[k.lower()] = c.get("name")
+                                f"and '{item_name(c)}'.")
+            keys[k.lower()] = item_name(c)
             if k.isdigit():
-                rep.tip(where, f"'{c.get('name')}' uses digit '{k}' as quick key; digits 1-9 already "
+                rep.tip(where, f"'{item_name(c)}' uses digit '{k}' as quick key; digits 1-9 already "
                                "select items without a key by position, which can clash.")
 
     names = {}
     for i, c in enumerate(children):
-        cw = f"{where} > {c.get('name', f'#{i}') if isinstance(c, dict) else f'#{i}'}"
+        cw = f"{where} > {item_name(c, f'#{i}')}"
         check_item(c, cw, rep, depth + 1, stats)
-        if isinstance(c, dict):
-            nm = c.get("name")
+        nm = item_name(c, None)
+        if nm is not None:
             if nm in names:
                 rep.tip(where, f"Two items are both named '{nm}'.")
             names[nm] = True
@@ -349,6 +346,10 @@ def check_children(parent, where, rep, depth, stats):
 def check_item(item, where, rep, depth, stats):
     if not isinstance(item, dict):
         rep.error(where, "Menu item must be an object.")
+        return
+    if depth > MAX_DEPTH:
+        rep.warn(where, f"Nested more than {MAX_DEPTH} levels deep; the checker stops here. "
+                        "Nobody can remember a path that long. Flatten it.")
         return
     t = item.get("type")
     if t in OLD_ITEM_TYPES:
@@ -363,8 +364,9 @@ def check_item(item, where, rep, depth, stats):
     for f in ("name", "icon", "iconTheme"):
         if not isinstance(item.get(f), str):
             rep.error(where, f"Item needs a string '{f}'.")
-    if "angle" in item and not isinstance(item["angle"], (int, float)):
-        rep.error(where, "'angle' must be a number (degrees, 0 = up, 90 = right).")
+    if "angle" in item and not is_number(item["angle"]):
+        rep.error(where, "'angle' must be a number (degrees, 0 = up, 90 = right), "
+                         "not true/false, a string or null.")
     allowed = ITEM_KEYS.get(t, set())
     for k in item:
         if k in OLD_KEYS:
@@ -384,31 +386,73 @@ def check_item(item, where, rep, depth, stats):
             check_children(item, where, rep, depth, stats)
 
 
-def check_back_links(menu, where, rep):
-    """Inside a submenu the way back to the parent sits opposite the direction the submenu
-    was opened in. Kando keeps auto-placed items clear of it, but an item with a fixed angle
-    on (or right next to) it makes that flick ambiguous. Uses Kando's real placement, so it
-    also catches submenus whose own angle is automatic."""
-    try:
-        for path, node, parent_angle, angles in levels(menu):
-            if parent_angle is None:
-                continue
-            kids = [c for c in node.get("children", []) if isinstance(c, dict)]
-            for c, a in zip(kids, angles):
-                if not isinstance(c.get("angle"), (int, float)):
-                    continue  # Kando keeps auto-placed items clear of the back link itself
-                dist = angular_distance(a, parent_angle)
-                if 25 <= dist < 40:
-                    rep.tip(f"{where} > {' > '.join(path[1:])}",
-                            f"'{c.get('name')}' is only {dist:.0f}\u00b0 from the way back. "
-                            "45\u00b0 or more makes both flicks easy to tell apart.")
-                if dist < 25:
-                    rep.warn(f"{where} > {' > '.join(path[1:])}",
-                             f"'{c.get('name')}' ({a % 360:.0f}\u00b0, {compass(a)}) sits on the way back "
-                             f"to the parent ({parent_angle % 360:.0f}\u00b0). Flicking that way is "
-                             "ambiguous; move it at least 45\u00b0 away.")
-    except (TypeError, AttributeError, KeyError):
-        pass  # structural errors are already reported by check_item
+def check_layout(menu, where, rep):
+    """Checks that need Kando's real placement (kando_layout.py, a port of
+    computeItemAngles): fixed angles Kando ignores, stacks or keeps a full lap too far, and
+    items on a submenu's way back. Runs per ring, so it also catches submenus whose own
+    angle is automatic."""
+    for path, node, parent_angle, angles in levels(menu):
+        ring = f"{where} > {' > '.join(path[1:])}" if len(path) > 1 else where
+        kids = [c for c in node.get("children", []) if isinstance(c, dict)] \
+            if isinstance(node.get("children"), list) else []
+        ignored, stacked, lapped = angle_problems(kids, parent_angle)
+        for i, raw, reason, prev in ignored:
+            a = angles[i]
+            placed = f"({compass(a)}, {a % 360:.0f}\u00b0)"
+            if reason == "negative":
+                rep.warn(ring, f"'{item_name(kids[i])}' has angle {raw:g}\u00b0. Angles count clockwise "
+                               f"from 0 = up and cannot be negative, so Kando ignores this angle "
+                               f"and places the item automatically {placed}. Did you mean "
+                               f"{raw % 360:g}?")
+            else:
+                rep.warn(ring, f"'{item_name(kids[i])}' ({raw:g}\u00b0) comes after an item fixed at "
+                               f"{prev:g}\u00b0. Fixed angles must grow in list order, so Kando "
+                               f"ignores this angle and places the item automatically {placed}. "
+                               "List the items clockwise from the smallest angle.")
+        for group in stacked:
+            names = ", ".join(f"'{item_name(kids[i])}'" for i in group)
+            rep.error(ring, f"{names} all point at {angles[group[0]] % 360:.0f}\u00b0, so Kando draws "
+                            "them on top of each other and only one can be selected. Give each "
+                            "its own angle.", blocks_load=False)
+        stacked_idx = {i for g in stacked for i in g}
+        for i, first in lapped:
+            if i in stacked_idx:
+                continue  # already reported as stacked
+            raw = raw_angle(kids[i])
+            rep.warn(ring, f"'{item_name(kids[i])}' ({raw:g}\u00b0) is a full turn or more past the "
+                           f"first fixed angle in this ring ({first:g}\u00b0). Kando keeps it as is, "
+                           "so it lands among the items listed before it and their selection "
+                           f"wedges overlap. Write {raw % 360:g} and move the item to its "
+                           "clockwise place in the list.")
+        if parent_angle is None:
+            continue
+        auto = {i for i, *_ in ignored}
+        for i, (c, a) in enumerate(zip(kids, angles)):
+            if raw_angle(c) is None or i in auto:
+                continue  # Kando keeps auto-placed items clear of the back link itself
+            dist = angular_distance(a, parent_angle)
+            if 25 <= dist < 40:
+                rep.tip(ring, f"'{item_name(c)}' is only {dist:.0f}\u00b0 from the way back. "
+                              "45\u00b0 or more makes both flicks easy to tell apart.")
+            if dist < 25:
+                rep.warn(ring, f"'{item_name(c)}' ({a % 360:.0f}\u00b0, {compass(a)}) sits on the way back "
+                               f"to the parent ({parent_angle % 360:.0f}\u00b0). Flicking that way is "
+                               "ambiguous; move it at least 45\u00b0 away.")
+
+
+def check_version(data, where, rep):
+    """Kando backs up and refuses a file written by a newer major version (settings.ts)."""
+    if not isinstance(data, dict) or "version" not in data:
+        return
+    v = data["version"]
+    if not isinstance(v, str):
+        rep.error(where, "'version' must be a string such as \"3.0.1\".")
+        return
+    m = re.search(r"(\d+)", v)
+    if m and int(m.group(1)) > KANDO_MAJOR:
+        rep.warn(where, f"version '{v}' is from a newer major version of Kando. Kando "
+                        f"{KANDO_MAJOR}.x will not load it: it shows an error, copies the file to "
+                        "its backups folder and starts with default settings instead.")
 
 
 def condition_key(menu):
@@ -429,11 +473,12 @@ def check_menus(data, rep):
     for k in data:
         if k not in ("version", "menus", "collections"):
             rep.warn("menus.json", f"Unknown top-level key '{k}'; Kando drops it.")
+    check_version(data, "menus.json", rep)
     by_shortcut = {}
     seen_names = {}
     for mi, menu in enumerate(data["menus"]):
         root = menu.get("root", {}) if isinstance(menu, dict) else {}
-        name = root.get("name", f"menu #{mi}") if isinstance(root, dict) else f"menu #{mi}"
+        name = item_name(root, f"menu #{mi}")
         where = f"[{name}]"
         if not isinstance(menu, dict) or "root" not in menu:
             rep.error(where, "Each menu needs a 'root' item.")
@@ -471,17 +516,23 @@ def check_menus(data, rep):
             rep.tip(where, "anchored is on. Simon's advice: anchored mode basically breaks "
                            "marking mode; use it mainly for touch or gamepad.")
         fp = menu.get("fixedMenuPosition")
-        if isinstance(fp, dict):
+        if fp is not None and not isinstance(fp, dict):
+            rep.error(where, "fixedMenuPosition must be an object like {\"x\": 0.5, \"y\": 0.5}.")
+        elif isinstance(fp, dict):
             for ax in ("x", "y"):
                 v = fp.get(ax)
-                if not isinstance(v, (int, float)) or not 0 <= v <= 1:
-                    rep.error(where, f"fixedMenuPosition.{ax} must be a number from 0 to 1.")
+                if not is_number(v):
+                    rep.error(where, f"fixedMenuPosition.{ax} must be a number.")
+                elif not 0 <= v <= 1:
+                    rep.warn(where, f"fixedMenuPosition.{ax} is {v:g}. It is a fraction of the "
+                                    "screen (0 to 1); Kando multiplies it by the screen size, so "
+                                    "this opens the menu partly or fully off screen.")
         if sc:
             by_shortcut.setdefault(sc.lower(), []).append((name, condition_key(menu)))
         stats = {"items": 0, "max_depth": 0}
         check_item(root, where, rep, 0, stats)
         if isinstance(root, dict):
-            check_back_links(menu, where, rep)
+            check_layout(menu, where, rep)
         if stats["max_depth"] > 3:
             rep.tip(where, f"Menu is {stats['max_depth'] + 1} levels deep; past 3 the gestures get "
                            "hard to remember.")
@@ -499,16 +550,27 @@ def check_menus(data, rep):
             rep.warn(f"shortcut {sc}", f"Menus {names} share this shortcut with identical "
                                         "conditions, so only one of them can ever open.")
     cols = data.get("collections", [])
-    if isinstance(cols, list):
-        for c in cols:
-            if not isinstance(c, dict) or not isinstance(c.get("name"), str):
-                rep.error("collections", "Each collection needs name, icon, iconTheme and tags.")
+    if not isinstance(cols, list):
+        rep.error("collections", "'collections' must be a list.")
+        cols = []
+    for ci, c in enumerate(cols):
+        cw = f"collections[{ci}]"
+        if not isinstance(c, dict):
+            rep.error(cw, "Each collection must be an object with name, icon and iconTheme.")
+            continue
+        missing = [f for f in ("name", "icon", "iconTheme") if not isinstance(c.get(f), str)]
+        if missing:
+            rep.error(cw, f"Collection needs a string {', '.join(repr(f) for f in missing)}.")
+        tags = c.get("tags", [])
+        if not isinstance(tags, list) or not all(isinstance(t, str) for t in tags):
+            rep.error(cw, "'tags' must be a list of strings.")
 
 
 def check_config(cfg, rep):
     if not isinstance(cfg, dict):
         rep.error("config.json", "Top level must be an object.")
         return
+    check_version(cfg, "config.version", rep)
     for k, v in cfg.items():
         w = f"config.{k}"
         if k == "centered":
@@ -516,23 +578,30 @@ def check_config(cfg, rep):
         elif k not in CONFIG_KEYS:
             rep.warn(w, "Unknown setting; Kando 3.0 drops it (typo, or from another version?).")
         elif k in CONFIG_ENUMS:
-            if v not in CONFIG_ENUMS[k]:
-                rep.error(w, f"'{v}' is not one of {sorted(CONFIG_ENUMS[k])}.")
+            if not isinstance(v, str) or v not in CONFIG_ENUMS[k]:
+                rep.error(w, f"{json.dumps(v)} is not one of {sorted(CONFIG_ENUMS[k])}.")
+        elif k == "version":
+            continue  # checked above
         else:
             for typ, keys in CONFIG_TYPES.items():
                 if k in keys.split():
                     bad = not isinstance(v, typ) or (typ != bool and isinstance(v, bool))
                     if bad:
                         rep.error(w, f"Wrong type: expected {getattr(typ, '__name__', 'number')}.")
-    if cfg.get("zoomFactor", 1) < 0.5:
-        rep.error("config.zoomFactor", "Must be at least 0.5.")
-    if cfg.get("keepInputFocus"):
+                    elif typ == dict and not all(
+                            isinstance(t, dict) and all(isinstance(c, str) for c in t.values())
+                            for t in v.values()):
+                        rep.error(w, "Must map theme names to {\"color-name\": \"color\"} objects.")
+                    elif typ == (int, float) and v < CONFIG_MIN.get(k, 0):
+                        rep.error(w, f"Must be at least {CONFIG_MIN.get(k, 0)}.")
+    if cfg.get("keepInputFocus") is True:
         rep.warn("config.keepInputFocus", "true disables Turbo mode and all keyboard navigation.")
-    if cfg.get("fadeOutDuration", 100) > 120:
-        rep.tip("config.fadeOutDuration", f"{cfg['fadeOutDuration']} ms. Actions after close-menu "
+    fade_out, fade_in = cfg.get("fadeOutDuration"), cfg.get("fadeInDuration")
+    if is_number(fade_out) and fade_out > 120:
+        rep.tip("config.fadeOutDuration", f"{fade_out} ms. Actions after close-menu "
                 "wait for the fade-out; 60-80 ms feels much snappier.")
-    if cfg.get("fadeInDuration", 75) > 100:
-        rep.tip("config.fadeInDuration", f"{cfg['fadeInDuration']} ms; default is 75.")
+    if is_number(fade_in) and fade_in > 100:
+        rep.tip("config.fadeInDuration", f"{fade_in} ms; default is 75.")
 
 
 # ----------------------------------------------------------------- privacy scanning --
@@ -556,19 +625,40 @@ def scan_privacy(text, rep):
 # ------------------------------------------------------------------------------ main --
 
 
+def _reject_constant(name):
+    raise ValueError(name)
+
+
 def load(path, rep):
     try:
         with open(path, encoding="utf-8-sig") as f:
             text = f.read()
-        return json.loads(text), text
     except FileNotFoundError:
         print(f"Cannot find {path}")
         sys.exit(2)
+    except UnicodeDecodeError as e:
+        rep.error(path, f"Not UTF-8 text (byte 0x{e.object[e.start]:02x} at position {e.start}). "
+                        "Kando reads its files as UTF-8, so the file fails to load or names turn "
+                        "into replacement marks. Re-save it as UTF-8.")
+        return None, ""
+    except OSError as e:
+        print(f"Cannot read {path}: {e.strerror or e.__class__.__name__}")
+        sys.exit(2)
+    if not text.strip():
+        rep.error(path, "The file is empty. Kando needs at least {\"version\": ..., \"menus\": []}.")
+        return None, ""
+    try:
+        return json.loads(text, parse_constant=_reject_constant), text
     except json.JSONDecodeError as e:
         rep.error(path, f"Not valid JSON (line {e.lineno}, column {e.colno}): {e.msg}. "
                         "Common causes: trailing comma, missing comma, unescaped backslash "
                         "in a Windows path (write \\\\).")
-        return None, ""
+    except ValueError as e:
+        rep.error(path, f"Not valid JSON: {e} is not allowed. Write a plain number.")
+    except RecursionError:
+        rep.error(path, "Nested too deeply for this checker to read. No menu needs that many "
+                        "levels; look for a submenu that accidentally contains itself.")
+    return None, ""
 
 
 def main():

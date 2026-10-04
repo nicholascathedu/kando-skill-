@@ -1,14 +1,26 @@
 ---
 name: kando
-description: Design, build, fix, theme and learn menus for Kando, the open-source pie menu by Simon Schneegans (kando.menu). Use this whenever someone mentions Kando, a pie menu or radial/marking menu on their desktop, menus.json or config.json in a kando folder, Kando themes, workflows, quick-select keys, per-app menus, or wants a faster launcher or hotkey menu for apps like Maya, Blender, Substance Painter, Unreal, Photoshop or a browser, even if they never say "Kando" but describe a menu that pops up around the mouse.
+description: Design, build, fix, theme and learn menus for Kando, the open-source pie menu by Simon Schneegans (kando.menu). Use this whenever someone mentions Kando, a pie menu or radial/marking menu on their desktop, menus.json or config.json in a kando folder, Kando themes, workflows, quick-select keys, per-app menus, or wants a faster launcher or hotkey menu for apps like Maya, Blender, Substance Painter, Unreal, Photoshop or a browser, even if they never say "Kando" but describe a menu that pops up around the mouse. Keeps a short profile of their setup and taste so help gets more personal over time.
 ---
 
-# Kando pie-menu skill
+# Blessed: a Claude agent for Kando
 
-Kando (https://kando.menu) is a cross-platform pie menu: press a shortcut, a ring of items
-appears around the pointer, and you pick one by clicking, flicking or keyboard. This skill
-helps you build menus that are *fast to use*, not just pretty: it knows the Kando 3.x file
-format, how Kando places items, what makes a gesture memorable, and how to theme it.
+Kando (https://kando.menu), by Simon Schneegans, is a cross-platform pie menu: press a
+shortcut, a ring of items appears around the pointer, and you pick one by clicking, flicking or
+keyboard. This skill helps you build menus that are fast to use and feel like the person's own:
+it knows the Kando 3.x file format, how Kando places items, what makes a gesture memorable,
+and how to theme it.
+
+## Whose menu it is
+
+The person brings the taste; you bring precision and memory. Work that way every time:
+
+- Ask about the feeling they want (words, a game, an image) before proposing a look.
+- Keep their names, icons and locked directions unless they ask for a change. Suggest, then let
+  them choose; when you disagree, say why in one line and do it their way.
+- Offer two or three directions for anything visual instead of one finished answer.
+- Explain each placement in terms of their hands and habits, not rules.
+- Credit what a design builds on (Kando's Default theme, a game, an artist) when it's shared.
 
 Written against **Kando 3.0** (Sept 2026). The 3.0 code is ahead of the website docs in a few
 places; where they disagree, trust the schema notes in `references/menus-json.md`.
@@ -25,6 +37,7 @@ places; where they disagree, trust the schema notes in `references/menus-json.md
 | Build a menu for a specific app | `references/app-recipes.md` for hotkeys, then the design method |
 | Change the look, colors or make a theme | `references/themes.md` |
 | Share a menu publicly | `kando_check.py --publish` first, it flags personal data |
+| Have Claude remember their setup and taste | `scripts/kando_profile.py`, then `references/profile.md` |
 
 ## Where the files are
 
@@ -64,6 +77,20 @@ proposed file next to it, or in your own workspace, is fine without asking.
 
 For bigger experiments, Kando can run on a throwaway config: `kando --config-dir <folder>`.
 
+## It remembers you
+
+The skill gets more personal the more it's used. It keeps a short `kando-profile.md` next
+to `menus.json` with the person's anchors, apps, palette, naming voice, workflows and the
+ideas they turned down.
+
+- **Start of every Kando task:** read `kando-profile.md` if it exists. Keep its anchors
+  fixed, name things in their voice, start themes from their palette, and don't
+  re-suggest what they said no to.
+- **No profile yet:** offer to draft one with `python scripts/kando_profile.py menus.json
+  --config config.json`, fill the taste sections with them, and ask before saving.
+- **After a change they accept:** propose the few lines to add and ask before writing.
+  Never store secrets, IDs, emails or full paths. Details in `references/profile.md`.
+
 ## Designing a menu
 
 A pie menu is fast because of **muscle memory**: the same item is always in the same
@@ -79,8 +106,9 @@ that. The method (details and examples in `references/menu-design.md`):
    Aim for ~8 items per ring, never more than 12. Prefer depth over width: with marking mode
    two flicks are as fast as one.
 4. **Fix the angles.** Give every item an explicit `angle` (0 = up, 90 = right, 180 = down,
-   270 = left), listed clockwise. Auto-placement shifts items whenever you add one, which
-   breaks muscle memory.
+   270 = left), listed clockwise so each angle is larger than the one before, all from 0 to
+   359. Kando ignores an angle that is negative or smaller than the previous one. Auto-placement
+   shifts items whenever you add one, which breaks muscle memory.
 5. **Keep anchors consistent.** If several menus share an idea (Save, Undo, Switch app), put
    it in the same direction in all of them. One gesture learned, many menus served.
 6. **Keep the way back clear.** Inside a submenu the parent sits opposite the submenu's own
@@ -135,7 +163,7 @@ letter. Ask about the keyboard layout when the menu presses letter keys.
 | Hotkey is slow to fire | Actions after `close-menu` wait for the fade-out. Lower `fadeOutDuration` (60–80 ms). |
 | Per-app menu doesn't appear | `appName` doesn't match the exe name. Use the editor's window picker to read it. |
 | A key stopped typing in other apps | It's a Kando shortcut; Kando grabs it everywhere. Move the menu to a rarely used combo (`Ctrl+F13`, `Ctrl+Shift+<n>`). |
-| Item ends up in an unexpected spot | No fixed angle, or two siblings normalise to the same direction. Run the preview. |
+| Item ends up in an unexpected spot | No fixed angle, or an angle Kando ignores (negative, or smaller than the one listed before it). Two siblings on the same angle are drawn on top of each other. Run the check and the preview. |
 | Turbo mode / keyboard stopped working | `keepInputFocus` is true. |
 
 ## Kando version notes
@@ -160,9 +188,16 @@ Read the one you need; each is self-contained.
 - `references/app-recipes.md`: ready hotkey sets for Maya, Substance Painter, Unreal, Blender,
   browsers, Discord, with what to verify
 - `references/sources.md`: official sources and the docs-vs-code differences in 3.0
+- `references/profile.md`: the personal profile, where it lives, what goes in it, and the
+  read / draft / update loop
 
-Scripts share `scripts/kando_layout.py`, a port of Kando's own placement code, so the checker
-and the preview agree with what Kando draws. Both run on Python 3.9+ with no installs.
+Scripts share `scripts/kando_layout.py`, a port of Kando's own placement code, so the checker,
+the preview and the profile agree with what Kando draws. All run on Python 3.9+ with no installs.
+
+- `scripts/kando_check.py`: validates menus.json / config.json, `--publish` flags personal data
+- `scripts/kando_preview.py`: compass outline and radial HTML cheat sheet
+- `scripts/kando_profile.py`: drafts `kando-profile.md` (shortcuts, directions, anchors,
+  drift, apps, theme and selection settings), with no paths or personal data
 
 Examples: `examples/desktop-launcher.json` (a general launcher with clipboard and media),
 `examples/3d-work-menus.json` (Maya / Painter / Unreal menus on one key). Load them, run the
