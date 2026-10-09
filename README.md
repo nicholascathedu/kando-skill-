@@ -155,7 +155,7 @@ three times without, scored by plain pass or fail rules. With the skill Claude s
 |---|---|---|
 | A 19-action Maya work menu | 3/3 | 1/3 |
 | A Blender menu with a Shading submenu | 3/3 | 0/3 |
-| A color preset in the right place | 3/3 | 1.6/3 |
+| A color preset in the right place | 3/3 | 1.4/3 |
 | "Smoke and amethyst" on the Default theme | 2/3 | 0/3 |
 | Fixing a broken menus.json | 3/3 | 3/3 |
 

@@ -47,7 +47,7 @@ included.
 |---|---|---|
 | `blender-menu` | 3/3 | 0/3 |
 | `maya-work-menu` | 3/3 | 1/3 |
-| `theme-preset` | 3/3 | 1.6/3 |
+| `theme-preset` | 3/3 | 1.4/3 |
 | `respect-profile` | 3/3 | 2.25/3 |
 | `theme-from-words` | 2/3 | 0/3 |
 | `learn-speed` | 2/3 | 0/3 |
