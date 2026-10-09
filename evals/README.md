@@ -1,6 +1,6 @@
 # Evals: does the skill actually help?
 
-Eight real Kando tasks. Claude Code's eval runner does each one twice, once with the skill
+Twelve real Kando tasks. Claude Code's eval runner does each one twice, once with the skill
 and once without it, then scores both. The difference between the two is what the skill is worth.
 
 | Case | What it asks | What it checks |
@@ -13,6 +13,10 @@ and once without it, then scores both. The difference between the two is what th
 | `theme-preset` | "A teal Deep Sea preset for my theme" | Right folder, right file shape, only colors the theme has, theme left alone |
 | `learn-speed` | "How do I get fast without looking?" | Marking and turbo mode explained correctly, no made-up features |
 | `no-name-trigger` | Asks for a browser ring without saying "Kando" | The skill still kicks in, writes Kando 3 items, not old 2.x ones |
+| `maya-work-menu` | A 19-action Maya menu from scratch | Submenus of 12 or fewer, fixed angles in order, a clear way back, key codes |
+| `ignored-angle` | "Steam is set to 0 but shows up top left" | Knows Kando drops an angle smaller than the one before it, reorders the items |
+| `mouse-button-turbo` | "Open it with my side mouse button, no clicking" | A helper sends an unused combo like Ctrl+F13, turbo mode holds the modifier |
+| `theme-from-words` | "Smoke and amethyst" on the Default theme | Color overrides under the theme's id, only names the theme has, dark glass, violet hover |
 
 The files each case starts with live in its `fixture.sh`. Most checks are written as plain
 pass or fail rules, so a score can be traced back to the exact rule that failed.
@@ -20,7 +24,7 @@ pass or fail rules, so a score can be traced back to the exact rule that failed.
 ## Running it
 
 You need Claude Code 2.1.269 or later. Every run is a full Claude session on your own account,
-so one round (8 cases, with and without, one run each) is 16 sessions plus the grading.
+so one round (12 cases, with and without, one run each) is 24 sessions plus the grading.
 
 ```bash
 claude plugin eval . --scaffold --allow-tools Bash Write Edit
@@ -35,7 +39,7 @@ Results land in `evals/results/`, which git ignores.
 
 ## First results (2026-10-09)
 
-One run per case, Claude Code 2.1.296, default model, $1.43 in total.
+The first eight cases, one run each, Claude Code 2.1.296, default model, $1.43 in total.
 
 | Case | With the skill | Without |
 |---|---|---|
@@ -65,3 +69,19 @@ What it showed:
   next run will show whether that was the only reason.
 
 One run per case is a smoke test, not a final score. Run `--runs 3` before quoting numbers.
+
+## Harder cases, first run (2026-10-09)
+
+The four cases tagged `hard`, one run each, $0.80.
+
+| Case | With the skill | Without |
+|---|---|---|
+| `maya-work-menu` | 1.00 | 0.00 |
+| `theme-from-words` | 1.00 | 0.00 |
+| `mouse-button-turbo` | 1.00 | 1.00 |
+| `ignored-angle` | 1.00 | 1.00 |
+
+`ignored-angle` first scored 0.40 in both arms although both files were right: the LLM judge
+got the angle order wrong. That rule is now an exact pattern match, and the table shows the
+re-scored result. Without the skill, the Maya menu and the color overrides were wrong in
+Kando-specific ways, which is where the skill earns its place.
