@@ -111,8 +111,11 @@ back in the fight with exactly what you needed. Kando gives that feeling to a de
 a theme that honors it — smoky hex tiles you can see through, a dark frame, and a soft gold aura on
 the one you're reaching for, all washed in amethyst.
 
-Its own look, the gold aura, is what Kando lists as **Default colors**. Four presets come with
-it: **Lime HUD**, **Pure Amethyst**, **Smoke**, and **Work Mode**, a calmer one for busy 3D viewports. [Install it from `themes/amethyst-arsenal`.](themes/amethyst-arsenal)
+Its own look, the gold aura, is what Kando lists as **Default colors**. Six presets come with
+it: **Lime HUD**, **Pure Amethyst**, **Smoke**, **Work Mode** (a calmer one for busy 3D viewports), and two
+Tron-style looks, **Grid Cyan** and **Light Cycle**. [Install it from `themes/amethyst-arsenal`.](themes/amethyst-arsenal)
+
+<p align="center"><img src="themes/amethyst-arsenal/presets.jpg" alt="The same menu in all seven color looks of Amethyst Arsenal: Default colors, Lime HUD, Pure Amethyst, Smoke, Work Mode, Grid Cyan and Light Cycle" width="100%"></p>
 
 ### A menu with a yin-yang at its heart
 
