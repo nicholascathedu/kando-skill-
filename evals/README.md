@@ -37,6 +37,42 @@ For steadier numbers, add `--runs 3` (that's three times the usage).
 The report opens as an HTML page with every prompt, every rule and why it passed or failed.
 Results land in `evals/results/`, which git ignores.
 
+## Full benchmark (2026-10-09)
+
+All twelve cases, three runs each, with and without the skill. Claude Code 2.1.296, default
+model and judge, $6.83 in total. A cell is the share of runs that passed, partial credit
+included.
+
+| Case | With the skill | Without |
+|---|---|---|
+| `blender-menu` | 3/3 | 0/3 |
+| `maya-work-menu` | 3/3 | 1/3 |
+| `theme-preset` | 3/3 | 1.6/3 |
+| `respect-profile` | 3/3 | 2.25/3 |
+| `theme-from-words` | 2/3 | 0/3 |
+| `learn-speed` | 2/3 | 0/3 |
+| `fix-broken-file` | 3/3 | 3/3 |
+| `ignored-angle` | 3/3 | 3/3 |
+| `per-app-key` | 3/3 | 3/3 |
+| `share-safely` | 3/3 | 3/3 |
+| `no-name-trigger` | 3/3 | 3/3 |
+| `mouse-button-turbo` | 1/3 | 2/3 |
+| **Mean score** | **0.89** | **0.60** |
+
+Honest reading:
+
+- The skill wins where Kando's own rules decide the outcome: placing items on the compass,
+  submenus and the way back, where theme presets live, which color names a theme has, and
+  reading the saved profile. Plain Claude got the 19-action Maya menu right once in three.
+- On general know-how (fixing JSON, scrubbing personal data, the ignored-angle fix) plain
+  Claude does just as well. Those cases check the skill doesn't make things worse.
+- `mouse-button-turbo` is the one case where the skill scored lower. The skill's failed
+  answers were correct and more careful (they warn that most mouse apps send a quick tap,
+  which ends turbo mode, and give an AutoHotkey script that holds Ctrl), but the default
+  judge split its votes on them. Cases graded on a written explanation are noisy with the
+  default judge; `--judge-model sonnet` is the next thing to try.
+- `no-name-trigger` timed out in its first attempt and passed on a clean re-run.
+
 ## First results (2026-10-09)
 
 The first eight cases, one run each, Claude Code 2.1.296, default model, $1.43 in total.
