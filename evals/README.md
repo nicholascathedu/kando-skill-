@@ -125,3 +125,17 @@ The four cases tagged `hard`, one run each, $0.80.
 got the angle order wrong. That rule is now an exact pattern match, and the table shows the
 re-scored result. Without the skill, the Maya menu and the color overrides were wrong in
 Kando-specific ways, which is where the skill earns its place.
+
+## Real challenges (2026-10-09)
+
+The three `real` cases, three runs each, $2.81.
+
+| Case | With the skill | Without |
+|---|---|---|
+| `real-blessed-additions` | 3/3 | 0/3 |
+| `real-four-apps` | 3/3 | 1/3 |
+| `arsenal-preset-words` | 3/3 | 0.6/3 |
+
+Without the skill, Claude added Spotify at 135° but listed it after Creativity at 270°, so Kando
+would ignore that angle and drop Spotify somewhere else in the ring. It also wrote the
+Groovitron preset outside the theme's `presets` folder, where Kando never looks.
