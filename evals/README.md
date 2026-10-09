@@ -32,3 +32,36 @@ For steadier numbers, add `--runs 3` (that's three times the usage).
 
 The report opens as an HTML page with every prompt, every rule and why it passed or failed.
 Results land in `evals/results/`, which git ignores.
+
+## First results (2026-10-09)
+
+One run per case, Claude Code 2.1.296, default model, $1.43 in total.
+
+| Case | With the skill | Without |
+|---|---|---|
+| `blender-menu` | 1.00 | 0.00 |
+| `theme-preset` | 1.00 | 0.20 |
+| `respect-profile` | 1.00 | 0.75 |
+| `fix-broken-file` | 1.00 | 1.00 |
+| `share-safely` | 1.00 | 1.00 |
+| `no-name-trigger` | 1.00 | 1.00 |
+| `per-app-key` | 0.40 | 0.40 |
+| `learn-speed` | 0.00 | 0.00 |
+| **Mean** | **0.80** | **0.54** |
+
+What it showed:
+
+- The skill's real edge is Kando-specific layout and theme knowledge. Without it, Claude listed
+  the Blender Shading submenu at 180° after an item at 288° (Kando ignores that angle), put
+  Wireframe on the way back out of it, and didn't write the Deep Sea preset where Kando looks.
+- Plain Claude already handles JSON fixes, privacy scrubbing and recognising a pie menu, so
+  those cases mostly guard against the skill making things worse.
+- `per-app-key` failed in both arms. With the skill, Claude added a fallback menu, which
+  doesn't give Chrome its Ctrl+4 back (it did offer the right fix as an alternative). The
+  checker's tip pointed it that way, so the tip and SKILL.md now say to move the shortcut
+  when another app needs the key.
+- `learn-speed` failed in both arms on a rule that was stricter than Kando's own docs (it
+  required the "pause or sharp turn" detail). The rule was loosened after this run, so the
+  next run will show whether that was the only reason.
+
+One run per case is a smoke test, not a final score. Run `--runs 3` before quoting numbers.

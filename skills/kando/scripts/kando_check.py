@@ -541,7 +541,8 @@ def check_menus(data, rep):
         if "{}" not in conds:
             rep.tip(f"shortcut {sc}", "Every menu on this shortcut has conditions. In any other "
                                       "app the key is still swallowed but no menu opens. Add a "
-                                      "fallback menu with no conditions.")
+                                      "fallback menu with no conditions, or, if another app "
+                                      "needs this key, move the menus to a combo nothing uses.")
         if len(menus) < 2:
             continue
         dupes = {c for c in conds if conds.count(c) > 1}

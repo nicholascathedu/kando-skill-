@@ -9,7 +9,7 @@
   <img alt="MIT" src="https://img.shields.io/badge/license-MIT-2ea44f">
 </p>
 
-<p align="center"><b>Blessed</b> is a Claude agent for <a href="https://kando.menu">Kando</a>, the pie menu by Simon Schneegans.<br>
+<p align="center"><b>Blessed</b> is a Claude agent for <a href="https://kando.menu">Kando</a>, the pie menu by Simon Schneegans. Made by Nicholas Cath, it installs as a Claude plugin or skill.<br>
 Tell it what you want in plain words. It designs the menu, checks it, draws it, dresses it in a theme,<br>
 and then it remembers you, so the next menu begins where the last one left off.</p>
 
@@ -85,7 +85,8 @@ WARN   [Maya] > Display
        Flicking that way is ambiguous; move it at least 45° away.
 TIP    shortcut control+4
        Every menu on this shortcut has conditions. In any other app the key is
-       still swallowed but no menu opens. Add a fallback menu with no conditions.
+       still swallowed but no menu opens. Add a fallback menu with no conditions,
+       or, if another app needs this key, move the menus to a combo nothing uses.
 ```
 
 ## A workflow for Substance 3D Designer
