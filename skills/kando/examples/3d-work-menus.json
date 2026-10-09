@@ -214,6 +214,25 @@
                 }
               },
               {
+                "name": "Go to Designer",
+                "icon": "deployed_code",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 180,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "Substance 3D Designer",
+                      "windowName": ""
+                    }
+                  ]
+                }
+              },
+              {
                 "name": "Go to Unreal",
                 "icon": "unrealengine",
                 "iconTheme": "simple-icons-colored",
@@ -499,6 +518,25 @@
                 }
               },
               {
+                "name": "Go to Designer",
+                "icon": "deployed_code",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 180,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "Substance 3D Designer",
+                      "windowName": ""
+                    }
+                  ]
+                }
+              },
+              {
                 "name": "Go to Unreal",
                 "icon": "unrealengine",
                 "iconTheme": "simple-icons-colored",
@@ -606,6 +644,363 @@
       "tags": [
         "3D Work"
       ]
+    },
+    {
+      "shortcut": "Control+4",
+      "shortcutID": "",
+      "useFixedPosition": false,
+      "fixedMenuPosition": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "anchored": false,
+      "hoverMode": false,
+      "conditions": {
+        "appName": "Substance 3D Designer"
+      },
+      "tags": [
+        "3D Work"
+      ],
+      "root": {
+        "name": "Designer",
+        "icon": "Adobe Substance 3D Designer",
+        "iconTheme": "system",
+        "type": "root",
+        "activateWorkflow": {
+          "quickSelectKey": "Backspace",
+          "actions": [
+            {
+              "type": "close-menu"
+            }
+          ]
+        },
+        "children": [
+          {
+            "name": "Add node",
+            "icon": "add_circle",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 0,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "Space"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Find node",
+            "icon": "search",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 45,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "ControlLeft+KeyF"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Frame view",
+            "icon": "fit_screen",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 90,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "KeyF"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Tidy",
+            "icon": "account_tree",
+            "iconTheme": "material-symbols-rounded",
+            "type": "submenu",
+            "angle": 135,
+            "children": [
+              {
+                "name": "Snap to grid",
+                "icon": "grid_on",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 45,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "KeyS"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Align horizontally",
+                "icon": "align_horizontal_center",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 90,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "KeyH"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Align vertically",
+                "icon": "align_vertical_center",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 180,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "KeyV"
+                    }
+                  ]
+                }
+              }
+            ],
+            "activateWorkflow": {
+              "quickSelectKey": "Backspace",
+              "actions": [
+                {
+                  "type": "close-submenu"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Switch app",
+            "icon": "swap_horiz",
+            "iconTheme": "material-symbols-rounded",
+            "type": "submenu",
+            "angle": 180,
+            "children": [
+              {
+                "name": "Go to Maya",
+                "icon": "autodeskmaya",
+                "iconTheme": "simple-icons-colored",
+                "type": "button",
+                "angle": 90,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "maya",
+                      "windowName": ""
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Go to Painter",
+                "icon": "texture",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 180,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "Painter",
+                      "windowName": ""
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Go to Unreal",
+                "icon": "unrealengine",
+                "iconTheme": "simple-icons-colored",
+                "type": "button",
+                "angle": 270,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "UnrealEditor",
+                      "windowName": ""
+                    }
+                  ]
+                }
+              }
+            ],
+            "activateWorkflow": {
+              "quickSelectKey": "Backspace",
+              "actions": [
+                {
+                  "type": "close-submenu"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Save",
+            "icon": "save",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 225,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "ControlLeft+KeyS"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Publish .sbsar",
+            "icon": "publish",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 270,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "ControlLeft+KeyP"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Node",
+            "icon": "hub",
+            "iconTheme": "material-symbols-rounded",
+            "type": "submenu",
+            "angle": 315,
+            "children": [
+              {
+                "name": "Duplicate",
+                "icon": "content_copy",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 0,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyD"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Duplicate without links",
+                "icon": "file_copy",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 45,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+ShiftLeft+KeyD"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Disable node",
+                "icon": "block",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 225,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ShiftLeft+KeyD"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Open in context",
+                "icon": "open_in_new",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 270,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyE"
+                    }
+                  ]
+                }
+              }
+            ],
+            "activateWorkflow": {
+              "quickSelectKey": "Backspace",
+              "actions": [
+                {
+                  "type": "close-submenu"
+                }
+              ]
+            }
+          }
+        ]
+      }
     },
     {
       "root": {
@@ -861,6 +1256,25 @@
                     {
                       "type": "focus-window",
                       "appName": "maya",
+                      "windowName": ""
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Go to Designer",
+                "icon": "deployed_code",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 180,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "Substance 3D Designer",
                       "windowName": ""
                     }
                   ]

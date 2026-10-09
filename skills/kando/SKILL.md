@@ -3,7 +3,7 @@ name: kando
 description: Design, build, fix, theme and learn menus for Kando, the open-source pie menu by Simon Schneegans (kando.menu). Use this whenever someone mentions Kando, a pie menu or radial/marking menu on their desktop, menus.json or config.json in a kando folder, Kando themes, workflows, quick-select keys, per-app menus, or wants a faster launcher or hotkey menu for apps like Maya, Blender, Substance Painter, Unreal, Photoshop or a browser, even if they never say "Kando" but describe a menu that pops up around the mouse. Keeps a short profile of their setup and taste so help gets more personal over time.
 ---
 
-# Blessed: a Claude agent for Kando
+# Blessed: a Claude agent for Kando, by Nicholas Cath
 
 Kando (https://kando.menu), by Simon Schneegans, is a cross-platform pie menu: press a
 shortcut, a ring of items appears around the pointer, and you pick one by clicking, flicking or
@@ -128,7 +128,9 @@ file name, e.g. `maya`, `UnrealEditor`; case-insensitive "contains", or a regex 
 with `/`). Have the user confirm the name with the editor's window picker. Kando opens the
 menu with the most matching conditions, so add one menu **without conditions** as the
 fallback. Kando registers the key globally, so it's swallowed in every app even when no
-menu matches, and it takes the key away from the apps themselves: check the combo isn't
+menu matches, and it takes the key away from the apps themselves. A fallback menu does not
+give the key back: when another app needs that key (Chrome's Ctrl+1–9 jump to a tab), move
+the menus to another combo instead. Before choosing one, check the combo isn't
 an app hotkey they use (Blender: Ctrl+1–5 set subdivision level; Unreal: Ctrl+0–9 set
 camera bookmarks). `Ctrl+F13`–`F24` never collide.
 
