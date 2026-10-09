@@ -148,6 +148,24 @@ different apps, in the default colors and each preset, reaching in a different d
 
 <p align="center"><img src="docs/img/my-menu.jpg" alt="Six real renders of the author's menu. At rest in Default colors, the yin-yang in the middle of a night-sky desktop. Creativity, up-left, with the gold aura of Default colors over a 3D viewport. Games, straight up, glowing green in Lime HUD over the night sky. Browser, down-right, glowing violet in Pure Amethyst over a bright web page. The Media submenu open on YouTube in the Smoke preset over a video site. Settings, down-left, in Work Mode over a colorful painting." width="100%"></p>
 
+## Does it actually help?
+
+I tested it the honest way: twelve real Kando tasks, each run three times with the skill and
+three times without, scored by plain pass or fail rules. With the skill Claude scored
+**0.89**, without it **0.60**.
+
+| Task | With | Without |
+|---|---|---|
+| A 19-action Maya work menu | 3/3 | 1/3 |
+| A Blender menu with a Shading submenu | 3/3 | 0/3 |
+| A color preset in the right place | 3/3 | 1.4/3 |
+| "Smoke and amethyst" on the Default theme | 2/3 | 0/3 |
+| Fixing a broken menus.json | 3/3 | 3/3 |
+
+Where it ties, plain Claude already knows the answer. Where it wins, it's Kando's own rules:
+angles, submenus, theme files. The full table, including the one task it lost, is in
+[`evals/`](evals), and you can rerun it yourself.
+
 ## Install
 
 **Claude Code** (as a plugin, Claude Code 2.1.275 or later)
