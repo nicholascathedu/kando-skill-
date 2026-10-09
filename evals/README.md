@@ -1,6 +1,6 @@
 # Evals: does the skill actually help?
 
-Twelve real Kando tasks. Claude Code's eval runner does each one twice, once with the skill
+Fifteen real Kando tasks. Claude Code's eval runner does each one twice, once with the skill
 and once without it, then scores both. The difference between the two is what the skill is worth.
 
 | Case | What it asks | What it checks |
@@ -17,14 +17,18 @@ and once without it, then scores both. The difference between the two is what th
 | `ignored-angle` | "Steam is set to 0 but shows up top left" | Knows Kando drops an angle smaller than the one before it, reorders the items |
 | `mouse-button-turbo` | "Open it with my side mouse button, no clicking" | A helper sends an unused combo like Ctrl+F13, turbo mode holds the modifier |
 | `theme-from-words` | "Smoke and amethyst" on the Default theme | Color overrides under the theme's id, only names the theme has, dark glass, violet hover |
+| `real-blessed-additions` | Add Spotify and Claude to the author's real BLESSED menu | Every existing direction kept, new items placed cleanly, profile respected |
+| `real-four-apps` | Add Designer to the real Maya / Painter / Unreal work menus | Same Switch app layout in all four, the three items on a way back moved |
+| `arsenal-preset-words` | A "Groovitron" preset for Amethyst Arsenal | Right folder, only Arsenal's 16 color names, pink aura, theme untouched |
 
-The files each case starts with live in its `fixture.sh`. Most checks are written as plain
+The three `real` cases start from the author's own menus and theme, with personal data removed
+(checked with `kando_check.py --publish`). The files each case starts with live in its `fixture.sh`. Most checks are written as plain
 pass or fail rules, so a score can be traced back to the exact rule that failed.
 
 ## Running it
 
 You need Claude Code 2.1.269 or later. Every run is a full Claude session on your own account,
-so one round (12 cases, with and without, one run each) is 24 sessions plus the grading.
+so one round (15 cases, with and without, one run each) is 30 sessions plus the grading.
 
 ```bash
 claude plugin eval . --scaffold --allow-tools Bash Write Edit

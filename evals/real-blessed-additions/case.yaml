@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: real-blessed-additions
+context:
+  scaffold_script: fixture.sh
