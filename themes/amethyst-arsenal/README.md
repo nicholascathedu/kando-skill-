@@ -42,7 +42,9 @@ Both are switches in the **Menu Themes** dialog:
 
 ## Color presets
 
-In Kando's Menu Themes dialog, the preset list shows **Default colors**, which is the theme's own look, and the four presets from the `presets` folder:
+In Kando's Menu Themes dialog, the preset list shows **Default colors**, which is the theme's own look, and the six presets from the `presets` folder:
+
+![Every color look of Amethyst Arsenal on the same menu](presets.jpg)
 
 | Name in Kando | Look |
 |---|---|
@@ -51,6 +53,8 @@ In Kando's Menu Themes dialog, the preset list shows **Default colors**, which i
 | Pure Amethyst | Purple aura instead of gold |
 | Smoke | Grey glass with almost no purple |
 | Work Mode | Less see-through and a softer glow, for busy apps like 3D viewports |
+| Grid Cyan | Cyan glow on blue glass |
+| Light Cycle | Orange glow on cyan glass |
 
 ## Make it your own
 
