@@ -9,70 +9,118 @@
   <img alt="MIT" src="https://img.shields.io/badge/license-MIT-2ea44f">
 </p>
 
-<p align="center"><b>Blessed</b> is a Claude agent for <a href="https://kando.menu">Kando</a>, the pie menu by Simon Schneegans. Made by Nicholas Cath, it installs as a Claude plugin or skill.<br>
-Tell it what you want in plain words. It designs the menu, checks it, draws it, dresses it in a theme,<br>
-and then it remembers you, so the next menu begins where the last one left off.</p>
+<p align="center"><b>Blessed</b> is my Claude agent for <a href="https://kando.menu">Kando</a>, the pie menu by Simon Schneegans.<br>
+It installs as a Claude plugin or a skill. Tell it what you want in plain words, and it builds the menu,<br>
+checks it, shows it to you, and remembers how you like things for next time. Made by Nicholas Cath.</p>
 
 ---
 
-## 🌸 Kando first
+## Why I made it
 
-Everything here stands on [**Kando**](https://kando.menu), made by
-[Simon Schneegans](https://github.com/Schneegans), a developer from Germany. Press a key and a ring
-of your apps and shortcuts blooms around the cursor; flick toward one and it's done. Simon calls it
-*"an unconventional, fast, highly efficient, and fun way of interacting with your computer"*, and
-Kando is his third pie menu, after Gnome-Pie and Fly-Pie. It is free, open source and runs on
-Windows, macOS and Linux.
+I'm a 3D artist. I live in Maya, then Painter, Designer and Unreal, and I was tired of hunting
+for the same ten keys all day. Kando fixed that: press a key, a ring of my tools opens around the
+cursor, flick, done.
 
-Blessed sits on top of Kando as a guide. It knows Kando's files and math, so you can spend your
-time on how the menu feels in your hand. If Kando makes your
-days faster, [support Simon on Ko-fi](https://ko-fi.com/schneegans) or
-[GitHub Sponsors](https://github.com/sponsors/Schneegans).
+But building those menus by hand is strict. A menu is a JSON file. One missing comma and Kando
+quietly keeps your old menu without saying why. Write `Ctrl` where it wants `ControlLeft` and the
+button just does nothing. Put an angle in the wrong order and the item lands somewhere you never
+chose.
 
-## Why install it
-
-Kando is easy to start and deep to master. A menu is a JSON file, and it is strict: one missing
-comma or wrong value and Kando quietly keeps your old menu without saying why. Write `Ctrl` where
-it wants `ControlLeft` and the item only fails when you pick it. Give an item an angle Kando
-ignores and it lands somewhere you didn't plan. Blessed knows those traps before you hit them.
+So I built Blessed with Claude. It knows those traps before you hit them.
 
 - **Menus that work the first time.** Claude writes Kando 3.0's real format, then runs a checker
   built from Kando's own source before anything is saved.
-- **Designed for your hands.** Eight directions, the same flick for the same idea in every app,
-  and the way back out of each submenu kept clear, so your hand learns the menu for good.
+- **Made for your hands.** Eight directions, the same flick for the same idea in every app, and
+  the way back out of each submenu kept clear, so your hand learns the menu for good.
 - **Per-app work menus.** One key opens your Maya menu in Maya, your Unreal menu in Unreal, and
   your everyday menu everywhere else.
 - **Themes from a feeling.** Say *"dark purple glass, smoky, a gold glow"* and get a palette, a
   preset or a full menu theme, written with Kando's real class names.
-- **It gets personal.** A small profile keeps your apps, the directions you've locked in, your
+- **It remembers you.** A small profile keeps your apps, the directions you've locked in, your
   colors and the ideas you said no to. Every session starts from there.
 - **Nothing hidden.** A few short Python scripts, no installs, tested on Windows and Linux.
+
+## Does it actually help?
+
+I tested it the honest way: 15 real tasks, each run three times with Blessed and three times
+without, scored by plain pass or fail rules.
+
+The hardest ones come straight from my own setup, my real menus with the personal stuff taken
+out. Blessed scored 9 out of 9. Plain Claude scored 1.6.
+
+| My own setup | With | Without |
+|---|---|---|
+| Add Spotify and Claude to my main menu without moving anything | 3/3 | 0/3 |
+| Add Designer to my Maya, Painter and Unreal menus | 3/3 | 1/3 |
+| A "Groovitron" preset for my theme, hot pink aura | 3/3 | 0.6/3 |
+
+Without Blessed, Claude put Spotify at an angle Kando ignores, so it would have shown up
+somewhere I never picked. It also saved the preset outside the `presets` folder, where Kando
+never looks.
+
+On the twelve general tasks it scored **0.89** against **0.60**:
+
+| Task | With | Without |
+|---|---|---|
+| A 19-action Maya work menu | 3/3 | 1/3 |
+| A Blender menu with a Shading submenu | 3/3 | 0/3 |
+| A color preset in the right place | 3/3 | 1.4/3 |
+| "Smoke and amethyst" on the Default theme | 2/3 | 0/3 |
+| Fixing a broken menus.json | 3/3 | 3/3 |
+
+Where it ties, plain Claude already knows the answer. Where it wins, it's Kando's own rules:
+angles, submenus, theme files. One task it lost, and that's in the results too, because I'd
+rather you trust the numbers than the hype. Everything is in [`evals/`](evals), and you can
+rerun it yourself.
+
+## Kando first
+
+Everything here stands on [**Kando**](https://kando.menu), made by
+[Simon Schneegans](https://github.com/Schneegans), a developer from Germany. Simon calls it
+*"an unconventional, fast, highly efficient, and fun way of interacting with your computer"*, and
+it's his third pie menu, after Gnome-Pie and Fly-Pie. It's free, open source and runs on Windows,
+macOS and Linux. Blessed is only a guide on top of it.
+
+If Kando makes your days faster like it did mine, [support Simon on Ko-fi](https://ko-fi.com/schneegans)
+or [GitHub Sponsors](https://github.com/sponsors/Schneegans).
 
 ## Art and AI, side by side
 
 <p align="center"><img src="docs/img/balance.jpg" alt="The author's yin-yang icon between two columns. You: the taste and the story, which way feels like home, icons that mean something, the last word. Claude: Kando's file format, the angle math, checks before anything breaks, memory of what you chose." width="100%"></p>
 
-I make art, and I didn't want a tool that makes it for me. I wanted one that carries the weight
-I don't need to carry — the file format, the angles, the bookkeeping — so the choices that carry
-meaning stay mine. Which icon sits at the top of my menu, which color glows when I reach for it,
+I make art, and I didn't want a tool that makes it for me. I wanted one that carries the boring
+weight: the file format, the angles, the bookkeeping. The choices that mean something stay mine. Which icon sits at the top of my menu, which color glows when I reach for it,
 which direction my hand already knows: that's taste, and taste belongs to the person.
 
 So Blessed works like the two halves of a yin-yang. You bring the story and the final word.
 Claude brings precision and memory. Neither half pretends to be the other, and the menu you end
 up with looks and moves like you, because you made every call that counts.
 
+## My Maya menu
+
+Maya is where I spend most of my day, so it got the first work menu. It opens on Ctrl+4, but only
+in Maya. Everywhere else the same key opens my everyday menu.
+
+<p align="center"><img src="docs/img/maya-menu.jpg" alt="The example Maya work menu rendered in Amethyst Arsenal over a mock 3D viewport, in three color looks: the root ring with Display hovered, the Display submenu with Wireframe hovered, and the Switch app submenu with Go to Painter hovered. Under each, the direction of every item." width="100%"></p>
+
+- **Up frames the selection** (F). I do it constantly, so it gets the easiest flick.
+- **Down-left is Save** and **Down is Switch app**, in every app I work in. From Maya, Down then
+  Right goes to Painter, Down then Down to Designer, Down then Left to Unreal.
+- **Right opens Display**: Smooth preview, Shaded, Textured, Wireframe and the rest. The way back
+  out of it, Left, stays empty, so I never pick Wireframe by accident on my way out.
+- The menu is in [`examples/3d-work-menus.json`](skills/kando/examples/3d-work-menus.json), next to
+  the Painter, Unreal and Designer ones.
+
 ## How it works
 
 <p align="center"><img src="docs/img/flow.jpg" alt="Five steps: say it, shape it, check it, see it, keep it" width="100%"></p>
 
-1. **Say it.** *"A Blender menu, only in Blender, fast for sculpting."*
+1. **Say it.** *"A Maya menu, only in Maya, fast for modeling."*
 2. **Shape it.** Claude lays it out on the compass, keeps the directions you already use, and
    names things the way you do.
 3. **Check it.** `kando_check.py` catches what Kando would refuse without a word.
 4. **See it.** `kando_preview.py` prints the compass outline and can draw a printable cheat sheet with every item where Kando will really put it.
 5. **Keep it.** Your profile learns what you chose, so the next request needs fewer words.
-
-<p align="center"><img src="docs/img/maya-menu.jpg" alt="The example Maya work menu rendered in Amethyst Arsenal over a mock 3D viewport, in three color looks: the root ring with Display hovered, the Display submenu with Wireframe hovered, and the Switch app submenu with Go to Painter hovered. Under each, the direction of every item." width="100%"></p>
 
 The checker speaks plainly:
 
@@ -128,7 +176,7 @@ or secrets go in it.
 Some menus you remember for years. The weapon wheel in *Ratchet & Clank Future: A Crack in Time*
 is one of mine: a ring of glowing tiles you open in the middle of chaos, one flick, and you're
 back in the fight with exactly what you needed. Kando gives that feeling to a desktop, so I built
-a theme that honors it — smoky hex tiles you can see through, a dark frame, and a soft gold aura on
+a theme that honors it: smoky hex tiles you can see through, a dark frame, and a soft gold aura on
 the one you're reaching for, all washed in amethyst.
 
 Its own look, the gold aura, is what Kando lists as **Default colors**. Six presets come with
@@ -147,24 +195,6 @@ The tiles are glass, so whatever I'm working in still shows through. Here it is 
 different apps, in the default colors and each preset, reaching in a different direction every time.
 
 <p align="center"><img src="docs/img/my-menu.jpg" alt="Six real renders of the author's menu. At rest in Default colors, the yin-yang in the middle of a night-sky desktop. Creativity, up-left, with the gold aura of Default colors over a 3D viewport. Games, straight up, glowing green in Lime HUD over the night sky. Browser, down-right, glowing violet in Pure Amethyst over a bright web page. The Media submenu open on YouTube in the Smoke preset over a video site. Settings, down-left, in Work Mode over a colorful painting." width="100%"></p>
-
-## Does it actually help?
-
-I tested it the honest way: twelve real Kando tasks, each run three times with the skill and
-three times without, scored by plain pass or fail rules. With the skill Claude scored
-**0.89**, without it **0.60**.
-
-| Task | With | Without |
-|---|---|---|
-| A 19-action Maya work menu | 3/3 | 1/3 |
-| A Blender menu with a Shading submenu | 3/3 | 0/3 |
-| A color preset in the right place | 3/3 | 1.4/3 |
-| "Smoke and amethyst" on the Default theme | 2/3 | 0/3 |
-| Fixing a broken menus.json | 3/3 | 3/3 |
-
-Where it ties, plain Claude already knows the answer. Where it wins, it's Kando's own rules:
-angles, submenus, theme files. The full table, including the one task it lost, is in
-[`evals/`](evals), and you can rerun it yourself.
 
 ## Install
 
@@ -197,7 +227,7 @@ python skills/kando/scripts/kando_profile.py "%APPDATA%\kando\menus.json" --out 
 | You say | Claude does |
 |---|---|
 | "Look at my Kando menus. What would make them faster?" | Reads your files and profile, checks and previews them, then suggests changes ring by ring |
-| "Make me a Blender menu that only shows in Blender." | Designs the compass layout, writes the JSON, checks it, shows the sheet |
+| "Make me a Maya menu that only shows in Maya." | Designs the compass layout, writes the JSON, checks it, shows the sheet |
 | "I edited menus.json and now nothing changes." | Finds the error Kando hit and fixes it |
 | "I want it to feel like smoke and amethyst." | Builds a palette, then a color preset or a full theme |
 | "Remember that up is always Save for me." | Adds it to your profile as an anchor and keeps it in every menu |
@@ -239,5 +269,5 @@ evals/                    real tasks that score Claude with and without the skil
 - Blessed is an independent project and is not affiliated with Kando or Anthropic.
 - App logos in the artwork come from [Simple Icons](https://simpleicons.org) and belong to their owners.
 
-Made with care by **Nicholas Cath**. The skill is MIT licensed and the theme is CC0: take them,
-change them, make them yours.
+Made by **Nicholas Cath**, for my own desk first. The skill is MIT licensed and the theme is CC0:
+take them, change them, make them yours.

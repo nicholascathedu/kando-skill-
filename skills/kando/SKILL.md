@@ -7,9 +7,9 @@ description: Design, build, fix, theme and learn menus for Kando, the open-sourc
 
 Kando (https://kando.menu), by Simon Schneegans, is a cross-platform pie menu: press a
 shortcut, a ring of items appears around the pointer, and you pick one by clicking, flicking or
-keyboard. This skill helps you build menus that are fast to use and feel like the person's own:
-it knows the Kando 3.x file format, how Kando places items, what makes a gesture memorable,
-and how to theme it.
+keyboard. Nicholas Cath, a 3D artist who works in Maya, Painter, Designer and Unreal, made this
+skill so menus come out fast to use and feel like the person's own. It knows the Kando 3.x file
+format, how Kando places items, what makes a gesture memorable, and how to theme it.
 
 ## Whose menu it is
 
