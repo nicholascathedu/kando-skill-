@@ -9,7 +9,7 @@
   <img alt="MIT" src="https://img.shields.io/badge/license-MIT-2ea44f">
 </p>
 
-<p align="center"><b>Blessed</b> is a Claude agent for <a href="https://kando.menu">Kando</a>, the pie menu by Simon Schneegans.<br>
+<p align="center"><b>Blessed</b> is a Claude agent for <a href="https://kando.menu">Kando</a>, the pie menu by Simon Schneegans. Made by Nicholas Cath, it installs as a Claude plugin or skill.<br>
 Tell it what you want in plain words. It designs the menu, checks it, draws it, dresses it in a theme,<br>
 and then it remembers you, so the next menu begins where the last one left off.</p>
 
@@ -31,9 +31,10 @@ days faster, [support Simon on Ko-fi](https://ko-fi.com/schneegans) or
 
 ## Why install it
 
-Kando is easy to start and deep to master. A menu is a JSON file, and it is strict: write
-`Ctrl` where it wants `ControlLeft`, or place an item at an angle Kando drops, and Kando quietly
-keeps your old menu without saying why. Blessed knows those traps before you hit them.
+Kando is easy to start and deep to master. A menu is a JSON file, and it is strict: one missing
+comma or wrong value and Kando quietly keeps your old menu without saying why. Write `Ctrl` where
+it wants `ControlLeft` and the item only fails when you pick it. Give an item an angle Kando
+ignores and it lands somewhere you didn't plan. Blessed knows those traps before you hit them.
 
 - **Menus that work the first time.** Claude writes Kando 3.0's real format, then runs a checker
   built from Kando's own source before anything is saved.
@@ -45,7 +46,7 @@ keeps your old menu without saying why. Blessed knows those traps before you hit
   preset or a full menu theme, written with Kando's real class names.
 - **It gets personal.** A small profile keeps your apps, the directions you've locked in, your
   colors and the ideas you said no to. Every session starts from there.
-- **Nothing hidden.** Three short Python scripts, no installs, tested on Windows and Linux.
+- **Nothing hidden.** A few short Python scripts, no installs, tested on Windows and Linux.
 
 ## Art and AI, side by side
 
@@ -64,14 +65,14 @@ up with looks and moves like you, because you made every call that counts.
 
 <p align="center"><img src="docs/img/flow.jpg" alt="Five steps: say it, shape it, check it, see it, keep it" width="100%"></p>
 
-1. **Say it.** *"A Blender menu on Ctrl+4, only in Blender, fast for sculpting."*
+1. **Say it.** *"A Blender menu, only in Blender, fast for sculpting."*
 2. **Shape it.** Claude lays it out on the compass, keeps the directions you already use, and
    names things the way you do.
 3. **Check it.** `kando_check.py` catches what Kando would refuse without a word.
 4. **See it.** `kando_preview.py` draws a cheat sheet with every item where Kando will really put it.
 5. **Keep it.** Your profile learns what you chose, so the next request needs fewer words.
 
-<p align="center"><img src="docs/example-sheet.png" alt="Radial cheat sheet of Maya, Painter and Unreal work menus" width="100%"></p>
+<p align="center"><img src="docs/example-sheet.png" alt="Radial cheat sheet of the Maya work menu: the root ring, its Display submenu and its Switch app submenu" width="100%"></p>
 
 The checker speaks plainly:
 
@@ -84,8 +85,27 @@ WARN   [Maya] > Display
        Flicking that way is ambiguous; move it at least 45° away.
 TIP    shortcut control+4
        Every menu on this shortcut has conditions. In any other app the key is
-       still swallowed but no menu opens. Add a fallback menu with no conditions.
+       still swallowed but no menu opens. Add a fallback menu with no conditions,
+       or, if another app needs this key, move the menus to a combo nothing uses.
 ```
+
+## A workflow for Substance 3D Designer
+
+Designer is where I build materials from nothing: noise and patterns become a height map, the
+height map becomes normal, AO and curvature, and all of it ends up as a .sbsar that Painter and
+Unreal can open. It is also a lot of small keys spread across three views, which is exactly
+what a pie menu is good at.
+
+<p align="center"><img src="docs/designer-sheet.png" alt="Cheat sheet of the Substance 3D Designer work menu. Root ring: Add node up, Find node up-right, Frame view right, Tidy down-right, Switch app down, Save down-left, Publish .sbsar left, Node up-left. Submenus: Tidy with snap to grid and align, Switch app with Painter, Maya and Unreal, and Node with duplicate, disable and open in context." width="100%"></p>
+
+- **Up adds a node** (Space), because it is the move I make most.
+- **Left publishes the .sbsar** (Ctrl+P). In Painter, Left exports textures. Same flick, same
+  meaning: send it out.
+- **Down twice** jumps to Painter, and Down twice in Painter comes back. Down is "Switch app" in
+  every work menu, and Designer sits straight down inside it from Maya, Painter and Unreal.
+- Every key comes from Adobe's current Designer docs (version 16.0). The menu is in
+  [`examples/3d-work-menus.json`](skills/kando/examples/3d-work-menus.json), with notes in
+  [`app-recipes.md`](skills/kando/references/app-recipes.md).
 
 ## It remembers you
 
@@ -130,7 +150,14 @@ different apps, in the default colors and each preset, reaching in a different d
 
 ## Install
 
-**Claude Code**
+**Claude Code** (as a plugin, Claude Code 2.1.275 or later)
+
+```text
+/plugin install kando --marketplace nicholascathedu/kando-skill-
+```
+
+On older versions, run `/plugin marketplace add nicholascathedu/kando-skill-` and then
+`/plugin install kando@blessed`. To install only the skill instead:
 
 ```bash
 git clone https://github.com/nicholascathedu/kando-skill-
@@ -152,7 +179,7 @@ python skills/kando/scripts/kando_profile.py "%APPDATA%\kando\menus.json" --out 
 | You say | Claude does |
 |---|---|
 | "Look at my Kando menus. What would make them faster?" | Reads your files and profile, checks and previews them, then suggests changes ring by ring |
-| "Make me a Blender menu on Ctrl+4 that only shows in Blender." | Designs the compass layout, writes the JSON, checks it, shows the sheet |
+| "Make me a Blender menu that only shows in Blender." | Designs the compass layout, writes the JSON, checks it, shows the sheet |
 | "I edited menus.json and now nothing changes." | Finds the error Kando hit and fixes it |
 | "I want it to feel like smoke and amethyst." | Builds a palette, then a color preset or a full theme |
 | "Remember that up is always Save for me." | Adds it to your profile as an anchor and keeps it in every menu |
@@ -175,6 +202,8 @@ skills/kando/
 themes/
 └── amethyst-arsenal/     a Kando menu theme (CC0), drop it in your menu-themes folder
 tests/                    python -m unittest discover -s tests
+evals/                    real tasks that score Claude with and without the skill
+.claude-plugin/           plugin and marketplace manifests
 ```
 
 ## Sources and credits
