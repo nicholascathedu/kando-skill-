@@ -1,0 +1,10 @@
+{
+  "name": "kando",
+  "version": "1.1.0",
+  "description": "Blessed: design, fix, theme and learn Kando pie menus with Claude.",
+  "author": { "name": "Nicholas Cath", "url": "https://github.com/nicholascathedu" },
+  "homepage": "https://github.com/nicholascathedu/kando-skill-",
+  "repository": "https://github.com/nicholascathedu/kando-skill-",
+  "license": "MIT",
+  "keywords": ["kando", "pie-menu", "radial-menu", "themes", "3d"]
+}

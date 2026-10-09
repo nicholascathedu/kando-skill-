@@ -65,7 +65,7 @@ up with looks and moves like you, because you made every call that counts.
 
 <p align="center"><img src="docs/img/flow.jpg" alt="Five steps: say it, shape it, check it, see it, keep it" width="100%"></p>
 
-1. **Say it.** *"A Blender menu on Ctrl+4, only in Blender, fast for sculpting."*
+1. **Say it.** *"A Blender menu, only in Blender, fast for sculpting."*
 2. **Shape it.** Claude lays it out on the compass, keeps the directions you already use, and
    names things the way you do.
 3. **Check it.** `kando_check.py` catches what Kando would refuse without a word.
@@ -146,7 +146,14 @@ different apps, in the default colors and each preset, reaching in a different d
 
 ## Install
 
-**Claude Code**
+**Claude Code** (as a plugin, Claude Code 2.1.275 or later)
+
+```text
+/plugin install kando --marketplace nicholascathedu/kando-skill-
+```
+
+On older versions, run `/plugin marketplace add nicholascathedu/kando-skill-` and then
+`/plugin install kando@blessed`. To install only the skill instead:
 
 ```bash
 git clone https://github.com/nicholascathedu/kando-skill-
@@ -168,7 +175,7 @@ python skills/kando/scripts/kando_profile.py "%APPDATA%\kando\menus.json" --out 
 | You say | Claude does |
 |---|---|
 | "Look at my Kando menus. What would make them faster?" | Reads your files and profile, checks and previews them, then suggests changes ring by ring |
-| "Make me a Blender menu on Ctrl+4 that only shows in Blender." | Designs the compass layout, writes the JSON, checks it, shows the sheet |
+| "Make me a Blender menu that only shows in Blender." | Designs the compass layout, writes the JSON, checks it, shows the sheet |
 | "I edited menus.json and now nothing changes." | Finds the error Kando hit and fixes it |
 | "I want it to feel like smoke and amethyst." | Builds a palette, then a color preset or a full theme |
 | "Remember that up is always Save for me." | Adds it to your profile as an anchor and keeps it in every menu |
@@ -191,6 +198,8 @@ skills/kando/
 themes/
 └── amethyst-arsenal/     a Kando menu theme (CC0), drop it in your menu-themes folder
 tests/                    python -m unittest discover -s tests
+evals/                    real tasks that score Claude with and without the skill
+.claude-plugin/           plugin and marketplace manifests
 ```
 
 ## Sources and credits
