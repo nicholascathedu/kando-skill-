@@ -69,10 +69,10 @@ up with looks and moves like you, because you made every call that counts.
 2. **Shape it.** Claude lays it out on the compass, keeps the directions you already use, and
    names things the way you do.
 3. **Check it.** `kando_check.py` catches what Kando would refuse without a word.
-4. **See it.** `kando_preview.py` draws a cheat sheet with every item where Kando will really put it.
+4. **See it.** `kando_preview.py` prints the compass outline and can draw a printable cheat sheet with every item where Kando will really put it.
 5. **Keep it.** Your profile learns what you chose, so the next request needs fewer words.
 
-<p align="center"><img src="docs/example-sheet.png" alt="Radial cheat sheet of the Maya work menu: the root ring, its Display submenu and its Switch app submenu" width="100%"></p>
+<p align="center"><img src="docs/img/maya-menu.jpg" alt="The example Maya work menu rendered in Amethyst Arsenal over a mock 3D viewport, in three color looks: the root ring with Display hovered, the Display submenu with Wireframe hovered, and the Switch app submenu with Go to Painter hovered. Under each, the direction of every item." width="100%"></p>
 
 The checker speaks plainly:
 
@@ -96,7 +96,7 @@ height map becomes normal, AO and curvature, and all of it ends up as a .sbsar t
 Unreal can open. It is also a lot of small keys spread across three views, which is exactly
 what a pie menu is good at.
 
-<p align="center"><img src="docs/designer-sheet.png" alt="Cheat sheet of the Substance 3D Designer work menu. Root ring: Add node up, Find node up-right, Frame view right, Tidy down-right, Switch app down, Save down-left, Publish .sbsar left, Node up-left. Submenus: Tidy with snap to grid and align, Switch app with Painter, Maya and Unreal, and Node with duplicate, disable and open in context." width="100%"></p>
+<p align="center"><img src="docs/img/designer-menu.jpg" alt="The Substance 3D Designer work menu rendered in Amethyst Arsenal: the root ring with Add node hovered, and the Node submenu with Duplicate hovered, with the direction of every item underneath." width="100%"></p>
 
 - **Up adds a node** (Space), because it is the move I make most.
 - **Left publishes the .sbsar** (Ctrl+P). In Painter, Left exports textures. Same flick, same
