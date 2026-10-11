@@ -4,12 +4,12 @@
     "name": "Nicholas Cath",
     "url": "https://github.com/nicholascathedu"
   },
-  "description": "Blessed, Nicholas Cath's Claude skill for the Kando pie menu.",
+  "description": "Kando skill for Claude, blessed by Nicholas Cath.",
   "plugins": [
     {
       "name": "kando",
       "source": "./",
-      "description": "Blessed: design, fix, theme and learn Kando pie menus with Claude."
+      "description": "Kando skill for Claude: design, fix, theme and learn Kando pie menus. Blessed by Nicholas Cath."
     }
   ]
 }
