@@ -22,7 +22,7 @@ import re
 import sys
 
 from kando_layout import (angle_problems, angular_distance, compass, item_name, levels,
-                          raw_angle, use_utf8_output)
+                          raw_angle, resolve_menus_path, use_utf8_output)
 
 # The newest settings format this checker knows. Kando refuses files from a newer major.
 KANDO_MAJOR = 3
@@ -276,7 +276,8 @@ def check_workflow(wf, where, rep, kind):
                              "the key can stay held down.")
         if t == "delay" and isinstance(a.get("duration"), (int, float)) and a["duration"] > 5:
             rep.warn(aw, f"delay is in SECONDS; {a['duration']} s is long. Did you mean ms?")
-        if t == "execute-command" and re.search(r"[A-Za-z]:\\\\?Users\\\\?[^\\\\\"]+", a.get("command", "")):
+        if t == "execute-command" and re.search(r"[A-Za-z]:\\\\?Users\\\\?[^\\\\\"]+|/(?:home|Users)/[^/\s\"]+/",
+                                                a.get("command", "")):
             rep.tip(aw, "Command uses a user-specific path; it will break on other PCs if shared.")
     # Order problems
     if "open-menu" in types:
@@ -664,10 +665,11 @@ def load(path, rep):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("menus", help="menus.json, or a single exported menu .json")
+    ap.add_argument("menus", nargs="?", help="menus.json, or a single exported menu .json (default: Kando's own, found automatically)")
     ap.add_argument("--config", help="config.json to check as well")
     ap.add_argument("--publish", action="store_true", help="scan for personal data before sharing")
     args = ap.parse_args()
+    args.menus = resolve_menus_path(args.menus)
     use_utf8_output()
     rep = Report()
     data, text = load(args.menus, rep)

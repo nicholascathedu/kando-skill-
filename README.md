@@ -222,12 +222,16 @@ cp -r kando-skill-/skills/kando ~/.claude/skills/
 
 **Claude apps:** zip the `skills/kando` folder and upload it in Settings → Capabilities → Skills.
 
-The scripts need Python 3.9+ and nothing else. They run on their own too:
+The scripts need Python 3.9+ and nothing else, and they're tested on Windows, macOS and Linux.
+They run on their own too. Without a path they find Kando's own `menus.json` (in `%APPDATA%\kando`
+on Windows, `~/Library/Application Support/kando` on macOS, `~/.config/kando` on Linux, or the
+Flatpak folder):
 
 ```bash
-python skills/kando/scripts/kando_check.py   "%APPDATA%\kando\menus.json"
-python skills/kando/scripts/kando_preview.py "%APPDATA%\kando\menus.json" --html sheet.html
-python skills/kando/scripts/kando_profile.py "%APPDATA%\kando\menus.json" --out kando-profile.md
+python skills/kando/scripts/kando_check.py
+python skills/kando/scripts/kando_preview.py --html sheet.html
+python skills/kando/scripts/kando_profile.py --out kando-profile.md
+python skills/kando/scripts/kando_check.py path/to/menus.json   # any other file
 ```
 
 ## Try asking

@@ -452,3 +452,47 @@ class CommandLine(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class FindConfigTest(unittest.TestCase):
+    """The scripts find Kando's config folder on their own on every OS."""
+
+    def test_candidates_per_os(self):
+        from kando_layout import kando_config_dirs
+        win = kando_config_dirs("win32", {"APPDATA": r"C:\Users\a\AppData\Roaming"}, "/h")
+        self.assertEqual(win[0], os.path.join(r"C:\Users\a\AppData\Roaming", "kando"))
+        mac = kando_config_dirs("darwin", {}, "/Users/a")
+        self.assertEqual(mac[0], os.path.join("/Users/a", "Library", "Application Support", "kando"))
+        lin = kando_config_dirs("linux", {"XDG_CONFIG_HOME": "/x"}, "/home/a")
+        self.assertEqual(lin[0], os.path.join("/x", "kando"))
+        self.assertIn(os.path.join("/home/a", ".config", "kando"), lin)
+        self.assertIn(os.path.join("/home/a", ".var", "app", "menu.kando.Kando", "config", "kando"), lin)
+
+    def test_finds_existing_menus_file(self):
+        from kando_layout import find_kando_file
+        with tempfile.TemporaryDirectory() as home:
+            cfg = os.path.join(home, ".config", "kando")
+            os.makedirs(cfg)
+            with open(os.path.join(cfg, "menus.json"), "w", encoding="utf-8") as f:
+                f.write("{}")
+            self.assertEqual(find_kando_file("menus.json", "linux", {}, home),
+                             os.path.join(cfg, "menus.json"))
+            self.assertIsNone(find_kando_file("config.json", "linux", {}, home))
+
+    def test_check_without_path_says_where_it_looked(self):
+        with tempfile.TemporaryDirectory() as home:
+            env = dict(os.environ, HOME=home, USERPROFILE=home, APPDATA=home, XDG_CONFIG_HOME=home)
+            r = subprocess.run([sys.executable, os.path.join(SCRIPTS, "kando_check.py")],
+                               capture_output=True, text=True, encoding="utf-8", env=env)
+            self.assertEqual(r.returncode, 2)
+            self.assertIn("menus.json", r.stdout + r.stderr)
+            self.assertIn("kando", r.stdout + r.stderr)
+
+
+class UserPathTipTest(unittest.TestCase):
+    def test_mac_and_linux_home_paths_get_the_tip(self):
+        for cmd in ['open "/Users/ann/Apps/Tool.app"', "/home/ann/bin/tool --go"]:
+            rep = kando_check.Report()
+            kando_check.check_menus(menus(item("Tool", 0, actions=[
+                {"type": "close-menu"}, {"type": "execute-command", "command": cmd}])), rep)
+            self.assertTrue(any("user-specific path" in m for _, _, m in rep.items), cmd)
