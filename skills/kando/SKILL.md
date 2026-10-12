@@ -3,7 +3,7 @@ name: kando
 description: Design, build, fix, theme and learn menus for Kando, the open-source pie menu by Simon Schneegans (kando.menu). Use this whenever someone mentions Kando, a pie menu or radial/marking menu on their desktop, menus.json or config.json in a kando folder, Kando themes, workflows, quick-select keys, per-app menus, or wants a faster launcher or hotkey menu for apps like Maya, Blender, Substance Painter, Unreal, Photoshop or a browser, even if they never say "Kando" but describe a menu that pops up around the mouse. Keeps a short profile of their setup and taste so help gets more personal over time.
 ---
 
-# Blessed: a Claude agent for Kando, by Nicholas Cath
+# Kando skill for Claude (Blessed by Nicholas Cath)
 
 Kando (https://kando.menu), by Simon Schneegans, is a cross-platform pie menu: press a
 shortcut, a ring of items appears around the pointer, and you pick one by clicking, flicking or

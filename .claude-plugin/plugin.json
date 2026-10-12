@@ -1,7 +1,7 @@
 {
   "name": "kando",
-  "version": "1.1.0",
-  "description": "Blessed: design, fix, theme and learn Kando pie menus with Claude.",
+  "version": "1.2.0",
+  "description": "Kando skill for Claude: design, fix, theme and learn Kando pie menus. Blessed by Nicholas Cath.",
   "author": { "name": "Nicholas Cath", "url": "https://github.com/nicholascathedu" },
   "homepage": "https://github.com/nicholascathedu/kando-skill-",
   "repository": "https://github.com/nicholascathedu/kando-skill-",
