@@ -167,3 +167,49 @@ def use_utf8_output():
             stream.reconfigure(encoding="utf-8", errors="replace")
         except (AttributeError, ValueError):
             pass
+
+
+def kando_config_dirs(platform=None, env=None, home=None):
+    """Where Kando keeps menus.json and config.json on this OS, most likely first."""
+    import os
+    import sys
+    platform = platform or sys.platform
+    env = os.environ if env is None else env
+    home = home or os.path.expanduser("~")
+    if platform.startswith("win"):
+        base = env.get("APPDATA") or os.path.join(home, "AppData", "Roaming")
+        return [os.path.join(base, "kando")]
+    if platform == "darwin":
+        return [os.path.join(home, "Library", "Application Support", "kando")]
+    dirs = []
+    if env.get("XDG_CONFIG_HOME"):
+        dirs.append(os.path.join(env["XDG_CONFIG_HOME"], "kando"))
+    dirs.append(os.path.join(home, ".config", "kando"))
+    dirs.append(os.path.join(home, ".var", "app", "menu.kando.Kando", "config", "kando"))
+    return dirs
+
+
+def find_kando_file(name, platform=None, env=None, home=None):
+    """The first existing Kando config file called `name`, or None."""
+    import os
+    for d in kando_config_dirs(platform, env, home):
+        path = os.path.join(d, name)
+        if os.path.isfile(path):
+            return path
+    return None
+
+
+def resolve_menus_path(path):
+    """Use the given path, or find Kando's own menus.json. Exits with a clear message if neither."""
+    import sys
+    if path:
+        return path
+    found = find_kando_file("menus.json")
+    if found:
+        print(f"Using {found}", file=sys.stderr)
+        return found
+    print("No menus.json given, and Kando's own was not found. Looked in:")
+    for d in kando_config_dirs():
+        print(f"  {d}")
+    print("Pass the path to your menus.json, for example: kando_check.py path/to/menus.json")
+    sys.exit(2)

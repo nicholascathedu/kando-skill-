@@ -25,7 +25,7 @@ import math
 import sys
 
 from kando_layout import (COMPASS, angle_problems, angular_distance, child_items, compass,
-                          item_name, levels, raw_angle, use_utf8_output)
+                          item_name, levels, raw_angle, resolve_menus_path, use_utf8_output)
 
 ARROWS = ["↑", "↗", "→", "↘", "↓", "↙", "←", "↖"]
 
@@ -431,12 +431,13 @@ def menu_list(data):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("menus", help="menus.json or a single exported menu")
+    ap.add_argument("menus", nargs="?", help="menus.json or a single exported menu (default: Kando's own, found automatically)")
     ap.add_argument("--menu", action="append", help="only this menu (root name, repeatable)")
     ap.add_argument("--html", help="write a radial cheat sheet to this .html file")
     ap.add_argument("--palette", choices=sorted(PALETTES), default="purple")
     ap.add_argument("--accent", help="override the accent color, e.g. #b06cff")
     args = ap.parse_args()
+    args.menus = resolve_menus_path(args.menus)
     use_utf8_output()
     menus = menu_list(load(args.menus))
     if not menus:

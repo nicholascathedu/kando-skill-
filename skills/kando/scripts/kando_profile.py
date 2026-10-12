@@ -27,7 +27,7 @@ import sys
 from urllib.parse import urlsplit
 
 from kando_check import PRIVACY_PATTERNS
-from kando_layout import compass, levels, use_utf8_output
+from kando_layout import compass, levels, resolve_menus_path, use_utf8_output
 
 PLACEHOLDER = "- (add as you learn)"
 MAX_DEPTH = 50  # deeper than any real menu; stops runaway recursion on odd files
@@ -493,11 +493,12 @@ def load(path, what):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("menus", help="menus.json, or a single exported menu .json")
+    ap.add_argument("menus", nargs="?", help="menus.json, or a single exported menu .json (default: Kando's own, found automatically)")
     ap.add_argument("--config", help="config.json, for theme and selection settings")
     ap.add_argument("--out", help="write the draft to this file instead of printing it")
     ap.add_argument("--force", action="store_true", help="let --out replace an existing file")
     args = ap.parse_args()
+    args.menus = resolve_menus_path(args.menus)
     use_utf8_output()
     data = load(args.menus, "the menus file")
     if data is UNREADABLE:
