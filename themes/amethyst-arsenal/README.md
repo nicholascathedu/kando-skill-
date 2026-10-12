@@ -70,6 +70,7 @@ In Kando's Menu Themes dialog, the preset list shows **Default colors**, which i
 - Checked with 1 to 20 items. Menus with more than 9 items spread out so tiles keep their spacing. It looks best with up to 8 items per ring.
 - Near a screen edge, menus of up to 12 items keep the selected tile and its aura on screen. Bigger menus can touch the edge.
 - It works with every icon type Kando supports: app icons, icon fonts, emoji and images.
+- Light on slower PCs (since 1.2.0): only position, size and fade are animated, so the glow is never redrawn frame by frame during a hover. In a browser test with the CPU slowed six times, slow frames dropped from about 30 to about 4 per run. Big image icons (hundreds of KB each) still cost time when a menu opens, so small SVG or font icons keep it fastest.
 - Turning off **Menu Animations** in the Menu Themes dialog, or turning on your system's "reduce motion" setting, switches off all animation. Hover and selection still change at once.
 
 ## Credits and license
