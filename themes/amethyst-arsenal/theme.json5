@@ -8,7 +8,7 @@
   name: 'Amethyst Arsenal',
   author: 'nicholascathedu',
   license: 'CC0-1.0',
-  themeVersion: '1.1.0',
+  themeVersion: '1.2.0',
   description: 'Weapon-wheel hex tiles with see-through purple faces and a soft gold aura on the selected tile.',
 
   // Kando 3.0 uses theme engine version 1.
