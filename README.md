@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/img/hero.jpg" alt="Blessed, a Claude agent for Kando. On the left, the author's real Kando menu in the Amethyst Arsenal theme, glass hex tiles around a glowing yin-yang. On the right, five hovered tiles, one per color choice in Kando's theme settings: Default colors (the gold aura), Lime HUD, Pure Amethyst, Smoke and Work Mode" width="100%">
+  <img src="docs/img/hero.jpg" alt="Kando skill for Claude, blessed by Nicholas Cath. On the left, the author's real Kando menu in the Amethyst Arsenal theme, glass hex tiles around a glowing yin-yang. On the right, five hovered tiles, one per color choice in Kando's theme settings: Default colors (the gold aura), Lime HUD, Pure Amethyst, Smoke and Work Mode" width="100%">
 </p>
 
 <p align="center">
