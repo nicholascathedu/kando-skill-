@@ -52,6 +52,13 @@ out of anything shared.
   GestureSign (touch), Kanata (key chords). Many mouse/keyboard vendor apps can also map a
   button to `Ctrl+F13` directly. Turbo mode works with a mouse button mapped to a combo:
   hold the button (it holds Ctrl), move, release.
+  **Windows, no extra app:** `scripts/windows/kando-mouse-buttons.ps1` does option 1 with
+  Windows PowerShell and a low-level mouse hook. The Forward (or Back) side button holds Ctrl
+  and taps F13, and releasing it lets go of Ctrl, so turbo mode works. Set the menu's shortcut
+  to `Control+F13`. `-InstallStartup` adds a Startup-folder shortcut so it runs at login (no
+  admin). Tell the user its limits: the button loses Back / Forward while it runs; it can't
+  reach apps running as admin unless it runs as admin too; some games' anti-cheat block
+  simulated keys; antivirus may warn about the hook. Show them the script before they run it.
 - **CLI**: `kando --menu "Name"`, `--trigger`, `--close-menu`, `--settings`,
   `--reload-menu-theme`, `--reload-sound-theme`, `--config-dir <dir>`, `--version`.
   `--menu` and `--trigger` behave like the shortcut (conditions apply).
