@@ -109,11 +109,12 @@ and memory, and the menu you end up with looks and moves like you.
 Maya is where I spend most of my day, so it got the first work menu. It opens on Ctrl+4, but only
 in Maya. Everywhere else the same key opens my everyday menu.
 
-<p align="center"><img src="docs/img/maya-menu.webp" alt="The example Maya work menu rendered in Amethyst Arsenal over a mock 3D viewport, in three color looks: the root ring with Display hovered, the Display submenu with Wireframe hovered, and the Switch app submenu with Go to Painter hovered. Under each, the direction of every item." width="100%"></p>
+<p align="center"><img src="docs/img/maya-menu.webp" alt="The example Maya work menu rendered in Amethyst Arsenal over a mock 3D viewport, in three color looks: the root ring with Display hovered, the Display submenu with Wireframe hovered, and the Studio submenu with Save everything hovered. Under each, the direction of every item." width="100%"></p>
 
 - **Up frames the selection** (F). I do it constantly, so it gets the easiest flick.
-- **Down-left is Save** and **Down is Switch app**, in every app I work in. From Maya, Down then
-  Right goes to Painter, Down then Down to Designer, Down then Left to Unreal.
+- **Down-left is Save** and **Down is Studio**, in every app I work in. From Maya, Down then
+  Right goes to Painter, Down then Down to Designer, Down then Left to Unreal. Down then
+  Down-left saves Maya, Painter, Designer and Unreal in one go.
 - **Right opens Display**: Smooth preview, Shaded, Textured, Wireframe and the rest. The way back
   out of it, Left, stays empty, so I never pick Wireframe by accident on my way out.
 - The menu is in [`examples/3d-work-menus.json`](skills/kando/examples/3d-work-menus.json), next to
@@ -152,12 +153,13 @@ height map becomes normal, AO and curvature, and all of it ends up as a .sbsar t
 Unreal can open. It is also a lot of small keys spread across three views, which is exactly
 what a pie menu is good at.
 
-<p align="center"><img src="docs/img/designer-menu.webp" alt="The Substance 3D Designer work menu rendered in Amethyst Arsenal: the root ring with Add node hovered, and the Node submenu with Duplicate hovered, with the direction of every item underneath." width="100%"></p>
+<p align="center"><img src="docs/img/designer-menu.webp" alt="The Substance 3D Designer work menu rendered in Amethyst Arsenal: the root ring with Nodes hovered, and the Nodes submenu of eight favourite nodes with Blend hovered, with the direction of every item underneath." width="100%"></p>
 
-- **Up adds a node** (Space), because it is the move I make most.
+- **Up opens my node palette**: eight nodes I add all the time, each bound to a key in
+  Designer's Preferences. Clicking the center instead opens the full node menu (Space).
 - **Left publishes the .sbsar** (Ctrl+P). In Painter, Left exports textures. Same flick, same
   meaning: send it out.
-- **Down twice** jumps to Painter, and Down twice in Painter comes back. Down is "Switch app" in
+- **Down twice** jumps to Painter, and Down twice in Painter comes back. Down is "Studio" in
   every work menu, and Designer sits straight down inside it from Maya, Painter and Unreal.
 - Every key comes from Adobe's current Designer docs (version 16.0). The menu is in
   [`examples/3d-work-menus.json`](skills/kando/examples/3d-work-menus.json), with notes in
@@ -234,6 +236,13 @@ python skills/kando/scripts/kando_profile.py --out kando-profile.md
 python skills/kando/scripts/kando_check.py path/to/menus.json   # any other file
 ```
 
+**Menu guard.** The plugin also brings a small hook. Kando reloads `menus.json` the moment it
+changes, so before Claude edits that file the guard copies it into a `claude-backups` folder
+next to it (the newest 10 are kept). After the edit it runs `kando_check.py`. If the edit broke
+the JSON, it puts the copy back; if the checker finds errors, Claude sees them and fixes them
+in the same turn. It only touches a `menus.json` in a Kando config folder, needs Python 3.9+,
+and stays out of the way without it. Edits a script makes from the shell don't trigger it.
+
 ## Try asking
 
 | You say | Claude does |
@@ -251,14 +260,17 @@ python skills/kando/scripts/kando_check.py path/to/menus.json   # any other file
 skills/kando/
 ├── SKILL.md              the workflow Claude follows
 ├── references/           menus.json format · settings · navigation · menu design
-│                         themes · app hotkeys (Maya, Painter, Unreal, Blender…)
+│                         themes · app hotkeys (Maya, Painter, Designer, Unreal,
+│                         Blender, ZBrush, Photoshop, Illustrator) · cross-app macros
 │                         your profile · sources
 ├── scripts/
 │   ├── kando_check.py      validator and linter
 │   ├── kando_preview.py    compass outline and radial HTML cheat sheet
 │   ├── kando_profile.py    drafts your personal profile from your menus
 │   └── kando_layout.py     Kando's placement algorithm, ported
-└── examples/             a desktop launcher and Maya / Painter / Unreal work menus
+└── examples/             a desktop launcher, Maya / Painter / Designer / Unreal work
+                          menus, and ZBrush / Blender / Photoshop / Illustrator menus
+hooks/                    the menu guard: backs up and checks menus.json on every edit
 themes/
 └── amethyst-arsenal/     a Kando menu theme (CC0), drop it in your menu-themes folder
 icon-themes/

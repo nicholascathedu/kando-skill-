@@ -369,7 +369,7 @@ class CommandLine(unittest.TestCase):
             r = self.run_script(os.path.join(SCRIPTS, "kando_preview.py"),
                                 os.path.join(EXAMPLES, "3d-work-menus.json"), "--html", out)
             self.assertEqual(r.returncode, 0, r.stderr)
-            self.assertIn("Switch app", r.stdout)
+            self.assertIn("Studio", r.stdout)
             with open(out, encoding="utf-8") as f:
                 self.assertIn("<svg", f.read())
 
@@ -377,7 +377,7 @@ class CommandLine(unittest.TestCase):
         r = self.run_script(os.path.join(SCRIPTS, "kando_profile.py"),
                             os.path.join(EXAMPLES, "3d-work-menus.json"))
         self.assertEqual(r.returncode, 0, r.stderr)
-        self.assertIn("Switch app: Down in Maya, Painter, Designer, Unreal", r.stdout)
+        self.assertIn("Studio: Down in Maya, Painter, Designer, Unreal", r.stdout)
         self.assertIn("(0°)", r.stdout)
 
     def test_profile_out_does_not_overwrite_notes(self):
@@ -455,6 +455,80 @@ class CommandLine(unittest.TestCase):
             self.assertIn("Not valid JSON", r.stdout)
         finally:
             os.unlink(f.name)
+
+
+class MenusGuardTest(unittest.TestCase):
+    """hooks/menus_guard.py: back up before an edit, check after, restore broken JSON."""
+
+    GUARD = os.path.join(HERE, "..", "hooks", "menus_guard.py")
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.dir = os.path.join(self.tmp.name, "kando")
+        os.makedirs(self.dir)
+        self.path = os.path.join(self.dir, "menus.json")
+        self.good = json.dumps(menus(item("A", 0, key="A")))
+        self.write(self.good)
+
+    def tearDown(self):
+        self.tmp.cleanup()
+
+    def write(self, text):
+        with open(self.path, "w", encoding="utf-8") as f:
+            f.write(text)
+
+    def read(self):
+        with open(self.path, encoding="utf-8") as f:
+            return f.read()
+
+    def guard(self, mode, path=None):
+        event = {"tool_name": "Edit", "cwd": self.tmp.name,
+                 "tool_input": {"file_path": path or self.path}}
+        return subprocess.run([sys.executable, self.GUARD, mode], input=json.dumps(event),
+                              capture_output=True, text=True, encoding="utf-8")
+
+    def backups(self):
+        folder = os.path.join(self.dir, "claude-backups")
+        return sorted(os.listdir(folder)) if os.path.isdir(folder) else []
+
+    def test_broken_json_is_restored(self):
+        self.assertEqual(self.guard("before").returncode, 0)
+        self.assertEqual(len(self.backups()), 1)
+        self.write('{"version": "3.0.0", "menus": [,]}')
+        run = self.guard("after")
+        self.assertEqual(run.returncode, 2)
+        self.assertIn("put back", run.stderr)
+        self.assertEqual(self.read(), self.good)
+
+    def test_checker_errors_reach_claude_and_keep_the_edit(self):
+        self.guard("before")
+        bad = json.dumps(menus(item("A", 0, actions=[{"type": "no-such-action"}])))
+        self.write(bad)
+        run = self.guard("after")
+        self.assertEqual(run.returncode, 2)
+        self.assertIn("ERROR", run.stderr)
+        self.assertEqual(self.read(), bad)
+
+    def test_clean_edit_reports_the_check(self):
+        self.guard("before")
+        run = self.guard("after")
+        self.assertEqual(run.returncode, 0)
+        out = json.loads(run.stdout)["hookSpecificOutput"]
+        self.assertEqual(out["hookEventName"], "PostToolUse")
+        self.assertIn("0 error(s)", out["additionalContext"])
+
+    def test_other_files_pass_through(self):
+        other = os.path.join(self.tmp.name, "menus.json")  # not in a Kando folder
+        with open(other, "w", encoding="utf-8") as f:
+            f.write("not json")
+        self.assertEqual(self.guard("before", other).returncode, 0)
+        self.assertEqual(self.guard("after", other).returncode, 0)
+        self.assertEqual(self.backups(), [])
+
+    def test_keeps_the_newest_ten_backups(self):
+        for _ in range(12):
+            self.guard("before")
+        self.assertEqual(len(self.backups()), 10)
 
 
 if __name__ == "__main__":

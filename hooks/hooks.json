@@ -1,0 +1,21 @@
+{
+  "description": "menus.json guard: backs up Kando's menus.json before Claude edits it, checks it after, and restores the backup if the edit broke the JSON.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          { "type": "command", "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.sh\" before", "timeout": 30 }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          { "type": "command", "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.sh\" after", "timeout": 60 }
+        ]
+      }
+    ]
+  }
+}

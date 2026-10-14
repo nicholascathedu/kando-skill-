@@ -20,7 +20,7 @@
 - **Cardinals first.** Up / Down / Left / Right are the easiest and most accurate flicks;
   put the most frequent actions there.
 - **Anchors across menus.** The same concept lives in the same direction in every menu
-  (e.g. Save down-left, Switch app down). Gestures transfer between apps.
+  (e.g. Save down-left, Studio down). Gestures transfer between apps.
 - **Clear way back.** In a submenu, the parent link sits opposite the submenu's direction.
   Leave about 45° around it empty.
 - **Mirror related pairs.** Undo left / Redo right, Previous up / Next down, Zoom in / out
@@ -69,7 +69,7 @@ stable across menus (S = Save everywhere). Use `Backspace` on every center to go
 | Up | View: frame / focus selected |
 | Up-right, Right | Display or view-mode submenu |
 | Down-right | Cleanup (delete history, clear) |
-| Down | **Switch app** submenu (same in every app) |
+| Down | **Studio** submenu: switch app, save everything (same in every app) |
 | Down-left | Save |
 | Left | Organize (group, rename, prefixes) |
 | Up-left | Duplicate / create |
@@ -84,6 +84,8 @@ five evenly spaced slots (72° apart) with the back link in one of them.
 | App hotkey | close-menu → simulate-hotkey | Any app shortcut that's awkward to reach |
 | Launch | close-menu → execute-command (app picker) | Starting apps |
 | Switch app | close-menu → focus-window `appName` | Jumping between open apps in a pipeline |
+| Save everything | close-menu → per app: focus-window → delay 0.3 → its save key | One flick before a break; see app-recipes.md |
+| Palette | submenu of keys bound in the app; its center click opens the app's full menu | Designer's favourite nodes, ZBrush brushes |
 | Snippet | close-menu → set-clipboard → Ctrl+V | Naming prefixes, email signature, code |
 | Console command | close-menu → set-clipboard → open console key → delay 0.2 → Ctrl+V → Enter | Unreal / game consoles |
 | Cross-app | close-menu → Ctrl+C → focus-window B → shortcut in B → paste | Search selected text, send to another app |
@@ -104,7 +106,7 @@ Notes:
 2. One menu per app with `conditions.appName` set to the exe name (window picker shows it).
 3. One fallback menu without conditions on the same shortcut (the general launcher).
 4. Tag them into a collection ("Work") so the editor stays tidy.
-5. Shared anchors: Switch app always Down, Save always Down-left, etc.
+5. Shared anchors: Studio (switch app) always Down, Save always Down-left, etc.
 6. Fill with that app's **default** hotkeys (see app-recipes.md) and leave gaps for the
    user's custom ones rather than inventing keys the app doesn't have.
 

@@ -19,9 +19,13 @@ removed sometimes). Adobe apps aren't reliably there, so use Material Symbols
 - Adobe Substance 3D Designer
 - Unreal Engine 5
 - Blender
+- ZBrush
+- Adobe Photoshop
+- Adobe Illustrator
 - Browsers (Chrome / Edge / Firefox)
 - Discord
 - Cross-app pipeline ideas
+- Cross-app macros: save everything, colour picker
 
 ## Autodesk Maya — `appName: "maya"`
 
@@ -43,13 +47,23 @@ once the user binds them in Windows → Settings/Preferences → Hotkey Editor.
 
 ## Adobe Substance 3D Painter — `appName: "Painter"`
 
+Checked against Adobe's Painter "Shortcuts" page (Experience League), 2026-10.
+
 | Action | Default key | Kando hotkey |
 |---|---|---|
-| 3D + 2D view / 3D only / 2D only | F1 / F2 / F3 | `F1` / `F2` / `F3` |
-| Material view / cycle channels | M / C | `KeyM` / `KeyC` |
+| 3D + 2D view / 3D only / 2D only / swap 2D and 3D | F1 / F2 / F3 / F4 | `F1` / `F2` / `F3` / `F4` |
+| Material view / next channel / next mesh map | M / C / B | `KeyM` / `KeyC` / `KeyB` |
+| Bake mesh maps (opens the baking window) | Ctrl+Shift+B | `ControlLeft+ShiftLeft+KeyB` |
+| Baking / painting mode | F8 / F9 | `F8` / `F9` |
 | Export textures | Ctrl+Shift+E | `ControlLeft+ShiftLeft+KeyE` |
 | Save | Ctrl+S | `ControlLeft+KeyS` |
-| Paint / eraser / projection / polygon fill | 1 / 2 / 3 / 4 *(verify)* | `Digit1`..`Digit4` |
+| Paint / eraser / projection / polygon fill / smudge / clone | 1 / 2 / 3 / 4 / 5 / 6 | `Digit1`..`Digit6` |
+| Symmetry / show manipulator | L / Q | `KeyL` / `KeyQ` |
+| Texture set isolate / hide UI | Alt+Q / Tab | `AltLeft+KeyQ` / `Tab` |
+| Camera perspective / orthographic | F5 / F6 | `F5` / `F6` |
+
+There's no default "Save as" key and no colour-picker key; for colours, see the PowerToys
+macro at the end of this file.
 
 Adding generators, filters and smart masks goes through the layer stack's right-click menu
 with no default key; the shelf (drag and drop) is faster there than Kando.
@@ -84,7 +98,14 @@ Kando gives focus back to Designer when the menu closes, so the key lands in the
 were last working in. Put graph actions in one menu and keep 2D/3D view actions out of it,
 or put them in a submenu named for the view. Adobe lists Ctrl+P with the Explorer's right-click menu
 and the toolbar, so try it once with your graph open. Export outputs, frames and comments have no default key;
-bind one in Preferences first. Designer 16.0 removed Iray (the GPU Pathtracer replaces it).
+bind one in Preferences first.
+
+**Node palette.** Designer has no default key for adding a particular node, but Preferences →
+Shortcuts lets you give "any node" one, library and custom library nodes included, for
+Substance, function and FX-Map graphs (Adobe's Preferences page). A key that clashes with
+another shortcut is highlighted and does nothing until fixed. Bind your eight most-used nodes
+to Ctrl+Alt+1…8, then put them on a ring; the examples' Up submenu does that, and its center
+click opens the full node menu (Space). Open the menu over the Graph view. Designer 16.0 removed Iray (the GPU Pathtracer replaces it).
 
 ## Unreal Engine 5 — `appName: "UnrealEditor"`
 
@@ -109,26 +130,123 @@ Asset-name snippet items (set-clipboard + Ctrl+V while renaming with F2): `M_`, 
 
 ## Blender — `appName: "blender"`
 
-| Action | Default key *(verify against the user's keymap)* | Kando hotkey |
+Checked against Blender's default keymap source (`scripts/presets/keyconfig/keymap_data/blender_default.py`)
+and command-line source (`source/creator/creator_args.cc`), 2026-10.
+
+| Action | Default key | Kando hotkey |
 |---|---|---|
+| Render image / render animation | F12 / Ctrl+F12 | `F12` / `ControlLeft+F12` |
+| Show last render | F11 | `F11` |
+| Maximize area / fullscreen area (hides panels) | Ctrl+Space / Ctrl+Alt+Space | `ControlLeft+Space` / `ControlLeft+AltLeft+Space` |
+| Next / previous workspace | Ctrl+Page Down / Ctrl+Page Up | `ControlLeft+PageDown` / `ControlLeft+PageUp` |
+| Quick Favorites | Q | `KeyQ` |
+| Repeat last / adjust last operation | Shift+R / F9 | `ShiftLeft+KeyR` / `F9` |
+| Add menu / snap pie | Shift+A / Shift+S | `ShiftLeft+KeyA` / `ShiftLeft+KeyS` |
 | Frame selected | Numpad . | `NumpadDecimal` |
 | Local view (isolate) | Numpad / | `NumpadDivide` |
-| Shading pie (solid / material / rendered have no direct default keys) | Z | `KeyZ` |
-| Toggle wireframe | Shift+Z | `ShiftLeft+KeyZ` |
-| Toggle X-ray | Alt+Z | `AltLeft+KeyZ` |
+| Shading pie | Z | `KeyZ` |
+| Toggle wireframe / X-ray / overlays | Shift+Z / Alt+Z / Alt+Shift+Z | `ShiftLeft+KeyZ` / `AltLeft+KeyZ` / `AltLeft+ShiftLeft+KeyZ` |
 | Edit / object mode | Tab | `Tab` |
 | Duplicate | Shift+D | `ShiftLeft+KeyD` |
 | Apply transform menu | Ctrl+A | `ControlLeft+KeyA` |
 | Move to collection | M | `KeyM` |
 | Save | Ctrl+S | `ControlLeft+KeyS` |
-| Render image | F12 | `F12` |
 
-Blender has built-in pie menus too (Z, Tab with the Pie Menus add-on, ~ for view). Kando
-earns its place for cross-app actions and for operators the user searches for with F3.
-Numpad keys: Frame selected and Local view need a numpad. Without one, the user can turn on
-Preferences → Input → Emulate Numpad, then the top-row digits act as the numpad, or bind
-other keys. Shortcut clash: in Object mode Ctrl+1–5 set the subdivision level, so a Kando
-menu on Ctrl+<digit> takes that away while Blender is focused. Prefer Ctrl+F13 or similar.
+Blender already has pies on Z, Shift+S and ` (view), so a Kando slice that sends Z just opens
+a pie inside a pie. Kando earns its place for render, maximize, workspaces, cross-app actions
+and operators the user searches for with F3. Workspaces have no key of their own, only
+next / previous, so put **Next** on Right and **Previous** on Left rather than a workspace
+submenu that would just cycle. Keys act on the area under the pointer, and Kando opens at the
+pointer, so open the menu over the viewport you mean.
+
+Numpad keys: without a numpad, turn on Preferences → Input → Emulate Numpad, or bind other
+keys. Shortcut clash: in Object mode Ctrl+1–5 set the subdivision level, so a Kando menu on
+Ctrl+<digit> takes that away while Blender is focused. Prefer Ctrl+F13 or similar.
+
+**Background jobs** (`execute-command`, Blender keeps working while they run). `-b` is
+background, `-f 1` renders frame 1, `-a` renders the animation, `--python-expr` runs one line
+of Python. Arguments run in order, so put `-f` / `-a` last. Use the full path to
+`blender.exe`, since it isn't on PATH by default, and save first (the job reads the saved file):
+
+```json
+[{"type":"close-menu"},{"type":"simulate-hotkey","hotkey":"ControlLeft+KeyS"},{"type":"delay","duration":1},
+ {"type":"execute-command","command":"\"C:\\Program Files\\Blender Foundation\\Blender 4.5\\blender.exe\" -b \"C:\\Projects\\scene.blend\" --python-expr \"import bpy; bpy.ops.export_scene.fbx(filepath=bpy.data.filepath[:-6] + '.fbx')\""}]
+```
+
+That writes `scene.fbx` next to the .blend. For glTF use `bpy.ops.export_scene.gltf`. The file
+path is fixed in the item, so make one item per project, or put it in a "Batch" submenu.
+*(The export line is from Blender's Python API; run it once by hand first.)*
+
+## ZBrush — `appName: "ZBrush"`
+
+Checked against Maxon's ZBrush shortcut sheet (help.maxon.net, `ZBrush-Shortcuts.pdf`), 2026-10.
+
+| Action | Default key | Kando hotkey |
+|---|---|---|
+| Draw / Move / Scale / Rotate | Q / W / E / R | `KeyQ` / `KeyW` / `KeyE` / `KeyR` |
+| Edit mode on/off | T | `KeyT` |
+| Show/hide Polyframe and polygroups | Shift+F | `ShiftLeft+KeyF` |
+| Divide / higher res / lower res | Ctrl+D / D / Shift+D | `ControlLeft+KeyD` / `KeyD` / `ShiftLeft+KeyD` |
+| Activate symmetry | X | `KeyX` |
+| Brush pop-up | B | `KeyB` |
+| Group masked and clear mask | Ctrl+W | `ControlLeft+KeyW` |
+| LightBox | , | `Comma` |
+| Save project / save tool | Ctrl+S / Ctrl+Shift+T | `ControlLeft+KeyS` / `ControlLeft+ShiftLeft+KeyT` |
+| Gizmo ↔ TransPose | Y *(verify)* | `KeyY` |
+| Solo, Transp, Ghost, ZRemesher | none | bind one first (below) |
+
+ZBrush has no pie menu of its own, and many people sculpt with a pen and no keyboard, so this
+is where Kando helps most among the 3D apps. Good pies: **Display** (Polyframe, Symmetry,
+Solo, Transp) and **Subdiv** (higher Up, lower Down, Divide to the side).
+
+To give Solo, Transp or ZRemesher a key: Ctrl+Alt+click the button in ZBrush, press the new
+key, then save hotkeys in Preferences → Hotkeys. Three-modifier keys such as
+Ctrl+Alt+Shift+S rarely clash with ZBrush's own. Mouse gestures (DynaMesh's Ctrl+drag on the
+background) can't be sent by Kando.
+
+## Adobe Photoshop — `appName: "Photoshop"`
+
+| Action | Default key | Kando hotkey |
+|---|---|---|
+| Move / Brush | V / B | `KeyV` / `KeyB` |
+| Free Transform | Ctrl+T | `ControlLeft+KeyT` |
+| Fit on screen | Ctrl+0 | `ControlLeft+Digit0` |
+| Brush size smaller / larger | [ / ] | `BracketLeft` / `BracketRight` |
+| New layer (dialog) | Ctrl+Shift+N | `ControlLeft+ShiftLeft+KeyN` |
+| Stamp visible (merge visible to a new layer) | Ctrl+Shift+Alt+E *(verify)* | `ControlLeft+ShiftLeft+AltLeft+KeyE` |
+| Export As | Alt+Shift+Ctrl+W *(verify)* | `AltLeft+ShiftLeft+ControlLeft+KeyW` |
+| Quick Export as PNG | none | bind one in Edit → Keyboard Shortcuts |
+| Save | Ctrl+S | `ControlLeft+KeyS` |
+
+Adobe's shortcut pages load with scripts and couldn't be read for this table; the rows
+without *(verify)* are Photoshop's long-standing defaults. Check Edit → Keyboard Shortcuts.
+
+- **Text-field trap:** while you are typing in a text layer, a single-letter tool key types the
+  letter. Commit the text first (Ctrl+Enter), then flick the tool.
+- **Actions beat long macros.** Record a multi-step job once as a Photoshop Action, give it an
+  F-key in the Actions panel, and let the Kando item press that F-key. It's sturdier than a
+  long `execute-macro`.
+- Brush size [ / ] would be a nice "click it again" item, but app keys only repeat with
+  `keepInputFocus` on (see menus-json.md §4), so keep it one-shot or skip it.
+
+## Adobe Illustrator — `appName: "Illustrator"`
+
+Checked against Adobe's "Default keyboard shortcuts" page for Illustrator, 2026-10.
+
+| Action | Default key | Kando hotkey |
+|---|---|---|
+| Selection / Direct Selection / Pen | V / A / P | `KeyV` / `KeyA` / `KeyP` |
+| Shape Builder | Shift+M | `ShiftLeft+KeyM` |
+| Outline ↔ preview | Ctrl+Y | `ControlLeft+KeyY` |
+| Export for Screens | Alt+Ctrl+E | `AltLeft+ControlLeft+KeyE` |
+| Group / ungroup | Ctrl+G / Shift+Ctrl+G | `ControlLeft+KeyG` / `ShiftLeft+ControlLeft+KeyG` |
+| Make / release clipping mask | Ctrl+7 / Alt+Ctrl+7 | `ControlLeft+Digit7` / `AltLeft+ControlLeft+Digit7` |
+| View all artboards in window | Alt+Ctrl+0 | `AltLeft+ControlLeft+Digit0` |
+| Save | Ctrl+S | `ControlLeft+KeyS` |
+
+Same text-field trap as Photoshop: press Esc to leave the text first *(verify on your
+version)*. For icon work, Outline view, Shape Builder and Export for Screens are the three
+that save the most trips to the menus.
 
 ## Browsers — `appName: "chrome"` / `"msedge"` / `"firefox"`
 
@@ -168,3 +286,57 @@ Discord's settings; a `focus-window` first, or global binds, make them work from
   anything shared).
 - **Export then switch**: an item that exports (Painter Ctrl+Shift+E) and a neighbour that
   jumps to the engine, so a handoff is two flicks.
+
+## Cross-app macros: save everything, colour picker
+
+These use `focus-window` to act on several apps from one item. Two facts from Kando's source
+(`src/main/actions/focus-window.ts`) shape them:
+
+- `focus-window` brings the **first** matching window forward (it restores a minimized one).
+  Windows lists windows front to back, so with a regex like `/Painter|Designer/` the one you
+  used last wins. *(Order inferred from how Windows lists windows; test it.)*
+- If **no** window matches, Kando only logs a warning and the workflow carries on, so the next
+  keys go to whatever is in front. Order the steps so a missing app does no harm, and add a
+  short `delay` after each focus so the window is ready for keys.
+
+**Save everything before a break** (Maya, Painter, Designer, Unreal):
+
+```json
+[{"type":"close-menu"},
+ {"type":"focus-window","appName":"maya"},{"type":"delay","duration":0.3},
+ {"type":"simulate-hotkey","hotkey":"ControlLeft+KeyS"},{"type":"delay","duration":0.5},
+ {"type":"focus-window","appName":"Painter"},{"type":"delay","duration":0.3},
+ {"type":"simulate-hotkey","hotkey":"ControlLeft+KeyS"},{"type":"delay","duration":0.5},
+ {"type":"focus-window","appName":"Substance 3D Designer"},{"type":"delay","duration":0.3},
+ {"type":"simulate-hotkey","hotkey":"ControlLeft+KeyS"},{"type":"delay","duration":0.5},
+ {"type":"focus-window","appName":"UnrealEditor"},{"type":"delay","duration":0.3},
+ {"type":"simulate-hotkey","hotkey":"ControlLeft+ShiftLeft+KeyS"}]
+```
+
+Every app gets Ctrl+S except Unreal, where Ctrl+Shift+S saves all levels and assets. Limits
+to tell the user plainly:
+- A file that was never saved opens a "Save as" dialog, which waits for them.
+- If Unreal isn't open, its Ctrl+Shift+S goes to the app in front. In Maya that is "Save
+  Scene As"; press Esc. Unreal is last so the others are already saved. For a setup without
+  Unreal, drop the last three actions.
+- Add or remove apps the same way: focus, short delay, that app's save key.
+
+When every app in the chain saves with Ctrl+S, a missing app is harmless: the key just saves
+the app in front once more. `examples/design-3d-macros.json` uses that for ZBrush, Blender,
+Photoshop and Illustrator.
+
+**Colour picker, then paste the hex** (PowerToys Color Picker; default key Win+Shift+C, copies
+HEX by default; checked in Microsoft's PowerToys docs). Picking is interactive, so this is
+two items, not one:
+1. **Pick colour:** `close-menu` → `simulate-hotkey` `MetaLeft+ShiftLeft+KeyC`. Middle-click
+   picks and closes the picker; left-click opens its editor.
+2. **Paste colour:** `close-menu` → `focus-window` `/Painter|Designer/` → `delay 0.3` →
+   `ControlLeft+KeyV` → `Enter`.
+
+Before picking, click the hex field of the colour you want to change in Painter or Designer;
+the app keeps that field focused while you pick elsewhere. Kando can't click the field for
+you. Check whether the app wants the leading `#` (PowerToys' HEX format can drop it in its
+settings). *(Paste step inferred; test once.)*
+
+A good home for both is a **Studio** submenu in the same direction in every work menu (the
+examples use Down), so "save everything" is the same flick in every app.
