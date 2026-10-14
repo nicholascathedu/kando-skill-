@@ -1053,30 +1053,13 @@
             "angle": 90,
             "children": [
               {
-                "name": "Lit",
-                "icon": "light_mode",
-                "iconTheme": "material-symbols-rounded",
-                "type": "button",
-                "angle": 0,
-                "selectWorkflow": {
-                  "actions": [
-                    {
-                      "type": "close-menu"
-                    },
-                    {
-                      "type": "simulate-hotkey",
-                      "hotkey": "AltLeft+Digit4"
-                    }
-                  ]
-                }
-              },
-              {
                 "name": "Unlit",
-                "icon": "dark_mode",
+                "icon": "wb_sunny",
                 "iconTheme": "material-symbols-rounded",
                 "type": "button",
-                "angle": 110,
+                "angle": 30,
                 "selectWorkflow": {
+                  "quickSelectKey": "U",
                   "actions": [
                     {
                       "type": "close-menu"
@@ -1089,12 +1072,70 @@
                 }
               },
               {
-                "name": "Wireframe",
-                "icon": "grid_on",
+                "name": "Detail lighting",
+                "icon": "emoji_objects",
                 "iconTheme": "material-symbols-rounded",
                 "type": "button",
-                "angle": 200,
+                "angle": 70,
                 "selectWorkflow": {
+                  "quickSelectKey": "D",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "AltLeft+Digit5"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Lighting only",
+                "icon": "lightbulb",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 110,
+                "selectWorkflow": {
+                  "quickSelectKey": "O",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "AltLeft+Digit6"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Light complexity",
+                "icon": "flare",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 150,
+                "selectWorkflow": {
+                  "quickSelectKey": "C",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "AltLeft+Digit7"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Wireframe",
+                "icon": "deployed_code",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 190,
+                "selectWorkflow": {
+                  "quickSelectKey": "W",
                   "actions": [
                     {
                       "type": "close-menu"
@@ -1102,6 +1143,63 @@
                     {
                       "type": "simulate-hotkey",
                       "hotkey": "AltLeft+Digit2"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Shader complexity",
+                "icon": "blur_on",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 230,
+                "selectWorkflow": {
+                  "quickSelectKey": "S",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "AltLeft+Digit8"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Lightmap density",
+                "icon": "grid_on",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 310,
+                "selectWorkflow": {
+                  "quickSelectKey": "M",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "AltLeft+Digit0"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Lit",
+                "icon": "light_mode",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 350,
+                "selectWorkflow": {
+                  "quickSelectKey": "L",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "AltLeft+Digit4"
                     }
                   ]
                 }

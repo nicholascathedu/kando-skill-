@@ -92,11 +92,23 @@ bind one in Preferences first. Designer 16.0 removed Iray (the GPU Pathtracer re
 |---|---|---|
 | Play in editor | Alt+P | `AltLeft+KeyP` |
 | Simulate | Alt+S | `AltLeft+KeyS` |
-| Lit / unlit / wireframe view | Alt+4 / Alt+3 / Alt+2 | `AltLeft+Digit4` / `Digit3` / `Digit2` |
+| Lit / unlit / wireframe view | Alt+4 / Alt+3 / Alt+2 | `AltLeft+Digit4` / `AltLeft+Digit3` / `AltLeft+Digit2` |
+| Detail lighting / lighting only | Alt+5 / Alt+6 | `AltLeft+Digit5` / `AltLeft+Digit6` |
+| Light complexity / shader complexity | Alt+7 / Alt+8 | `AltLeft+Digit7` / `AltLeft+Digit8` |
+| Lightmap density | Alt+0 | `AltLeft+Digit0` |
 | Content drawer | Ctrl+Space | `ControlLeft+Space` |
 | Save all | Ctrl+Shift+S | `ControlLeft+ShiftLeft+KeyS` |
 | Open console | ` | `Backquote` |
 | Game view toggle | G | `KeyG` |
+
+**View-mode pie.** The eight view modes with a default key (Epic's "Viewport Modes" page,
+checked 2026-10) are a natural ring. At the root they fill all eight directions. Inside a
+submenu, one direction is the way back, so space them 40° apart around it, as the Unreal menu
+in `examples/3d-work-menus.json` does: opened from Right, the back link is Left, and the modes
+sit at 30, 70 … 350 with Lit at 350 (Up), the lighting views down the right side and the
+optimization views (shader complexity, lightmap density) on the left. Use letters for their
+quick-select keys, not the Alt digits; digits already pick items by position.
+Reflections, Stationary Light Overlap and the buffer views have no default key.
 
 Note: Ctrl+0..9 set camera bookmarks in Unreal; a Kando shortcut on Ctrl+<digit> takes that
 key over while Unreal is focused.
