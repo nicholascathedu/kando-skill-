@@ -33,6 +33,12 @@ Learning tips:
 - Learn one menu at a time.
 - Say the direction out loud at first ("down, right = Unreal"). It sticks faster.
 
+**Where am I on the path?** `scripts/kando_coach.py` reads Kando's own `achievements.json`
+(totals of click / keyboard / flick / gamepad picks, speed tiers per depth, cancels) and prints
+what to practise next. `--save` remembers today's numbers so the next run shows progress. It
+coaches the hands only: Kando keeps no per-item stats. The numbers are personal, so keep them
+out of anything shared.
+
 ## Opening menus
 
 - **Shortcut per menu** (key names, see menus-json.md §7). Pick combos that nothing else uses;
