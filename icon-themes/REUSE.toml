@@ -1,0 +1,10 @@
+# SPDX-FileCopyrightText: Nicholas (github.com/nicholascathedu)
+# SPDX-License-Identifier: CC0-1.0
+
+version = 1
+
+[[annotations]]
+path = ["amethyst-emblems/*.svg", "amethyst-emblems.style.json", "amethyst-emblems.webp", "README.md"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Nicholas (github.com/nicholascathedu)"
+SPDX-License-Identifier = "CC0-1.0"

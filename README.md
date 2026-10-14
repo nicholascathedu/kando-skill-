@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/img/hero.jpg" alt="Kando skill for Claude, blessed by Nicholas Cath. On the left, the author's real Kando menu in the Amethyst Arsenal theme, glass hex tiles around a glowing yin-yang. On the right, five hovered tiles, one per color choice in Kando's theme settings: Default colors (the gold aura), Lime HUD, Pure Amethyst, Smoke and Work Mode" width="100%">
+  <img src="docs/img/hero.webp" alt="Kando skill for Claude, blessed by Nicholas Cath. On the left, the author's real Kando menu in the Amethyst Arsenal theme, glass hex tiles around a north star. On the right, five hovered tiles, one per color choice in Kando's theme settings: Default colors (the gold aura), Lime HUD, Pure Amethyst, Smoke and Work Mode" width="100%">
 </p>
 
 <p align="center">
@@ -94,7 +94,7 @@ or [GitHub Sponsors](https://github.com/sponsors/Schneegans).
 
 ## Art and AI, side by side
 
-<p align="center"><img src="docs/img/balance.jpg" alt="The author's yin-yang icon between two columns. You: the taste and the story, which way feels like home, icons that mean something, the last word. Claude: Kando's file format, the angle math, checks before anything breaks, memory of what you chose." width="100%"></p>
+<p align="center"><img src="docs/img/balance.webp" alt="The author's yin-yang icon between two columns. You: the taste and the story, which way feels like home, icons that mean something, the last word. Claude: Kando's file format, the angle math, checks before anything breaks, memory of what you chose." width="100%"></p>
 
 I make art, and I didn't want a tool that makes it for me. I wanted one that carries the boring
 weight: the file format, the angles, the bookkeeping. Which icon sits at the top of my menu,
@@ -109,7 +109,7 @@ and memory, and the menu you end up with looks and moves like you.
 Maya is where I spend most of my day, so it got the first work menu. It opens on Ctrl+4, but only
 in Maya. Everywhere else the same key opens my everyday menu.
 
-<p align="center"><img src="docs/img/maya-menu.jpg" alt="The example Maya work menu rendered in Amethyst Arsenal over a mock 3D viewport, in three color looks: the root ring with Display hovered, the Display submenu with Wireframe hovered, and the Switch app submenu with Go to Painter hovered. Under each, the direction of every item." width="100%"></p>
+<p align="center"><img src="docs/img/maya-menu.webp" alt="The example Maya work menu rendered in Amethyst Arsenal over a mock 3D viewport, in three color looks: the root ring with Display hovered, the Display submenu with Wireframe hovered, and the Switch app submenu with Go to Painter hovered. Under each, the direction of every item." width="100%"></p>
 
 - **Up frames the selection** (F). I do it constantly, so it gets the easiest flick.
 - **Down-left is Save** and **Down is Switch app**, in every app I work in. From Maya, Down then
@@ -121,7 +121,7 @@ in Maya. Everywhere else the same key opens my everyday menu.
 
 ## How it works
 
-<p align="center"><img src="docs/img/flow.jpg" alt="Five steps: say it, shape it, check it, see it, keep it" width="100%"></p>
+<p align="center"><img src="docs/img/flow.webp" alt="Five steps: say it, shape it, check it, see it, keep it" width="100%"></p>
 
 1. **Say it.** *"A Maya menu, only in Maya, fast for modeling."*
 2. **Shape it.** Claude lays it out on the compass, keeps the directions you already use, and
@@ -152,7 +152,7 @@ height map becomes normal, AO and curvature, and all of it ends up as a .sbsar t
 Unreal can open. It is also a lot of small keys spread across three views, which is exactly
 what a pie menu is good at.
 
-<p align="center"><img src="docs/img/designer-menu.jpg" alt="The Substance 3D Designer work menu rendered in Amethyst Arsenal: the root ring with Add node hovered, and the Node submenu with Duplicate hovered, with the direction of every item underneath." width="100%"></p>
+<p align="center"><img src="docs/img/designer-menu.webp" alt="The Substance 3D Designer work menu rendered in Amethyst Arsenal: the root ring with Add node hovered, and the Node submenu with Duplicate hovered, with the direction of every item underneath." width="100%"></p>
 
 - **Up adds a node** (Space), because it is the move I make most.
 - **Left publishes the .sbsar** (Ctrl+P). In Painter, Left exports textures. Same flick, same
@@ -193,16 +193,16 @@ Tron-style looks, **Grid Cyan** and **Light Cycle**. [Install it from `themes/am
 
 <p align="center"><img src="themes/amethyst-arsenal/presets.jpg" alt="The same menu in all seven color looks of Amethyst Arsenal: Default colors, Lime HUD, Pure Amethyst, Smoke, Work Mode, Grid Cyan and Light Cycle" width="100%"></p>
 
-### A menu with a yin-yang at its heart
+### My everyday menu
 
-My own everyday menu opens around a yin-yang, and it fits Kando well: Simon built a tool that is *fast and efficient* and also *fun*,
-two halves most software keeps apart. A pie menu holds both. The center is stillness; every
-direction around it is motion.
+My own everyday menu opens around a north star, the fixed point every direction starts from. The
+icons are the [Amethyst Emblems](icon-themes/) set from this repo, drawn in one shape language so
+the whole ring reads as one piece.
 
 The tiles are glass, so whatever I'm working in still shows through. Here it is over a few
 different apps, in the default colors and each preset, reaching in a different direction every time.
 
-<p align="center"><img src="docs/img/my-menu.jpg" alt="Six real renders of the author's menu. At rest in Default colors, the yin-yang in the middle of a night-sky desktop. Creativity, up-left, with the gold aura of Default colors over a 3D viewport. Games, straight up, glowing green in Lime HUD over the night sky. Browser, down-right, glowing violet in Pure Amethyst over a bright web page. The Media submenu open on YouTube in the Smoke preset over a video site. Settings, down-left, in Work Mode over a colorful painting." width="100%"></p>
+<p align="center"><img src="docs/img/my-menu.webp" alt="Six real renders of the author's menu. At rest in Default colors, the north star in the middle of a night-sky desktop. Creativity, up-left, with the gold aura of Default colors over a 3D viewport. Games, straight up, glowing green in Lime HUD over the night sky. Browser, down-right, glowing violet in Pure Amethyst over a bright web page. The Media submenu open on YouTube in the Smoke preset over a video site. Settings, down-left, in Work Mode over a colorful painting." width="100%"></p>
 
 ## Install
 
@@ -261,6 +261,8 @@ skills/kando/
 └── examples/             a desktop launcher and Maya / Painter / Unreal work menus
 themes/
 └── amethyst-arsenal/     a Kando menu theme (CC0), drop it in your menu-themes folder
+icon-themes/
+└── amethyst-emblems/     matching icons (CC0), drop them in your icon-themes folder
 tests/                    python -m unittest discover -s tests
 evals/                    real tasks that score Claude with and without the skill
 .claude-plugin/           plugin and marketplace manifests
