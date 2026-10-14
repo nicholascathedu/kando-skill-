@@ -1,3 +1,9 @@
+<h1 align="center">Kando skill for Claude</h1>
+
+<p align="center">Hi, I'm <b>Nicholas Cath</b>, a 3D artist who spends most days in Maya, Substance Painter,<br>
+Designer and Unreal. I made this so Claude could build my Kando menus around the way I work,<br>
+and now it can do the same for you.</p>
+
 <p align="center">
   <img src="docs/img/hero.webp" alt="Kando skill for Claude, blessed by Nicholas Cath. On the left, the author's real Kando menu in the Amethyst Arsenal theme, glass hex tiles around a north star. On the right, five hovered tiles, one per color choice in Kando's theme settings: Default colors (the gold aura), Lime HUD, Pure Amethyst, Smoke and Work Mode" width="100%">
 </p>
@@ -8,8 +14,6 @@
   <img alt="Python 3.9+, no dependencies" src="https://img.shields.io/badge/python-3.9%2B%20%C2%B7%20no%20deps-3776ab">
   <img alt="MIT" src="https://img.shields.io/badge/license-MIT-2ea44f">
 </p>
-
-<h1 align="center">Kando skill for Claude</h1>
 
 <p align="center">A Claude skill for <a href="https://kando.menu">Kando</a>, the pie menu by Simon Schneegans. It installs as a Claude Code plugin.<br>
 Tell it what you want in your own words. It builds the menu, checks it, shows you a preview,<br>
