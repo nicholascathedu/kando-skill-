@@ -1,0 +1,444 @@
+{
+  "version": "3.0.0",
+  "menus": [
+    {
+      "shortcut": "Control+F15",
+      "shortcutID": "",
+      "useFixedPosition": false,
+      "fixedMenuPosition": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "anchored": false,
+      "hoverMode": false,
+      "tags": [
+        "text"
+      ],
+      "root": {
+        "name": "Text",
+        "icon": "text_fields",
+        "iconTheme": "material-symbols-rounded",
+        "type": "root",
+        "activateWorkflow": {
+          "quickSelectKey": "Backspace",
+          "actions": [
+            {
+              "type": "close-menu"
+            }
+          ]
+        },
+        "children": [
+          {
+            "name": "Search the web",
+            "icon": "search",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 0,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "ControlLeft+KeyC"
+                },
+                {
+                  "type": "delay",
+                  "duration": 0.15
+                },
+                {
+                  "type": "execute-command",
+                  "command": "pythonw kando_text.py search",
+                  "detached": true
+                }
+              ],
+              "quickSelectKey": "s"
+            }
+          },
+          {
+            "name": "Translate",
+            "icon": "translate",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 45,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "ControlLeft+KeyC"
+                },
+                {
+                  "type": "delay",
+                  "duration": 0.15
+                },
+                {
+                  "type": "execute-command",
+                  "command": "pythonw kando_text.py translate",
+                  "detached": true
+                }
+              ],
+              "quickSelectKey": "t"
+            }
+          },
+          {
+            "name": "Naming",
+            "icon": "data_object",
+            "iconTheme": "material-symbols-rounded",
+            "type": "submenu",
+            "angle": 90,
+            "activateWorkflow": {
+              "quickSelectKey": "Backspace",
+              "actions": [
+                {
+                  "type": "close-submenu"
+                }
+              ]
+            },
+            "children": [
+              {
+                "name": "snake_case",
+                "icon": "code",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 0,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyC"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.15
+                    },
+                    {
+                      "type": "execute-command",
+                      "command": "pythonw kando_text.py snake",
+                      "detached": true
+                    }
+                  ],
+                  "quickSelectKey": "s"
+                }
+              },
+              {
+                "name": "PascalCase",
+                "icon": "code",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 45,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyC"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.15
+                    },
+                    {
+                      "type": "execute-command",
+                      "command": "pythonw kando_text.py pascal",
+                      "detached": true
+                    }
+                  ],
+                  "quickSelectKey": "p"
+                }
+              },
+              {
+                "name": "camelCase",
+                "icon": "code",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 135,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyC"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.15
+                    },
+                    {
+                      "type": "execute-command",
+                      "command": "pythonw kando_text.py camel",
+                      "detached": true
+                    }
+                  ],
+                  "quickSelectKey": "c"
+                }
+              },
+              {
+                "name": "kebab-case",
+                "icon": "code",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 180,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyC"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.15
+                    },
+                    {
+                      "type": "execute-command",
+                      "command": "pythonw kando_text.py kebab",
+                      "detached": true
+                    }
+                  ],
+                  "quickSelectKey": "k"
+                }
+              }
+            ]
+          },
+          {
+            "name": "Join lines",
+            "icon": "join",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 135,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "ControlLeft+KeyC"
+                },
+                {
+                  "type": "delay",
+                  "duration": 0.15
+                },
+                {
+                  "type": "execute-command",
+                  "command": "pythonw kando_text.py join",
+                  "detached": true
+                }
+              ],
+              "quickSelectKey": "j"
+            }
+          },
+          {
+            "name": "Clipboard history",
+            "icon": "content_paste_search",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 180,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "MetaLeft+KeyV"
+                }
+              ],
+              "quickSelectKey": "v"
+            }
+          },
+          {
+            "name": "Dictate",
+            "icon": "mic",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 225,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "MetaLeft+KeyH"
+                }
+              ],
+              "quickSelectKey": "d"
+            }
+          },
+          {
+            "name": "Case",
+            "icon": "match_case",
+            "iconTheme": "material-symbols-rounded",
+            "type": "submenu",
+            "angle": 270,
+            "activateWorkflow": {
+              "quickSelectKey": "Backspace",
+              "actions": [
+                {
+                  "type": "close-submenu"
+                }
+              ]
+            },
+            "children": [
+              {
+                "name": "UPPER",
+                "icon": "keyboard_capslock",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 0,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyC"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.15
+                    },
+                    {
+                      "type": "execute-command",
+                      "command": "pythonw kando_text.py upper",
+                      "detached": true
+                    }
+                  ],
+                  "quickSelectKey": "u"
+                }
+              },
+              {
+                "name": "lower",
+                "icon": "text_decrease",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 180,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyC"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.15
+                    },
+                    {
+                      "type": "execute-command",
+                      "command": "pythonw kando_text.py lower",
+                      "detached": true
+                    }
+                  ],
+                  "quickSelectKey": "l"
+                }
+              },
+              {
+                "name": "Sentence case",
+                "icon": "short_text",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 225,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyC"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.15
+                    },
+                    {
+                      "type": "execute-command",
+                      "command": "pythonw kando_text.py sentence",
+                      "detached": true
+                    }
+                  ],
+                  "quickSelectKey": "s"
+                }
+              },
+              {
+                "name": "Title Case",
+                "icon": "title",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 315,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyC"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.15
+                    },
+                    {
+                      "type": "execute-command",
+                      "command": "pythonw kando_text.py title",
+                      "detached": true
+                    }
+                  ],
+                  "quickSelectKey": "t"
+                }
+              }
+            ]
+          },
+          {
+            "name": "Tidy spaces",
+            "icon": "format_clear",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 315,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "ControlLeft+KeyC"
+                },
+                {
+                  "type": "delay",
+                  "duration": 0.15
+                },
+                {
+                  "type": "execute-command",
+                  "command": "pythonw kando_text.py trim",
+                  "detached": true
+                }
+              ],
+              "quickSelectKey": "x"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "collections": []
+}
