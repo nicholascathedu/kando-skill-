@@ -22,6 +22,8 @@ removed sometimes). Adobe apps aren't reliably there, so use Material Symbols
 - ZBrush
 - Adobe Photoshop
 - Adobe Illustrator
+- Marvelous Designer
+- Marmoset Toolbag 5
 - Browsers (Chrome / Edge / Firefox)
 - Discord
 - Cross-app pipeline ideas
@@ -142,6 +144,15 @@ recording in the Chaos Visual Debugger (Epic's Chaos Visual Debugger guide, UE 5
 Asset-name snippet items (set-clipboard + Ctrl+V while renaming with F2): `M_`, `MI_`, `MF_`,
 `T_`, `SM_`, `SK_`, `BP_`, `WBP_`, `NS_`, suffixes `_BC`, `_N`, `_ORM`.
 
+**Physics test pie** (`examples/sim-and-render.json`): physics and VFX work is a loop of
+test, slow down, look closer, record. Play (Alt+P), Simulate (Alt+S), Game view (G),
+`slomo 0.25` / `slomo 1`, `stat unit`, and a Chaos recording submenu with
+`p.Chaos.StartVDRecording` / `p.Chaos.StopVDRecording` for the Chaos Visual Debugger. Record
+clip is Windows Game Bar (Win+Alt+R), a global key. It's on Ctrl+F14 because Ctrl+digit sets
+camera bookmarks in Unreal. Eject (to leave the possessed pawn during Play) is F8 on one Epic
+page and F10 on another, so check Editor Preferences > Keyboard Shortcuts before adding it.
+Fracture mode and the Niagara Debugger have no default key: bind one first if you want a slice.
+
 ## Blender — `appName: "blender"`
 
 Checked against Blender's default keymap source (`scripts/presets/keyconfig/keymap_data/blender_default.py`)
@@ -261,6 +272,49 @@ Checked against Adobe's "Default keyboard shortcuts" page for Illustrator, 2026-
 Same text-field trap as Photoshop: press Esc to leave the text first *(verify on your
 version)*. For icon work, Outline view, Shape Builder and Export for Screens are the three
 that save the most trips to the menus.
+
+## Marvelous Designer — `appName: "Marvelous"` *(verify the process name)*
+
+No radial menu of its own and lots of keys, so Kando helps. Rebind in Settings > User Settings
+> Shortcuts; the Active Tool Hotkey Viewer lists the keys for the current tool.
+
+| Action | Key |
+|---|---|
+| Simulation on / off | Space |
+| Freeze / Deactivate | Ctrl+K / Ctrl+J |
+| Strengthen (temporary stiffness) | Ctrl+H |
+| Hide 3D pattern | Shift+Q |
+| Transform / Edit pattern (2D) | A / Z *(verify in 2025)* |
+| Zoom to selected | F |
+| Camera: front, back, left, right | 2, 8, 4, 6 |
+| Camera: three-quarter, top, bottom | 3 and 1, 5, 0 |
+
+**Camera pie:** put each view where the camera looks from. Front (2) at the bottom, toward
+you, Back (8) at the top, Left and Right at the sides, the three-quarter views on the lower
+diagonals, Top and Bottom in a submenu. The example uses numpad keys; if your Marvelous wants the
+number row, change `NumpadN` to `DigitN`. A text field with focus eats number keys, so click the
+3D window first. A Garment submenu holds Simulate, Freeze, Deactivate, Strengthen and Hide.
+
+## Marmoset Toolbag 5 — `appName: "toolbag"` *(verify the process name)*
+
+No radial menu of its own. Hotkeys are editable in Edit > Hotkeys since 5.02, including
+viewport modes, render passes and workspaces (camera navigation keys can't be rebound).
+
+| Action | Key |
+|---|---|
+| Save scene | Ctrl+S |
+| Frame selection | Ctrl+F |
+| Hide / show selection | Ctrl+H |
+| Bake all | Ctrl+B |
+| Render viewport image | F10 |
+| Copy viewport to clipboard | F9 |
+| Render all images / all videos | F11 / F5 |
+
+**Present pie:** the order of a portfolio render: Bake, Render image, Render all images and
+videos, Copy viewport, Save at Down-left like every work menu. "Viewport to Discord" chains F9
+→ focus Discord → Ctrl+V, so you can post a grab for feedback without saving a file (works the
+same for PureRef). Turntables are a once-per-asset setup (Scene > Add Object > Turntable, Sync
+Loop Speed, then Render Video), so they belong in a note, not a slice.
 
 ## Browsers — `appName: "chrome"` / `"msedge"` / `"firefox"`
 
