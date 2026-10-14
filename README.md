@@ -107,7 +107,7 @@ details right and remembers them, and the menu ends up working the way you do.
 Maya is where I spend most of my day, so it got the first work menu. It opens on Ctrl+4, but only
 in Maya. Everywhere else the same key opens my everyday menu.
 
-<p align="center"><img src="docs/img/maya-menu.webp" alt="The example Maya work menu rendered in Amethyst Arsenal over a mock 3D viewport, in three color looks: the root ring with Display hovered, the Display submenu with Wireframe hovered, and the Studio submenu with Save everything hovered. Under each, the direction of every item." width="100%"></p>
+<p align="center"><img src="docs/img/maya-menu.webp" alt="The example Maya work menu rendered in Amethyst Arsenal over the author's own Maya scenes, in three color looks: the root ring with Display hovered and the Display submenu with Wireframe hovered, both over a viewport with two theatre masks, and the Studio submenu with Save everything hovered over a dark hall render with gold trim. Under each, the direction of every item." width="100%"></p>
 
 - Up frames the selection (F). I do that constantly, so it gets the easiest flick.
 - Down-left is Save and Down is "Studio" in every app I work in. From Maya, Down then Right goes
