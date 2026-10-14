@@ -93,14 +93,14 @@ Icon themes: `material-symbols-rounded` (icon = Material Symbols name like `save
 | `delay` | `duration` (**seconds**, decimals ok) | e.g. `0.2` while a console or dialog opens. |
 | `execute-command` | `command`, `detached` (true), `isolated` (false, Linux only) | Placeholders `{{app_name}}`, `{{window_name}}`, `{{pointer_x}}`, `{{pointer_y}}`. On Windows: `start "" "C:\\path\\app.exe"`, `start "" "shell:AppsFolder\\<AUMID>"` for Store apps. The editor's app picker writes the right command; prefer it. Kando doesn't wait for the command to finish before the next action, so follow it with a `delay`, or let one script do the whole round trip (copy, change, paste). |
 | `execute-macro` | `macro: [{type: keyDown|keyUp, key, delay(ms)}]` | Key codes. Record it in the editor. Release every key you press. |
-| `focus-window` | `appName?`, `windowName?` | Regex/partial; both must match if both set. Brings an app forward: "switch app", or copy-here-paste-there workflows. |
+| `focus-window` | `appName?`, `windowName?` | Matched like conditions (§6); both must match if both set. Brings an app forward: "switch app", or copy-here-paste-there workflows. If no window matches, Kando only logs a warning and the next steps still run, in whatever app is in front. Put `delay` 0.3 after it before pressing keys. |
 | `inhibit-shortcuts` | — | Turns off Kando's shortcuts for the rest of the workflow, so a simulated key can't re-trigger a menu. |
 | `open-file` | `path` | Opens with the default app; works for folders. |
 | `open-menu` | `menu` (name, first match) | Jump to another menu. Never follow with `close-menu`. |
 | `open-settings` | — | Opens the Kando editor. |
 | `open-uri` | `uri` | http(s), file:///, mailto:, app protocols (`steam://`, `ms-settings:`). |
 | `set-clipboard` | `text` | Text snippets. Pair with Ctrl+V to paste. Overwrites the clipboard. |
-| `send-websocket-message` | `url`, `message` | New in 3.0, no docs page yet. For OBS, Home Assistant, custom tools. |
+| `send-websocket-message` | `url`, `message` | New in 3.0, no docs page yet. Connects, sends one message, hangs up. Good for Home Assistant or your own tools. It can't drive OBS: obs-websocket (port 4455) needs a login handshake first, so use an OBS hotkey with `simulate-hotkey` instead. |
 | `simulate-hotkey` | `hotkey` | Key codes joined by `+`, e.g. `AltLeft+ShiftLeft+KeyD`. |
 
 Common combinations:
@@ -130,7 +130,10 @@ Common combinations:
 
 - All set conditions must match. Among menus on the same shortcut, the one with the **most**
   matching conditions wins; a menu with none is the fallback.
-- `appName`, `windowName`: case-insensitive "contains"; a value starting with `/` is a regex.
+- `appName`, `windowName`: plain text is a case-insensitive "contains". A value starting with
+  `/` is a JavaScript regex written `/pattern/flags` (flags `g`, `i`, `m`, `y`), and it is
+  case-sensitive unless it ends in `i`: `/maya|blender/i`. A value like `/maya` with no
+  closing slash makes Kando throw an error, so that shortcut opens nothing.
 - On Windows `appName` is the focused process's **executable file name** including `.exe`
   (from `QueryFullProcessImageName`, folder path stripped), e.g. `maya.exe`, `UnrealEditor.exe`.
   Because the match is "contains", `maya` or `UnrealEditor` match too. The editor's window
