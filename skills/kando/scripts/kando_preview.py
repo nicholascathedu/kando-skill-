@@ -24,9 +24,9 @@ import json
 import math
 import sys
 
-from kando_layout import (COMPASS, angle_problems, angular_distance, child_items, compass,
-                          item_name, levels, menu_list, raw_angle, resolve_menus_path,
-                          use_utf8_output)
+from kando_layout import (COMPASS, KandoFileError, angle_problems, angular_distance,
+                          child_items, compass, item_name, levels, menu_list, raw_angle,
+                          read_json, resolve_menus_path, use_utf8_output)
 
 ARROWS = ["↑", "↗", "→", "↘", "↓", "↙", "←", "↖"]
 
@@ -401,23 +401,9 @@ def render_html(menus, palette, accent):
 def load(path):
     """Parsed JSON, or exit with a one-line reason (never a traceback)."""
     try:
-        with open(path, encoding="utf-8-sig") as f:
-            text = f.read()
-    except FileNotFoundError:
-        sys.exit(f"Cannot find {path}.")
-    except UnicodeDecodeError:
-        sys.exit(f"{path} is not UTF-8 text. Kando reads its files as UTF-8; re-save it as UTF-8.")
-    except OSError as e:
-        sys.exit(f"Cannot read {path}: {e.strerror or e.__class__.__name__}.")
-    if not text.strip():
-        sys.exit(f"{path} is empty.")
-    try:
-        return json.loads(text)
-    except json.JSONDecodeError as e:
-        sys.exit(f"{path} is not valid JSON (line {e.lineno}, column {e.colno}). "
-                 "Run kando_check.py on it first.")
-    except RecursionError:
-        sys.exit(f"{path} is nested too deeply to read.")
+        return read_json(path)
+    except KandoFileError as e:
+        sys.exit(f"{path} {e.reason}")
 
 
 def main():
