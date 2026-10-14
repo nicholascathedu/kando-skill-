@@ -1,0 +1,41 @@
+name: kando update check
+# Once a week, compare the checker with Kando's newest settings schemas and open an issue
+# when Kando added, renamed or removed something.
+on:
+  schedule:
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+jobs:
+  drift:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: git clone --depth 1 https://github.com/kando-menu/kando.git "$RUNNER_TEMP/kando"
+      - id: drift
+        run: |
+          set +e
+          python .github/scripts/kando_drift.py "$RUNNER_TEMP/kando" > drift.md
+          echo "status=$?" >> "$GITHUB_OUTPUT"
+          cat drift.md
+      - if: steps.drift.outputs.status == '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          title="Kando changed its settings format"
+          if [ -n "$(gh issue list --state open --search "in:title \"$title\"" --json number --jq '.[].number')" ]; then
+            echo "An issue is already open."; exit 0
+          fi
+          sha=$(git -C "$RUNNER_TEMP/kando" rev-parse --short HEAD)
+          { echo "The weekly check against Kando's main branch (commit $sha) found:"; echo
+            cat drift.md; echo
+            echo "Update the lists at the top of skills/kando/scripts/kando_check.py (and the references) to match, then close this issue."
+          } > body.md
+          gh issue create --title "$title" --body-file body.md
+      - if: steps.drift.outputs.status != '0' && steps.drift.outputs.status != '1'
+        run: exit 1
