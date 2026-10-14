@@ -13,6 +13,22 @@ Defaults come from `src/common/settings-schemata/general-settings-v1.ts`. Edit i
 
 ## 1. Tuning recipes
 
+**Switching between whole setups.** `scripts/kando_presets.py` bundles these recipes into
+presets and applies one in a single step, after backing up `config.json` and running the
+checker on the result:
+
+| Preset | For | What it sets |
+|---|---|---|
+| `learning` | new menus, still looking | wedges and key badges on, no instant firing, pause 150 ms, right-click goes back |
+| `speed` | directions are automatic | fires after 100 px, fades 50/70 ms, second press closes, ink fix off |
+| `pen` | painting with a tablet | ink fix on, pause 200 ms, more jitter and angle tolerance, no instant firing |
+| `kando` | starting over | Kando's own defaults for all of the above |
+
+`save NAME` keeps the user's current values as their own preset (in `claude-presets.json`).
+A **Mode** submenu with one item per preset (`execute-command`:
+`pythonw C:\path\to\kando_presets.py apply pen`) switches without opening settings. Kando
+reloads `config.json` on its own. Settings a preset doesn't name are left alone.
+
 **"Make it snappier"**
 - `fadeOutDuration`: 60–80 (default 100). Actions after `close-menu` wait for the fade-out,
   so this is the biggest felt speed-up for hotkey menus.
