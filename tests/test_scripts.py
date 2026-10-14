@@ -425,7 +425,7 @@ class CommandLine(unittest.TestCase):
                     r = self.run_script(os.path.join(SCRIPTS, script), path, *extra)
                     self.assertNotIn("Traceback", r.stdout + r.stderr, f"{script} {name}")
             r = self.run_script(os.path.join(SCRIPTS, "kando_check.py"), paths["latin1.json"])
-            self.assertIn("Not UTF-8", r.stdout)
+            self.assertIn("not UTF-8", r.stdout)
             r = self.run_script(os.path.join(SCRIPTS, "kando_check.py"), paths["nan.json"])
             self.assertIn("NaN is not allowed", r.stdout)
             r = self.run_script(os.path.join(SCRIPTS, "kando_preview.py"), paths["names.json"])
@@ -452,7 +452,7 @@ class CommandLine(unittest.TestCase):
         try:
             r = self.run_script(os.path.join(SCRIPTS, "kando_check.py"), f.name)
             self.assertEqual(r.returncode, 1)
-            self.assertIn("Not valid JSON", r.stdout)
+            self.assertIn("not valid JSON", r.stdout)
         finally:
             os.unlink(f.name)
 

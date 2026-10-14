@@ -21,8 +21,8 @@ import json
 import re
 import sys
 
-from kando_layout import (angle_problems, angular_distance, compass, item_name, levels,
-                          raw_angle, resolve_menus_path, use_utf8_output)
+from kando_layout import (KandoFileError, angle_problems, angular_distance, compass, item_name,
+                          levels, raw_angle, read_json, resolve_menus_path, use_utf8_output)
 
 # The newest settings format this checker knows. Kando refuses files from a newer major.
 KANDO_MAJOR = 3
@@ -140,6 +140,11 @@ CONFIG_MIN = {"zoomFactor": 0.5, "gamepadBackButton": -1, "gamepadCloseButton": 
 def is_number(value):
     return isinstance(value, (int, float)) and not isinstance(value, bool)
 
+
+def has_type(value, typ):
+    """isinstance, except that true/false never count as numbers (Python says bool is int)."""
+    return isinstance(value, typ) and (typ is bool or not isinstance(value, bool))
+
 # ------------------------------------------------------------------------- reporting --
 
 
@@ -224,10 +229,78 @@ def check_shortcut(shortcut, where, rep):
 # --------------------------------------------------------------------- menu checks --
 
 
+def check_action(a, where, rep):
+    """One action: its type, its fields, and the mistakes specific to that type."""
+    if not isinstance(a, dict) or "type" not in a:
+        rep.error(where, "Each action needs a 'type'.")
+        return None
+    t = a["type"]
+    if t not in ACTION_FIELDS:
+        rep.error(where, f"Unknown action type '{t}'. Valid: {', '.join(sorted(ACTION_FIELDS))}.")
+        return t
+    for field, (typ, required) in ACTION_FIELDS[t].items():
+        if field not in a:
+            if required:
+                rep.error(where, f"'{t}' needs a '{field}'.")
+        elif not has_type(a[field], typ):
+            rep.error(where, f"'{field}' has the wrong type.")
+    for field in a:
+        if field != "type" and field not in ACTION_FIELDS[t]:
+            rep.warn(where, f"Unknown field '{field}' on '{t}'; Kando drops it.")
+    if t == "simulate-hotkey" and isinstance(a.get("hotkey"), str):
+        check_hotkey(a["hotkey"], where, rep)
+    if t == "execute-macro" and isinstance(a.get("macro"), list):
+        check_macro(a["macro"], where, rep)
+    if t == "delay" and is_number(a.get("duration")) and a["duration"] > 5:
+        rep.warn(where, f"delay is in SECONDS; {a['duration']} s is long. Did you mean ms?")
+    if t == "execute-command" and re.search(r"[A-Za-z]:\\\\?Users\\\\?[^\\\\\"]+|/(?:home|Users)/[^/\s\"]+/",
+                                            a.get("command", "")):
+        rep.tip(where, "Command uses a user-specific path; it will break on other PCs if shared.")
+    return t
+
+
+def check_macro(events, where, rep):
+    pressed, released = set(), set()
+    for j, ev in enumerate(events):
+        ew = f"{where} > macro[{j}]"
+        if not isinstance(ev, dict) or ev.get("type") not in ("keyDown", "keyUp") \
+                or not isinstance(ev.get("key"), str):
+            rep.error(ew, "Macro events need type keyDown/keyUp and a key.")
+            continue
+        check_hotkey(ev["key"], ew, rep)
+        (pressed if ev["type"] == "keyDown" else released).add(ev["key"])
+    stuck = pressed - released
+    if stuck:
+        rep.warn(where, f"Macro presses {sorted(stuck)} but never releases them; "
+                        "the key can stay held down.")
+
+
+def check_action_order(types, where, rep, kind):
+    """Mistakes in the order of a workflow's actions, given their types in order."""
+    if "open-menu" in types and "close-menu" in types[types.index("open-menu") + 1:]:
+        rep.warn(where, f"{kind}: close-menu after open-menu closes the menu you just opened.")
+    if kind != "selectWorkflow":
+        return
+    if not types:
+        rep.warn(where, "This button does nothing (empty selectWorkflow).")
+        return
+    key_steps = [i for i, t in enumerate(types) if t in ("simulate-hotkey", "execute-macro")]
+    if not key_steps:
+        return
+    if "close-menu" not in types:
+        rep.tip(where, "Presses keys but never closes the menu. While the menu is open Kando "
+                       "has keyboard focus, so app hotkeys land in Kando, not your app "
+                       "(unless keepInputFocus is on). Fine for global keys like volume or "
+                       "media; otherwise add close-menu FIRST.")
+    elif types.index("close-menu") > key_steps[0]:
+        rep.warn(where, "Keys are pressed before close-menu, so they may land in Kando's "
+                        "own window instead of your app. Put close-menu first.")
+
+
 def check_workflow(wf, where, rep, kind):
     if not isinstance(wf, dict):
         rep.error(where, f"{kind} must be an object with 'actions'.")
-        return []
+        return
     for k in wf:
         if k not in ("actions", "quickSelectKey"):
             rep.warn(where, f"Unknown key '{k}' in {kind}; Kando drops it.")
@@ -237,67 +310,9 @@ def check_workflow(wf, where, rep, kind):
     actions = wf.get("actions", [])
     if not isinstance(actions, list):
         rep.error(where, f"{kind}.actions must be a list.")
-        return []
-    types = []
-    for i, a in enumerate(actions):
-        aw = f"{where} > {kind}[{i}]"
-        if not isinstance(a, dict) or "type" not in a:
-            rep.error(aw, "Each action needs a 'type'.")
-            continue
-        t = a["type"]
-        types.append(t)
-        if t not in ACTION_FIELDS:
-            rep.error(aw, f"Unknown action type '{t}'. Valid: {', '.join(sorted(ACTION_FIELDS))}.")
-            continue
-        for field, (typ, required) in ACTION_FIELDS[t].items():
-            if field not in a:
-                if required:
-                    rep.error(aw, f"'{t}' needs a '{field}'.")
-            elif not isinstance(a[field], typ) or (typ is not bool and isinstance(a[field], bool)
-                                                   and typ != bool):
-                rep.error(aw, f"'{field}' has the wrong type.")
-        for field in a:
-            if field != "type" and field not in ACTION_FIELDS[t]:
-                rep.warn(aw, f"Unknown field '{field}' on '{t}'; Kando drops it.")
-        if t == "simulate-hotkey" and isinstance(a.get("hotkey"), str):
-            check_hotkey(a["hotkey"], aw, rep)
-        if t == "execute-macro" and isinstance(a.get("macro"), list):
-            for j, ev in enumerate(a["macro"]):
-                if not isinstance(ev, dict) or ev.get("type") not in ("keyDown", "keyUp") \
-                        or not isinstance(ev.get("key"), str):
-                    rep.error(f"{aw} > macro[{j}]", "Macro events need type keyDown/keyUp and a key.")
-                else:
-                    check_hotkey(ev["key"], f"{aw} > macro[{j}]", rep)
-            downs = [e.get("key") for e in a["macro"] if isinstance(e, dict) and e.get("type") == "keyDown"]
-            ups = [e.get("key") for e in a["macro"] if isinstance(e, dict) and e.get("type") == "keyUp"]
-            stuck = set(downs) - set(ups)
-            if stuck:
-                rep.warn(aw, f"Macro presses {sorted(stuck)} but never releases them; "
-                             "the key can stay held down.")
-        if t == "delay" and isinstance(a.get("duration"), (int, float)) and a["duration"] > 5:
-            rep.warn(aw, f"delay is in SECONDS; {a['duration']} s is long. Did you mean ms?")
-        if t == "execute-command" and re.search(r"[A-Za-z]:\\\\?Users\\\\?[^\\\\\"]+|/(?:home|Users)/[^/\s\"]+/",
-                                                a.get("command", "")):
-            rep.tip(aw, "Command uses a user-specific path; it will break on other PCs if shared.")
-    # Order problems
-    if "open-menu" in types:
-        idx = types.index("open-menu")
-        if "close-menu" in types[idx + 1:]:
-            rep.warn(where, f"{kind}: close-menu after open-menu closes the menu you just opened.")
-    key_actions = {"simulate-hotkey", "execute-macro"}
-    if kind == "selectWorkflow" and any(t in key_actions for t in types):
-        first_key = min(types.index(t) for t in key_actions if t in types)
-        if "close-menu" not in types:
-            rep.tip(where, "Presses keys but never closes the menu. While the menu is open Kando "
-                           "has keyboard focus, so app hotkeys land in Kando, not your app "
-                           "(unless keepInputFocus is on). Fine for global keys like volume or "
-                           "media; otherwise add close-menu FIRST.")
-        elif types.index("close-menu") > first_key:
-            rep.warn(where, "Keys are pressed before close-menu, so they may land in Kando's "
-                            "own window instead of your app. Put close-menu first.")
-    if kind == "selectWorkflow" and not types:
-        rep.warn(where, "This button does nothing (empty selectWorkflow).")
-    return types
+        return
+    types = [check_action(a, f"{where} > {kind}[{i}]", rep) for i, a in enumerate(actions)]
+    check_action_order([t for t in types if t is not None], where, rep, kind)
 
 
 def check_children(parent, where, rep, depth, stats):
@@ -465,78 +480,69 @@ def condition_key(menu):
     return json.dumps(c, sort_keys=True)
 
 
-def check_menus(data, rep):
-    if isinstance(data, dict) and "menu" in data and "menus" not in data:
-        data = {"menus": [data["menu"]]}  # a single exported menu
-    if not isinstance(data, dict) or not isinstance(data.get("menus"), list):
-        rep.error("menus.json", "Top level must be an object with a 'menus' list.")
+def check_conditions(cond, where, rep):
+    if not isinstance(cond, dict):
+        rep.error(where, "'conditions' must be an object.")
         return
-    for k in data:
-        if k not in ("version", "menus", "collections"):
-            rep.warn("menus.json", f"Unknown top-level key '{k}'; Kando drops it.")
-    check_version(data, "menus.json", rep)
-    by_shortcut = {}
-    seen_names = {}
-    for mi, menu in enumerate(data["menus"]):
-        root = menu.get("root", {}) if isinstance(menu, dict) else {}
-        name = item_name(root, f"menu #{mi}")
-        where = f"[{name}]"
-        if not isinstance(menu, dict) or "root" not in menu:
-            rep.error(where, "Each menu needs a 'root' item.")
-            continue
-        for k in menu:
-            if k in OLD_KEYS:
-                rep.warn(where, OLD_KEYS[k] + " The old key is ignored.")
-            elif k not in MENU_KEYS:
-                rep.warn(where, f"Unknown menu key '{k}'; Kando drops it.")
-        if name in seen_names:
-            rep.warn(where, "Another menu has the same name. open-menu and --menu pick the first one.")
-        seen_names[name] = True
-        sc = menu.get("shortcut", "")
-        if not isinstance(sc, str):
-            rep.error(where, "'shortcut' must be a string.")
-            sc = ""
-        check_shortcut(sc, where, rep)
-        if not sc and not menu.get("shortcutID"):
-            rep.tip(where, "No shortcut. Reachable only via open-menu, CLI (--menu) or IPC.")
-        cond = menu.get("conditions")
-        if cond is not None:
-            if not isinstance(cond, dict):
-                rep.error(where, "'conditions' must be an object.")
-            else:
-                for k in cond:
-                    if k not in ("appName", "windowName", "screenArea"):
-                        rep.warn(where, f"Unknown condition '{k}'; Kando drops it.")
-                app = cond.get("appName", "")
-                if isinstance(app, str) and app.startswith("/"):
-                    try:
-                        re.compile(app.strip("/"))
-                    except re.error as e:
-                        rep.error(where, f"appName regex does not compile: {e}")
-        if menu.get("anchored"):
-            rep.tip(where, "anchored is on. Simon's advice: anchored mode basically breaks "
-                           "marking mode; use it mainly for touch or gamepad.")
-        fp = menu.get("fixedMenuPosition")
-        if fp is not None and not isinstance(fp, dict):
-            rep.error(where, "fixedMenuPosition must be an object like {\"x\": 0.5, \"y\": 0.5}.")
-        elif isinstance(fp, dict):
-            for ax in ("x", "y"):
-                v = fp.get(ax)
-                if not is_number(v):
-                    rep.error(where, f"fixedMenuPosition.{ax} must be a number.")
-                elif not 0 <= v <= 1:
-                    rep.warn(where, f"fixedMenuPosition.{ax} is {v:g}. It is a fraction of the "
-                                    "screen (0 to 1); Kando multiplies it by the screen size, so "
-                                    "this opens the menu partly or fully off screen.")
-        if sc:
-            by_shortcut.setdefault(sc.lower(), []).append((name, condition_key(menu)))
-        stats = {"items": 0, "max_depth": 0}
-        check_item(root, where, rep, 0, stats)
-        if isinstance(root, dict):
-            check_layout(menu, where, rep)
-        if stats["max_depth"] > 3:
-            rep.tip(where, f"Menu is {stats['max_depth'] + 1} levels deep; past 3 the gestures get "
-                           "hard to remember.")
+    for k in cond:
+        if k not in ("appName", "windowName", "screenArea"):
+            rep.warn(where, f"Unknown condition '{k}'; Kando drops it.")
+    app = cond.get("appName", "")
+    if isinstance(app, str) and app.startswith("/"):
+        try:
+            re.compile(app.strip("/"))
+        except re.error as e:
+            rep.error(where, f"appName regex does not compile: {e}")
+
+
+def check_fixed_position(fp, where, rep):
+    if not isinstance(fp, dict):
+        rep.error(where, "fixedMenuPosition must be an object like {\"x\": 0.5, \"y\": 0.5}.")
+        return
+    for ax in ("x", "y"):
+        v = fp.get(ax)
+        if not is_number(v):
+            rep.error(where, f"fixedMenuPosition.{ax} must be a number.")
+        elif not 0 <= v <= 1:
+            rep.warn(where, f"fixedMenuPosition.{ax} is {v:g}. It is a fraction of the "
+                            "screen (0 to 1); Kando multiplies it by the screen size, so "
+                            "this opens the menu partly or fully off screen.")
+
+
+def check_menu(menu, where, rep):
+    """One menu's own fields and its whole item tree. Returns its shortcut ('' if none)."""
+    for k in menu:
+        if k in OLD_KEYS:
+            rep.warn(where, OLD_KEYS[k] + " The old key is ignored.")
+        elif k not in MENU_KEYS:
+            rep.warn(where, f"Unknown menu key '{k}'; Kando drops it.")
+    sc = menu.get("shortcut", "")
+    if not isinstance(sc, str):
+        rep.error(where, "'shortcut' must be a string.")
+        sc = ""
+    check_shortcut(sc, where, rep)
+    if not sc and not menu.get("shortcutID"):
+        rep.tip(where, "No shortcut. Reachable only via open-menu, CLI (--menu) or IPC.")
+    if menu.get("conditions") is not None:
+        check_conditions(menu["conditions"], where, rep)
+    if menu.get("anchored"):
+        rep.tip(where, "anchored is on. Simon's advice: anchored mode basically breaks "
+                       "marking mode; use it mainly for touch or gamepad.")
+    if menu.get("fixedMenuPosition") is not None:
+        check_fixed_position(menu["fixedMenuPosition"], where, rep)
+    root = menu["root"]
+    stats = {"items": 0, "max_depth": 0}
+    check_item(root, where, rep, 0, stats)
+    if isinstance(root, dict):
+        check_layout(menu, where, rep)
+    if stats["max_depth"] > 3:
+        rep.tip(where, f"Menu is {stats['max_depth'] + 1} levels deep; past 3 the gestures get "
+                       "hard to remember.")
+    return sc
+
+
+def check_shared_shortcuts(by_shortcut, rep):
+    """by_shortcut: shortcut -> [(menu name, condition key)] for every menu using it."""
     for sc, menus in by_shortcut.items():
         conds = [c for _, c in menus]
         if "{}" not in conds:
@@ -544,17 +550,16 @@ def check_menus(data, rep):
                                       "app the key is still swallowed but no menu opens. Add a "
                                       "fallback menu with no conditions, or, if another app "
                                       "needs this key, move the menus to a combo nothing uses.")
-        if len(menus) < 2:
-            continue
-        dupes = {c for c in conds if conds.count(c) > 1}
-        for c in dupes:
+        for c in {c for c in conds if conds.count(c) > 1}:
             names = [n for n, cc in menus if cc == c]
             rep.warn(f"shortcut {sc}", f"Menus {names} share this shortcut with identical "
                                         "conditions, so only one of them can ever open.")
-    cols = data.get("collections", [])
+
+
+def check_collections(cols, rep):
     if not isinstance(cols, list):
         rep.error("collections", "'collections' must be a list.")
-        cols = []
+        return
     for ci, c in enumerate(cols):
         cw = f"collections[{ci}]"
         if not isinstance(c, dict):
@@ -566,6 +571,35 @@ def check_menus(data, rep):
         tags = c.get("tags", [])
         if not isinstance(tags, list) or not all(isinstance(t, str) for t in tags):
             rep.error(cw, "'tags' must be a list of strings.")
+
+
+def check_menus(data, rep):
+    if isinstance(data, dict) and "menu" in data and "menus" not in data:
+        data = {"menus": [data["menu"]]}  # a single exported menu
+    if not isinstance(data, dict) or not isinstance(data.get("menus"), list):
+        rep.error("menus.json", "Top level must be an object with a 'menus' list.")
+        return
+    for k in data:
+        if k not in ("version", "menus", "collections"):
+            rep.warn("menus.json", f"Unknown top-level key '{k}'; Kando drops it.")
+    check_version(data, "menus.json", rep)
+    by_shortcut = {}
+    seen_names = set()
+    for mi, menu in enumerate(data["menus"]):
+        root = menu.get("root", {}) if isinstance(menu, dict) else {}
+        name = item_name(root, f"menu #{mi}")
+        where = f"[{name}]"
+        if not isinstance(menu, dict) or "root" not in menu:
+            rep.error(where, "Each menu needs a 'root' item.")
+            continue
+        if name in seen_names:
+            rep.warn(where, "Another menu has the same name. open-menu and --menu pick the first one.")
+        seen_names.add(name)
+        sc = check_menu(menu, where, rep)
+        if sc:
+            by_shortcut.setdefault(sc.lower(), []).append((name, condition_key(menu)))
+    check_shared_shortcuts(by_shortcut, rep)
+    check_collections(data.get("collections", []), rep)
 
 
 def check_config(cfg, rep):
@@ -587,8 +621,7 @@ def check_config(cfg, rep):
         else:
             for typ, keys in CONFIG_TYPES.items():
                 if k in keys.split():
-                    bad = not isinstance(v, typ) or (typ != bool and isinstance(v, bool))
-                    if bad:
+                    if not has_type(v, typ):
                         rep.error(w, f"Wrong type: expected {getattr(typ, '__name__', 'number')}.")
                     elif typ == dict and not all(
                             isinstance(t, dict) and all(isinstance(c, str) for c in t.values())
@@ -627,40 +660,22 @@ def scan_privacy(text, rep):
 # ------------------------------------------------------------------------------ main --
 
 
-def _reject_constant(name):
-    raise ValueError(name)
-
-
 def load(path, rep):
+    """The parsed file, or None after reporting why Kando can't use it. Exits with code 2
+    when there is no file to check at all."""
     try:
-        with open(path, encoding="utf-8-sig") as f:
-            text = f.read()
-    except FileNotFoundError:
-        print(f"Cannot find {path}")
-        sys.exit(2)
-    except UnicodeDecodeError as e:
-        rep.error(path, f"Not UTF-8 text (byte 0x{e.object[e.start]:02x} at position {e.start}). "
-                        "Kando reads its files as UTF-8, so the file fails to load or names turn "
-                        "into replacement marks. Re-save it as UTF-8.")
-        return None, ""
-    except OSError as e:
-        print(f"Cannot read {path}: {e.strerror or e.__class__.__name__}")
-        sys.exit(2)
-    if not text.strip():
-        rep.error(path, "The file is empty. Kando needs at least {\"version\": ..., \"menus\": []}.")
-        return None, ""
-    try:
-        return json.loads(text, parse_constant=_reject_constant), text
-    except json.JSONDecodeError as e:
-        rep.error(path, f"Not valid JSON (line {e.lineno}, column {e.colno}): {e.msg}. "
-                        "Common causes: trailing comma, missing comma, unescaped backslash "
-                        "in a Windows path (write \\\\).")
-    except ValueError as e:
-        rep.error(path, f"Not valid JSON: {e} is not allowed. Write a plain number.")
-    except RecursionError:
-        rep.error(path, "Nested too deeply for this checker to read. No menu needs that many "
-                        "levels; look for a submenu that accidentally contains itself.")
-    return None, ""
+        return read_json(path)
+    except KandoFileError as e:
+        if e.unreadable:
+            print(f"{path} {e.reason}")
+            sys.exit(2)
+        rep.error(path, "The file " + e.reason)
+        return None
+
+
+def read_text(path):
+    with open(path, encoding="utf-8-sig") as f:
+        return f.read()
 
 
 def main():
@@ -672,17 +687,17 @@ def main():
     args.menus = resolve_menus_path(args.menus)
     use_utf8_output()
     rep = Report()
-    data, text = load(args.menus, rep)
+    data = load(args.menus, rep)
     if data is not None:
         check_menus(data, rep)
         if args.publish:
-            scan_privacy(text, rep)
+            scan_privacy(read_text(args.menus), rep)
     if args.config:
-        cfg, ctext = load(args.config, rep)
+        cfg = load(args.config, rep)
         if cfg is not None:
             check_config(cfg, rep)
             if args.publish:
-                scan_privacy(ctext, rep)
+                scan_privacy(read_text(args.config), rep)
     rep.print()
     sys.exit(1 if rep.count("ERROR") else 0)
 

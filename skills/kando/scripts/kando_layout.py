@@ -13,7 +13,10 @@ How Kando reads fixed angles, in list order:
   - everything else is spread evenly in the gaps, leaving room for the way back.
 """
 
+import json
 import math
+import os
+import sys
 
 COMPASS = ["Up", "Up-right", "Right", "Down-right", "Down", "Down-left", "Left", "Up-left"]
 
@@ -171,7 +174,6 @@ def levels(menu):
 def use_utf8_output():
     """Windows consoles often default to a legacy code page that can't print ° or ▸.
     Switch stdout to UTF-8 (falling back to replacement characters) so output never crashes."""
-    import sys
     for stream in (sys.stdout, sys.stderr):
         try:
             stream.reconfigure(encoding="utf-8", errors="replace")
@@ -181,8 +183,6 @@ def use_utf8_output():
 
 def kando_config_dirs(platform=None, env=None, home=None):
     """Where Kando keeps menus.json and config.json on this OS, most likely first."""
-    import os
-    import sys
     platform = platform or sys.platform
     env = os.environ if env is None else env
     home = home or os.path.expanduser("~")
@@ -201,7 +201,6 @@ def kando_config_dirs(platform=None, env=None, home=None):
 
 def find_kando_file(name, platform=None, env=None, home=None):
     """The first existing Kando config file called `name`, or None."""
-    import os
     for d in kando_config_dirs(platform, env, home):
         path = os.path.join(d, name)
         if os.path.isfile(path):
@@ -211,7 +210,6 @@ def find_kando_file(name, platform=None, env=None, home=None):
 
 def resolve_menus_path(path):
     """Use the given path, or find Kando's own menus.json. Exits with a clear message if neither."""
-    import sys
     if path:
         return path
     found = find_kando_file("menus.json")
@@ -223,3 +221,50 @@ def resolve_menus_path(path):
         print(f"  {d}")
     print("Pass the path to your menus.json, for example: kando_check.py path/to/menus.json")
     sys.exit(2)
+
+
+class KandoFileError(Exception):
+    """A Kando file that can't be used. `reason` reads after the file's name, e.g.
+    "menus.json" + " is empty."; `unreadable` is True when the file couldn't even be opened
+    (missing, or no permission), as opposed to opened but not usable."""
+
+    def __init__(self, reason, unreadable=False):
+        super().__init__(reason)
+        self.reason = reason
+        self.unreadable = unreadable
+
+
+def _reject_constant(name):
+    raise ValueError(name)
+
+
+def read_json(path):
+    """Parse a Kando JSON file the way Kando would accept it, or raise KandoFileError.
+    Kando reads UTF-8 (a BOM is fine) and strict JSON, so NaN and Infinity are refused."""
+    try:
+        with open(path, encoding="utf-8-sig") as f:
+            text = f.read()
+    except FileNotFoundError:
+        raise KandoFileError("was not found.", unreadable=True) from None
+    except UnicodeDecodeError as e:
+        raise KandoFileError(
+            f"is not UTF-8 text (byte 0x{e.object[e.start]:02x} at position {e.start}). Kando "
+            "reads its files as UTF-8, so the file fails to load or names turn into replacement "
+            "marks. Re-save it as UTF-8.") from None
+    except OSError as e:
+        raise KandoFileError(f"cannot be read ({e.strerror or e.__class__.__name__}).",
+                             unreadable=True) from None
+    if not text.strip():
+        raise KandoFileError('is empty. Kando needs at least {"version": ..., "menus": []}.')
+    try:
+        return json.loads(text, parse_constant=_reject_constant)
+    except json.JSONDecodeError as e:
+        raise KandoFileError(
+            f"is not valid JSON (line {e.lineno}, column {e.colno}): {e.msg}. Common causes: "
+            "trailing comma, missing comma, unescaped backslash in a Windows path "
+            "(write \\\\).") from None
+    except ValueError as e:
+        raise KandoFileError(f"is not valid JSON: {e} is not allowed. Write a plain number.") from None
+    except RecursionError:
+        raise KandoFileError("is nested too deeply to read. No menu needs that many levels; look "
+                             "for a submenu that accidentally contains itself.") from None

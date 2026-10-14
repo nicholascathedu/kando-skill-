@@ -26,7 +26,11 @@ import time
 KEEP = 10
 BACKUP_DIR = "claude-backups"
 HERE = os.path.dirname(os.path.abspath(__file__))
-CHECKER = os.path.join(HERE, "..", "skills", "kando", "scripts", "kando_check.py")
+SCRIPTS = os.path.join(HERE, "..", "skills", "kando", "scripts")
+CHECKER = os.path.join(SCRIPTS, "kando_check.py")
+sys.path.insert(0, SCRIPTS)
+
+from kando_layout import KandoFileError, read_json  # noqa: E402
 
 
 def target(event):
@@ -67,29 +71,18 @@ def before(path):
             pass
 
 
-def is_json(path):
-    try:
-        with open(path, encoding="utf-8-sig") as f:
-            text = f.read()
-        if not text.strip():
-            return False, "the file is empty"
-        json.loads(text)
-        return True, ""
-    except (OSError, UnicodeDecodeError, ValueError, RecursionError) as e:
-        return False, str(e)
-
-
 def after(path):
     """Return (exit code, message for Claude)."""
-    ok, why = is_json(path)
+    try:
+        read_json(path)
+    except KandoFileError as e:
+        _, saved = backups(path)
+        if not saved:
+            return 2, f"The edit broke menus.json: it {e.reason} There was no backup to restore. Fix it now."
+        shutil.copy2(saved[-1], path)
+        return 2, (f"The edit broke menus.json: it {e.reason} The menu guard put back the copy from "
+                   f"just before this edit ({saved[-1]}). Make the change again with valid JSON.")
     _, saved = backups(path)
-    if not ok:
-        if saved:
-            shutil.copy2(saved[-1], path)
-            return 2, (f"menus.json stopped being valid JSON ({why}), so the menu guard put back "
-                       f"the copy from just before this edit ({saved[-1]}). Make the change again "
-                       "with valid JSON.")
-        return 2, f"menus.json is not valid JSON ({why}) and there was no backup to restore. Fix it now."
     run = subprocess.run([sys.executable, CHECKER, path], capture_output=True, text=True,
                          encoding="utf-8", errors="replace")
     report = (run.stdout or "").strip()

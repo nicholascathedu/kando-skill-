@@ -27,7 +27,8 @@ import sys
 from urllib.parse import urlsplit
 
 from kando_check import PRIVACY_PATTERNS
-from kando_layout import compass, levels, menu_list, resolve_menus_path, use_utf8_output
+from kando_layout import (KandoFileError, compass, levels, menu_list, read_json,
+                          resolve_menus_path, use_utf8_output)
 
 PLACEHOLDER = "- (add as you learn)"
 MAX_DEPTH = 50  # deeper than any real menu; stops runaway recursion on odd files
@@ -460,25 +461,13 @@ def build_profile(data, cfg=None, sources="menus.json", today=None):
 UNREADABLE = object()
 
 
-def load(path, what):
+def load(path):
     """Parsed JSON, or UNREADABLE with a message on stderr. Never prints the full path."""
-    name = os.path.basename(path)
     try:
-        with open(path, encoding="utf-8-sig") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        print(f"Cannot find {what} ({name}).", file=sys.stderr)
-    except UnicodeDecodeError:
-        print(f"{name} is not UTF-8 text. Kando reads its files as UTF-8; re-save it as UTF-8.",
-              file=sys.stderr)
-    except OSError as e:
-        print(f"Cannot read {name}: {e.__class__.__name__}.", file=sys.stderr)
-    except json.JSONDecodeError as e:
-        print(f"{name} is not valid JSON (line {e.lineno}, column {e.colno}). "
-              "Run kando_check.py on it first.", file=sys.stderr)
-    except RecursionError:
-        print(f"{name} is nested too deeply to read.", file=sys.stderr)
-    return UNREADABLE
+        return read_json(path)
+    except KandoFileError as e:
+        print(f"{os.path.basename(path)} {e.reason}", file=sys.stderr)
+        return UNREADABLE
 
 
 def main():
@@ -490,12 +479,12 @@ def main():
     args = ap.parse_args()
     args.menus = resolve_menus_path(args.menus)
     use_utf8_output()
-    data = load(args.menus, "the menus file")
+    data = load(args.menus)
     if data is UNREADABLE:
         sys.exit(2)
     cfg, sources = None, os.path.basename(args.menus)
     if args.config:
-        cfg = load(args.config, "the config file")
+        cfg = load(args.config)
         if cfg is UNREADABLE:
             cfg = None
         else:
