@@ -14,7 +14,7 @@ sys.path.insert(0, SCRIPTS)
 
 import kando_check  # noqa: E402
 import kando_profile  # noqa: E402
-from kando_layout import angle_problems, compute_item_angles, levels, raw_angle  # noqa: E402
+from kando_layout import angle_problems, compute_item_angles, levels, menu_list, raw_angle  # noqa: E402
 
 
 def item(name, angle=None, kind="button", children=None, actions=None, key=None):
@@ -105,6 +105,13 @@ class LayoutPort(unittest.TestCase):
         data = menus(item("Sub", 90, "submenu", [item("A"), item("B")]))
         lv = list(levels(data["menus"][0]))
         self.assertEqual(lv[1][2], 270)
+
+    def test_menu_list_reads_files_and_exports_and_skips_junk(self):
+        good = {"root": {"name": "R"}}
+        self.assertEqual(menu_list({"menus": [good, "junk", {"root": 3}]}), [good])
+        self.assertEqual(menu_list({"menu": good}), [good])
+        self.assertEqual(menu_list([good]), [])
+        self.assertEqual(menu_list({"menus": "nope"}), [])
 
 
 class Checker(unittest.TestCase):
