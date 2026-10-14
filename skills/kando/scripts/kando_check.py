@@ -279,6 +279,12 @@ def check_action_order(types, where, rep, kind):
     """Mistakes in the order of a workflow's actions, given their types in order."""
     if "open-menu" in types and "close-menu" in types[types.index("open-menu") + 1:]:
         rep.warn(where, f"{kind}: close-menu after open-menu closes the menu you just opened.")
+    for i, t in enumerate(types[:-1]):
+        if t == "execute-command" and types[i + 1] in ("simulate-hotkey", "execute-macro",
+                                                       "set-clipboard", "focus-window"):
+            rep.tip(where, f"{kind}: Kando starts the command and moves on without waiting for it "
+                           "to finish, so the next step runs while it's still going. Add a delay "
+                           "after it, or let one script do the whole job.")
     if kind != "selectWorkflow":
         return
     if not types:
@@ -556,6 +562,43 @@ def check_shared_shortcuts(by_shortcut, rep):
                                         "conditions, so only one of them can ever open.")
 
 
+# Keys every app relies on: a Kando shortcut here breaks them everywhere.
+EVERYWHERE = {f"control+{k}": v for k, v in {"c": "Copy", "v": "Paste", "x": "Cut", "z": "Undo",
+              "y": "Redo", "s": "Save", "a": "Select all", "f": "Find", "n": "New",
+              "o": "Open", "p": "Print", "w": "Close tab or window", "t": "New tab"}.items()}
+# Default app keys a Kando shortcut takes over while that app is in front (app-recipes.md).
+APP_KEYS = {
+    "maya": {"control+space": "panel full screen"},
+    "unrealeditor": dict({f"control+{d}": f"set camera bookmark {d}" for d in "0123456789"},
+                         **{"control+space": "open the Content Drawer"}),
+    "blender": dict({f"control+{d}": f"set subdivision level {d}" for d in "012345"},
+                    **{"control+space": "maximize the area", "control+tab": "mode pie"}),
+    "photoshop": {"control+space": "zoom tool"},
+    "chrome": {f"control+{d}": f"go to tab {d}" for d in "123456789"},
+    "discord": {"control+k": "quick switcher"},
+}
+
+
+APP_NAMES = {"maya": "Maya", "unrealeditor": "Unreal", "blender": "Blender",
+             "photoshop": "Photoshop", "chrome": "Chrome", "discord": "Discord"}
+
+
+def check_stolen_keys(by_shortcut, data, rep):
+    """Kando grabs its shortcuts globally, so the app in front never sees them."""
+    text = json.dumps(data).lower()
+    for sc in by_shortcut:
+        if sc in EVERYWHERE:
+            rep.warn(f"shortcut {sc}", f"Kando takes this key from every app, so {EVERYWHERE[sc]} "
+                                        "stops working everywhere. Pick a combo nothing uses, like "
+                                        "Control+F13 or Control+Shift+<digit>.")
+        for app, keys in APP_KEYS.items():
+            if sc in keys and app in text:
+                rep.tip(f"shortcut {sc}", f"Your menus mention {APP_NAMES[app]}, where this key "
+                                          f"means {keys[sc]}. Kando takes the key first, so that "
+                                          "stops working in it. Fine if you never use it; "
+                                          "otherwise move these menus to a free combo.")
+
+
 def check_collections(cols, rep):
     if not isinstance(cols, list):
         rep.error("collections", "'collections' must be a list.")
@@ -599,6 +642,7 @@ def check_menus(data, rep):
         if sc:
             by_shortcut.setdefault(sc.lower(), []).append((name, condition_key(menu)))
     check_shared_shortcuts(by_shortcut, rep)
+    check_stolen_keys(by_shortcut, data, rep)
     check_collections(data.get("collections", []), rep)
 
 

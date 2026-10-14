@@ -138,6 +138,20 @@ class Checker(unittest.TestCase):
                                                  {"type": "close-menu"}])))
         self.assertTrue(any("close-menu first" in m for m in messages(rep, "WARN")))
 
+    def test_command_then_keys_gets_wait_tip(self):
+        acts = [{"type": "close-menu"}, {"type": "execute-command", "command": "x"},
+                {"type": "simulate-hotkey", "hotkey": "ControlLeft+KeyV"}]
+        tips = messages(report(menus(item("A", 0, actions=acts))), "TIP")
+        self.assertTrue(any("without waiting" in m for m in tips))
+
+    def test_stolen_keys(self):
+        rep = report(menus(item("A", 0), shortcut="Control+S"))
+        self.assertTrue(any("Save stops working everywhere" in m for m in messages(rep, "WARN")))
+        rep = report(menus(item("A", 0), shortcut="Control+2", conditions={"appName": "blender"}))
+        self.assertTrue(any("Blender" in m and "subdivision" in m for m in messages(rep, "TIP")))
+        rep = report(menus(item("A", 0), shortcut="Control+2"))
+        self.assertFalse(any("subdivision" in m for m in messages(rep, "TIP")))
+
     def test_child_on_back_link_warns_even_with_auto_submenu(self):
         # The submenu has no fixed angle; Kando puts it at 0, so "back" is 180.
         sub = item("Sub", None, "submenu", [item("Up", 0), item("Down", 180)])

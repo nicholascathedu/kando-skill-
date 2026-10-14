@@ -91,7 +91,7 @@ Icon themes: `material-symbols-rounded` (icon = Material Symbols name like `save
 | `close-menu` | — | See above. |
 | `close-submenu` | — | Default center action for submenus (go back). |
 | `delay` | `duration` (**seconds**, decimals ok) | e.g. `0.2` while a console or dialog opens. |
-| `execute-command` | `command`, `detached` (true), `isolated` (false, Linux only) | Placeholders `{{app_name}}`, `{{window_name}}`, `{{pointer_x}}`, `{{pointer_y}}`. On Windows: `start "" "C:\\path\\app.exe"`, `start "" "shell:AppsFolder\\<AUMID>"` for Store apps. The editor's app picker writes the right command; prefer it. |
+| `execute-command` | `command`, `detached` (true), `isolated` (false, Linux only) | Placeholders `{{app_name}}`, `{{window_name}}`, `{{pointer_x}}`, `{{pointer_y}}`. On Windows: `start "" "C:\\path\\app.exe"`, `start "" "shell:AppsFolder\\<AUMID>"` for Store apps. The editor's app picker writes the right command; prefer it. Kando doesn't wait for the command to finish before the next action, so follow it with a `delay`, or let one script do the whole round trip (copy, change, paste). |
 | `execute-macro` | `macro: [{type: keyDown|keyUp, key, delay(ms)}]` | Key codes. Record it in the editor. Release every key you press. |
 | `focus-window` | `appName?`, `windowName?` | Regex/partial; both must match if both set. Brings an app forward: "switch app", or copy-here-paste-there workflows. |
 | `inhibit-shortcuts` | — | Turns off Kando's shortcuts for the rest of the workflow, so a simulated key can't re-trigger a menu. |
