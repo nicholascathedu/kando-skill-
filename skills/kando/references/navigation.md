@@ -28,6 +28,12 @@ Single-key turbo was removed in 3.0; hover mode replaces it.
 Turn on `enableSelectionWedges` while learning, so the active wedge is visible. Print the
 cheat sheet from `kando_preview.py --html` and keep it next to the screen for the first week.
 
+**A Learn item in every menu.** Give each menu one item, on a diagonal or in a submenu you
+rarely use, that opens its own cheat sheet, always up to date with the menu:
+`execute-command` `pythonw C:\path\to\kando_preview.py --menu Maya --html "%TEMP%\kando-maya.html" --open`.
+When you forget where something is, flick to Learn instead of opening the editor. Drop the
+item once the menu is in your hands.
+
 Learning tips:
 - Fixed angles are what make this work. Don't let items auto-shift.
 - Learn one menu at a time.

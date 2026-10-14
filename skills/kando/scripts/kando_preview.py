@@ -13,6 +13,7 @@ Usage:
     python kando_preview.py menus.json --html sheet.html     # radial cheat sheet
     python kando_preview.py menus.json --html sheet.html --palette midnight
     python kando_preview.py menus.json --html sheet.html --accent "#b06cff"
+    pythonw kando_preview.py --menu Maya --html "%TEMP%\\maya.html" --open   # a Learn item
 
 Palettes: purple (dark violet glass, default), midnight (neutral dark), light.
 The sheet prints cleanly on white paper whatever the palette. Standard library only.
@@ -22,7 +23,9 @@ import argparse
 import html
 import json
 import math
+import pathlib
 import sys
+import webbrowser
 
 from kando_layout import (COMPASS, KandoFileError, angle_problems, angular_distance,
                           child_items, compass, item_name, levels, menu_list, raw_angle,
@@ -413,6 +416,7 @@ def main():
     ap.add_argument("--html", help="write a radial cheat sheet to this .html file")
     ap.add_argument("--palette", choices=sorted(PALETTES), default="purple")
     ap.add_argument("--accent", help="override the accent color, e.g. #b06cff")
+    ap.add_argument("--open", action="store_true", help="open the cheat sheet in the browser")
     args = ap.parse_args()
     args.menus = resolve_menus_path(args.menus)
     use_utf8_output()
@@ -432,6 +436,8 @@ def main():
         with open(args.html, "w", encoding="utf-8") as f:
             f.write(render_html(menus, args.palette, args.accent))
         print(f"Wrote {args.html}")
+        if args.open:
+            webbrowser.open(pathlib.Path(args.html).resolve().as_uri())
 
 
 if __name__ == "__main__":

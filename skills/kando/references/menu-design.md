@@ -110,6 +110,14 @@ Notes:
 6. Fill with that app's **default** hotkeys (see app-recipes.md) and leave gaps for the
    user's custom ones rather than inventing keys the app doesn't have.
 
+**Keep the user's own tweaks when you rebuild a menu.** If the user changed menus by hand
+after you built them, save those changes before building again:
+`kando_overlay.py extract <the menus you built> <their menus.json> -o my-tweaks.json`. Build
+the new version, then `kando_overlay.py apply <new menus> my-tweaks.json -o menus.json`
+puts their changes back on top (added and changed items, removed items, shortcut and
+conditions), checks the result and backs up the old file. Keep `my-tweaks.json` next to
+`kando-profile.md`; the same pair works when an example menu from the skill gets updated.
+
 ## 6. Anti-patterns
 
 | Anti-pattern | Why it hurts | Instead |
