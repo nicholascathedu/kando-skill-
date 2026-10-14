@@ -599,3 +599,22 @@ class IconThemeTest(unittest.TestCase):
                 self.assertIn(f'fill="{spec["fill"]}"', svg)
                 self.assertIsNone(re.search(r"stroke|gradient|filter|<image|<style", svg))
                 self.assertLessEqual(len(svg.encode("utf-8")), spec["maxBytes"])
+
+
+@unittest.skipUnless(os.name == "nt", "the mouse-button helper is Windows only")
+class MouseButtonsTest(unittest.TestCase):
+    PS1 = os.path.join(SCRIPTS, "windows", "kando-mouse-buttons.ps1")
+
+    def ps(self, *args):
+        return subprocess.run(["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass",
+                               "-File", self.PS1, *args], capture_output=True, text=True)
+
+    def test_hook_compiles_in_windows_powershell(self):
+        r = self.ps("-SelfTest")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertIn("OK: hook compiled; Forward button -> Control+F13 (vk 0x7C)", r.stdout)
+        r = self.ps("-SelfTest", "-Button", "Back", "-Modifier", "Alt", "-Key", "F24")
+        self.assertIn("Back button -> Alt+F24 (vk 0x87)", r.stdout)
+
+    def test_bad_key_is_refused(self):
+        self.assertNotEqual(self.ps("-SelfTest", "-Key", "F5").returncode, 0)
