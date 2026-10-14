@@ -1,9 +1,5 @@
 <h1 align="center">Kando skill for Claude</h1>
 
-<p align="center">Hi, I'm <b>Nicholas Cath</b>, a 3D artist who spends most days in Maya, Substance Painter,<br>
-Designer and Unreal. I made this so Claude could build my Kando menus around the way I work,<br>
-and now it can do the same for you.</p>
-
 <p align="center">
   <img src="docs/img/hero.webp" alt="Kando skill for Claude, blessed by Nicholas Cath. On the left, the author's real Kando menu in the Amethyst Arsenal theme, glass hex tiles around a north star. On the right, five hovered tiles, one per color choice in Kando's theme settings: Default colors (the gold aura), Lime HUD, Pure Amethyst, Smoke and Work Mode" width="100%">
 </p>
