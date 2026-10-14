@@ -135,7 +135,9 @@ Note: Ctrl+0..9 set camera bookmarks in Unreal; a Kando shortcut on Ctrl+<digit>
 key over while Unreal is focused.
 
 Console-command items (pattern in menus-json.md §5): `stat fps`, `stat unit`,
-`show collision`, `slomo 0.25` / `slomo 1`, `pause`, `p.Chaos.DebugDraw.Enabled 1`.
+`show collision`, `slomo 0.25` / `slomo 1`, `pause`. To see why a Chaos simulation jitters
+or explodes, record it with `p.Chaos.StartVDRecording` / `p.Chaos.StopVDRecording` and open the
+recording in the Chaos Visual Debugger (Epic's Chaos Visual Debugger guide, UE 5.5).
 
 Asset-name snippet items (set-clipboard + Ctrl+V while renaming with F2): `M_`, `MI_`, `MF_`,
 `T_`, `SM_`, `SK_`, `BP_`, `WBP_`, `NS_`, suffixes `_BC`, `_N`, `_ORM`.
@@ -342,7 +344,7 @@ HEX by default; checked in Microsoft's PowerToys docs). Picking is interactive, 
 two items, not one:
 1. **Pick colour:** `close-menu` → `simulate-hotkey` `MetaLeft+ShiftLeft+KeyC`. Middle-click
    picks and closes the picker; left-click opens its editor.
-2. **Paste colour:** `close-menu` → `focus-window` `/Painter|Designer/` → `delay 0.3` →
+2. **Paste colour:** `close-menu` → `focus-window` `/painter|designer/i` → `delay 0.3` →
    `ControlLeft+KeyV` → `Enter`.
 
 Before picking, click the hex field of the colour you want to change in Painter or Designer;

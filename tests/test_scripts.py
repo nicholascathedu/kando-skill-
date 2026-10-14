@@ -138,6 +138,36 @@ class Checker(unittest.TestCase):
                                                  {"type": "close-menu"}])))
         self.assertTrue(any("close-menu first" in m for m in messages(rep, "WARN")))
 
+    def test_regex_match_text_follows_kando_parser(self):
+        def errs(app):
+            focus = item("F", 0, actions=[{"type": "close-menu"},
+                                          {"type": "focus-window", "appName": app}])
+            return messages(report(menus(focus, conditions={"windowName": app})), "ERROR")
+        self.assertEqual(errs("/maya|blender/i"), [])
+        self.assertEqual(errs("maya"), [])
+        self.assertEqual(len(errs("/maya")), 2)        # no closing slash: Kando throws
+        self.assertEqual(len(errs("/maya/ii")), 2)     # repeated flag: Kando throws
+        self.assertEqual(len(errs("/(maya/")), 2)      # does not compile
+        tips = messages(report(menus(item("A", 0), conditions={"appName": "/Maya/"})), "TIP")
+        self.assertTrue(any("case-sensitive" in m for m in tips))
+
+    def test_keys_right_after_focus_window_warn(self):
+        def warns(actions):
+            return [m for m in messages(report(menus(item("A", 0, actions=actions))), "WARN")
+                    if "right after focus-window" in m]
+        close, focus = {"type": "close-menu"}, {"type": "focus-window", "appName": "maya"}
+        key = {"type": "simulate-hotkey", "hotkey": "ControlLeft+KeyS"}
+        self.assertEqual(len(warns([close, focus, key])), 1)
+        self.assertEqual(warns([close, focus, {"type": "delay", "duration": 0.3}, key]), [])
+
+    def test_websocket_urls(self):
+        def msgs(url, level):
+            ws = {"type": "send-websocket-message", "url": url, "message": "{}"}
+            return messages(report(menus(item("A", 0, actions=[ws]))), level)
+        self.assertTrue(any("ws://" in m for m in msgs("localhost:8080", "ERROR")))
+        self.assertTrue(any("OBS" in m for m in msgs("ws://localhost:4455", "WARN")))
+        self.assertEqual(msgs("ws://localhost:8080", "WARN"), [])
+
     def test_child_on_back_link_warns_even_with_auto_submenu(self):
         # The submenu has no fixed angle; Kando puts it at 0, so "back" is 180.
         sub = item("Sub", None, "submenu", [item("Up", 0), item("Down", 180)])
