@@ -1,3 +1,9 @@
+<h1 align="center">Kando skill for Claude</h1>
+
+<p align="center">Hi, I'm <b>Nicholas Cath</b>, a 3D artist who spends most days in Maya, Substance Painter,<br>
+Designer and Unreal. I made this so Claude could build my Kando menus around the way I work,<br>
+and now it can do the same for you.</p>
+
 <p align="center">
   <img src="docs/img/hero.webp" alt="Kando skill for Claude, blessed by Nicholas Cath. On the left, the author's real Kando menu in the Amethyst Arsenal theme, glass hex tiles around a north star. On the right, five hovered tiles, one per color choice in Kando's theme settings: Default colors (the gold aura), Lime HUD, Pure Amethyst, Smoke and Work Mode" width="100%">
 </p>
@@ -8,8 +14,6 @@
   <img alt="Python 3.9+, no dependencies" src="https://img.shields.io/badge/python-3.9%2B%20%C2%B7%20no%20deps-3776ab">
   <img alt="MIT" src="https://img.shields.io/badge/license-MIT-2ea44f">
 </p>
-
-<h1 align="center">Kando skill for Claude</h1>
 
 <p align="center">A Claude skill for <a href="https://kando.menu">Kando</a>, the pie menu by Simon Schneegans. It installs as a Claude Code plugin.<br>
 Tell it what you want in your own words. It builds the menu, checks it, shows you a preview,<br>
@@ -28,67 +32,55 @@ strict file format and the angle math, tells me what it's doing as it goes, and 
 picked, so next time we start further along. It's been a fun way for me to get faster in Maya,
 Painter, Designer and Unreal, and I actually learned the app along the way.
 
-## What it does
-
-Editing Kando menus by hand is fiddly. A menu is a JSON file, and if you miss one comma Kando
-keeps your old menu without telling you why. Write `Ctrl` where it wants `ControlLeft` and the
-button does nothing. Put the angles in the wrong order and an item ends up somewhere you never
-picked. I hit all of these, and the skill knows about them up front.
-
-- Claude writes Kando 3.0's real format and runs a checker, built from Kando's own source code,
-  before anything gets saved. Most menus work on the first try.
-- The menus are laid out for muscle memory: eight directions, the same flick for the same thing
-  in every app, and nothing sitting on the way back out of a submenu.
-- One key can open a different menu per app. Mine opens the Maya menu in Maya, the Unreal menu in
-  Unreal, and my everyday menu everywhere else.
-- You can describe a look, like *"dark purple glass, smoky, a gold glow"*, and get a palette, a
-  color preset or a full menu theme that uses Kando's real class names.
-- A small profile file keeps your apps, the directions you've settled on, your colors and the
-  ideas you turned down, and Claude reads it at the start of every session.
-- It's all a few short Python scripts with nothing to install, tested on Windows, macOS and Linux.
-
-## Does it actually help?
-
-I ran it on 15 real tasks, each one three times with the skill and three times without, scored
-by plain pass or fail rules.
-
-The hardest ones come straight from my own setup, my real menus with the personal stuff taken
-out. With the skill, Claude scored 9 out of 9. Plain Claude scored 1.6.
-
-| My own setup | With | Without |
-|---|---|---|
-| Add Spotify and Claude to my main menu without moving anything | 3/3 | 0/3 |
-| Add Designer to my Maya, Painter and Unreal menus | 3/3 | 1/3 |
-| A "Groovitron" preset for my theme, hot pink aura | 3/3 | 0.6/3 |
-
-Without it, Claude put Spotify at an angle Kando ignores, so it would have shown up
-somewhere I never picked. It also saved the preset outside the `presets` folder, where Kando
-never looks.
-
-On the twelve general tasks it scored **0.89** against **0.60**:
-
-| Task | With | Without |
-|---|---|---|
-| A 19-action Maya work menu | 3/3 | 1/3 |
-| A Blender menu with a Shading submenu | 3/3 | 0/3 |
-| A color preset in the right place | 3/3 | 1.4/3 |
-| "Smoke and amethyst" on the Default theme | 2/3 | 0/3 |
-| Fixing a broken menus.json | 3/3 | 3/3 |
-
-The ties are tasks plain Claude already handles fine. The wins are on Kando's own rules: angles,
-submenus and theme files. It lost one task, and that's in the results too. Everything is
-in [`evals/`](evals), and you can rerun it yourself.
-
 ## Kando first
 
 Everything here stands on [**Kando**](https://kando.menu), made by
-[Simon Schneegans](https://github.com/Schneegans), a developer from Germany. Simon calls it
-*"an unconventional, fast, highly efficient, and fun way of interacting with your computer"*, and
-it's his third pie menu, after Gnome-Pie and Fly-Pie. It's free, open source and runs on Windows,
-macOS and Linux. This skill is only a guide on top of it.
+[Simon Schneegans](https://github.com/Schneegans), a developer from Germany. It's his third pie
+menu, after Gnome-Pie and Fly-Pie: free, open source, and on Windows, macOS and Linux. Kando
+already gives you the menus, a good editor, themes and 14 kinds of actions. Adding an app to a
+menu takes a few clicks in the editor, and you don't need this skill for that.
 
 If Kando makes your days faster like it did mine, [support Simon on Ko-fi](https://ko-fi.com/schneegans)
 or [GitHub Sponsors](https://github.com/sponsors/Schneegans).
+
+## What the skill adds
+
+The skill is for the part after the basics: chaining Kando's actions into workflows, and laying
+menus out so your hand learns them. These are in the repo now:
+
+| What | What it does for you |
+|---|---|
+| Save everything | One flick saves Maya, Painter, Designer and Unreal in turn, with the right wait between apps. |
+| One key, one menu per app | Ctrl+4 opens the Maya menu in Maya, the Unreal menu in Unreal and so on, with the same flick doing the same job everywhere (Down-left is always Save). |
+| Unreal view-mode pie | All eight view modes, each one where you'd expect it, two flicks away. |
+| Designer node palette | Eight favourite nodes on one ring, instead of searching the node menu. |
+| Colour pick and paste | Pick a colour anywhere on screen and paste its hex into Painter or Designer. |
+| A checker built from Kando's code | Finds key names Kando doesn't know, angles it will ignore, regexes that make it throw an error, and keys sent before the right window is in front. You get the fix, not just the error. |
+| A review of your own menus | Reads your menus and points at what slows you down: items that move between menus, crowded rings, submenus with something on the way back out. |
+| Themes from words | *"Dark purple glass, a gold glow"* becomes a color preset or a full theme. My Amethyst Arsenal theme was made this way. |
+| Memory | A small profile keeps the directions you've settled on and the ideas you turned down, so the next session builds on them. |
+
+It's all a few short Python scripts with nothing to install, tested on Windows, macOS and Linux.
+
+## Does it actually help?
+
+I tested it on real tasks, three runs each with the skill and three without, scored by pass or
+fail rules. Across the twelve general tasks it scored 0.89 against 0.60. On three tasks taken
+from my own setup it went 9 out of 9 against 1.6.
+
+| Task | With | Without |
+|---|---|---|
+| A 19-action Maya work menu, split into submenus | 3/3 | 1/3 |
+| A Blender menu with a Shading submenu | 3/3 | 0/3 |
+| Designer added to my Maya, Painter and Unreal work menus, same layout in all four | 3/3 | 1/3 |
+| A new color preset for my theme | 3/3 | 0.6/3 |
+| "Smoke and amethyst" colors on the Default theme | 2/3 | 0/3 |
+| Fixing a broken menus.json | 3/3 | 3/3 |
+
+Without the skill, Claude left items on the way back out of submenus and set angles Kando
+ignores, so items landed somewhere nobody chose. It also saved presets where Kando never looks.
+Where plain Claude already knew the answer, like fixing broken JSON, the scores tie. It lost
+one task, and that's in [`evals/`](evals) with everything else, so you can rerun it.
 
 ## Art and AI, side by side
 
@@ -99,8 +91,6 @@ like the file format, the angles and keeping track of everything. Which icon goe
 which color glows when I reach for it, which direction my hand already knows: I still decide all
 of that.
 
-That's what the yin-yang is about. You decide what the menu is and how it feels, Claude gets the
-details right and remembers them, and the menu ends up working the way you do.
 
 ## My Maya menu
 
@@ -125,7 +115,7 @@ in Maya. Everywhere else the same key opens my everyday menu.
 1. Say it: *"A Maya menu, only in Maya, fast for modeling."*
 2. Shape it: Claude lays it out on the compass, keeps the directions you already use, and names
    things the way you do.
-3. Check it: `kando_check.py` catches the mistakes Kando would reject without telling you.
+3. Check it: `kando_check.py` catches mistakes before Kando loads the file.
 4. See it: `kando_preview.py` prints the compass outline, and it can draw a printable cheat sheet
    with every item exactly where Kando will put it.
 5. Keep it: your profile saves what you chose, so next time you can say less.
@@ -242,6 +232,19 @@ the JSON, it puts the copy back; if the checker finds errors, Claude sees them a
 in the same turn. It only touches a `menus.json` in a Kando config folder, needs Python 3.9+,
 and does nothing if Python isn't there. Edits a script makes from the shell don't trigger it.
 
+**Mouse side buttons.** Kando opens menus from keyboard shortcuts, so mouse buttons usually need
+a helper app like AutoHotkey. On Windows the skill comes with a small PowerShell script instead,
+[`kando-mouse-buttons.ps1`](skills/kando/scripts/windows/kando-mouse-buttons.ps1), which uses
+only what's built into Windows. While it runs, the Forward side button holds Ctrl and taps F13,
+so a menu on `Control+F13` opens and turbo mode works: hold the button, move, let go. The button
+stops doing Forward while the script runs, it can't reach apps running as admin, and some games'
+anti-cheat block simulated keys, so stop it before playing those.
+
+```powershell
+powershell -ExecutionPolicy Bypass -File skills\kando\scripts\windows\kando-mouse-buttons.ps1
+powershell -ExecutionPolicy Bypass -File skills\kando\scripts\windows\kando-mouse-buttons.ps1 -InstallStartup
+```
+
 ## Try asking
 
 | You say | Claude does |
@@ -266,7 +269,8 @@ skills/kando/
 │   ├── kando_check.py      validator and linter
 │   ├── kando_preview.py    compass outline and radial HTML cheat sheet
 │   ├── kando_profile.py    drafts your personal profile from your menus
-│   └── kando_layout.py     Kando's placement algorithm, ported
+│   ├── kando_layout.py     Kando's placement algorithm, ported
+│   └── windows/            kando-mouse-buttons.ps1: side buttons, no extra app
 └── examples/             a desktop launcher, Maya / Painter / Designer / Unreal work
                           menus, and ZBrush / Blender / Photoshop / Illustrator menus
 hooks/                    the menu guard: backs up and checks menus.json on every edit
