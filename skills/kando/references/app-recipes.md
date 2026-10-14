@@ -26,6 +26,7 @@ removed sometimes). Adobe apps aren't reliably there, so use Material Symbols
 - Marmoset Toolbag 5
 - Browsers (Chrome / Edge / Firefox)
 - Discord
+- Launch or focus: one item that opens or switches to an app
 - Cross-app pipeline ideas
 - Cross-app macros: save everything, colour picker
 
@@ -340,6 +341,34 @@ cross-app workflow.
 
 Mute and deafen only work while Discord is focused unless the user sets global keybinds in
 Discord's settings; a `focus-window` first, or global binds, make them work from anywhere.
+
+## Launch or focus: one item that opens or switches to an app
+
+A plain launcher item starts a second copy of Maya every time it's pressed. Kando has no
+"if" step, but two actions in a row do the job, because `focus-window` quietly does nothing
+when the app isn't open:
+
+```json
+{"actions": [
+ {"type":"close-menu"},
+ {"type":"focus-window","appName":"maya.exe"},
+ {"type":"execute-command","command":"pythonw C:\\path\\to\\kando_launch.py maya.exe \"C:\\Program Files\\Autodesk\\Maya2026\\bin\\maya.exe\""}
+]}
+```
+
+- If Maya is open, `focus-window` brings it forward and `kando_launch.py` sees it running and
+  does nothing. If it isn't, the focus finds nothing and the script starts it.
+- The script checks the **process**, not the window, so a second press while Maya is still on
+  its splash screen doesn't start another copy.
+- The name is the file name in Task Manager > Details (`maya.exe`, `UnrealEditor.exe`,
+  `Adobe Substance 3D Painter.exe`). Kando's `appName` matches any part of it, the script
+  matches it whole.
+- Give `kando_launch.py` its full path; `pythonw` runs it without a console window. Extra
+  arguments after the path go to the app (an Unreal `.uproject`, a Maya scene).
+- macOS needs none of this: `open -a "Maya"` already starts or focuses an app.
+
+The checker gives a tip on items that start an `.exe` without a `focus-window`, since those
+open a second copy each press.
 
 ## Cross-app pipeline ideas
 

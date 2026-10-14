@@ -374,6 +374,44 @@ def check_workflow(wf, where, rep, kind):
         return
     types = [check_action(a, f"{where} > {kind}[{i}]", rep) for i, a in enumerate(actions)]
     check_action_order([t for t in types if t is not None], where, rep, kind)
+    check_second_copy(actions, where, rep)
+
+
+# Programs that are fine to start again and again (shells, folders, script runners).
+REPEATABLE = {"explorer", "cmd", "powershell", "pwsh", "wt", "python", "pythonw", "py", "pyw",
+              "rundll32", "notepad", "calc", "snippingtool",
+              "update"}  # Update.exe: Discord's and Slack's launcher, already single-copy
+
+
+def exe_name(text):
+    """The program a command or path starts, e.g. 'Adobe Substance 3D Painter.exe', or None."""
+    m = re.search(r"\.exe\b", text, re.I)
+    if not m:
+        return None
+    before = text[:m.start()]
+    cut = max(before.rfind(c) for c in '\\/"')
+    name = before[cut + 1:] if cut >= 0 else before.split()[-1] if before.split() else ""
+    return name + ".exe" if name.strip() else None
+
+
+def check_second_copy(actions, where, rep):
+    """An item that starts an app without focusing it first opens a second copy each press."""
+    acts = [a for a in actions if isinstance(a, dict)]
+    if any(a.get("type") == "focus-window" for a in acts):
+        return
+    for a in acts:
+        text = a.get("command") if a.get("type") == "execute-command" else \
+            a.get("path") if a.get("type") == "open-file" else None
+        if not isinstance(text, str) or "kando_launch" in text:
+            continue
+        exe = exe_name(text)
+        if exe and exe[:-4].lower() not in REPEATABLE:
+            rep.tip(where, f"Starts {exe} even when it's already open, so pressing it again opens "
+                           f"a second copy. To bring it forward instead, start the workflow with "
+                           f"focus-window (appName \"{exe}\") and start the app with "
+                           f"pythonw kando_launch.py {exe} \"<path>\", which only starts it when "
+                           "it isn't running (see app-recipes.md, Launch or focus).")
+            return
 
 
 def check_children(parent, where, rep, depth, stats):
