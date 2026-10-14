@@ -251,12 +251,53 @@ def check_action(a, where, rep):
         check_hotkey(a["hotkey"], where, rep)
     if t == "execute-macro" and isinstance(a.get("macro"), list):
         check_macro(a["macro"], where, rep)
+    if t == "focus-window":
+        for field in ("appName", "windowName"):
+            check_match_text(a.get(field), field, where, rep,
+                             "As it is, this focus-window step fails and the rest of the "
+                             "workflow doesn't run.")
+    if t == "send-websocket-message" and isinstance(a.get("url"), str):
+        check_websocket_url(a["url"], where, rep)
     if t == "delay" and is_number(a.get("duration")) and a["duration"] > 5:
         rep.warn(where, f"delay is in SECONDS; {a['duration']} s is long. Did you mean ms?")
     if t == "execute-command" and re.search(r"[A-Za-z]:\\\\?Users\\\\?[^\\\\\"]+|/(?:home|Users)/[^/\s\"]+/",
                                             a.get("command", "")):
         rep.tip(where, "Command uses a user-specific path; it will break on other PCs if shared.")
     return t
+
+
+def kando_regex(text):
+    """Split a Kando '/pattern/flags' match text the way Kando does (focus-window.ts and
+    menu-window.ts). Returns (pattern, flags, problem); problem is why Kando would throw."""
+    m = re.fullmatch(r"/(.*?)/([gimy]*)", text, re.S)
+    if not m:
+        return None, None, ("it starts with '/' so Kando reads it as a regex, but it doesn't "
+                            "end with '/' plus optional flags (g, i, m, y). Kando throws an "
+                            "error on it. Write it like /maya|blender/i, or drop the first "
+                            "'/' for a plain-text match.")
+    pattern, flags = m.groups()
+    if len(set(flags)) != len(flags):
+        return pattern, flags, f"its flags '{flags}' repeat a letter, which makes Kando throw an error."
+    return pattern, flags, None
+
+
+def check_match_text(text, field, where, rep, what):
+    """An appName / windowName value, used by menu conditions and by focus-window."""
+    if not isinstance(text, str) or not text.startswith("/"):
+        return
+    pattern, flags, problem = kando_regex(text)
+    if problem:
+        rep.error(where, f"{field} '{text}': {problem} {what}")
+        return
+    try:
+        re.compile(pattern)
+    except re.error as e:
+        rep.error(where, f"{field} regex '{text}' does not compile ({e}). {what}")
+        return
+    if "i" not in flags and re.search(r"[A-Za-z]", pattern):
+        rep.tip(where, f"{field} '{text}' is a regex, and regexes are case-sensitive unless "
+                       f"they end in i (like /{pattern}/i{flags}). Plain text without slashes "
+                       "is matched ignoring case.")
 
 
 def check_macro(events, where, rep):
@@ -275,10 +316,25 @@ def check_macro(events, where, rep):
                         "the key can stay held down.")
 
 
+def check_websocket_url(url, where, rep):
+    if not re.match(r"wss?://", url):
+        rep.error(where, f"WebSocket url '{url}' must start with ws:// or wss://.")
+    elif re.search(r":4455(?:/|$)", url):
+        rep.warn(where, "Port 4455 is OBS's WebSocket. OBS only accepts requests after a "
+                        "login handshake, and Kando sends one message and hangs up, so OBS "
+                        "ignores it. Set a hotkey in OBS (Settings > Hotkeys) and press it "
+                        "with simulate-hotkey instead.")
+
+
 def check_action_order(types, where, rep, kind):
     """Mistakes in the order of a workflow's actions, given their types in order."""
     if "open-menu" in types and "close-menu" in types[types.index("open-menu") + 1:]:
         rep.warn(where, f"{kind}: close-menu after open-menu closes the menu you just opened.")
+    for i, t in enumerate(types[:-1]):
+        if t == "focus-window" and types[i + 1] in ("simulate-hotkey", "execute-macro"):
+            rep.warn(where, f"{kind}: keys are pressed right after focus-window. The window "
+                            "needs a moment to come to the front, so the keys can land in the "
+                            "app that was there before. Add a delay of about 0.3 s between them.")
     if kind != "selectWorkflow":
         return
     if not types:
@@ -487,12 +543,10 @@ def check_conditions(cond, where, rep):
     for k in cond:
         if k not in ("appName", "windowName", "screenArea"):
             rep.warn(where, f"Unknown condition '{k}'; Kando drops it.")
-    app = cond.get("appName", "")
-    if isinstance(app, str) and app.startswith("/"):
-        try:
-            re.compile(app.strip("/"))
-        except re.error as e:
-            rep.error(where, f"appName regex does not compile: {e}")
+    for field in ("appName", "windowName"):
+        check_match_text(cond.get(field), field, where, rep,
+                         "Kando hits this error while picking a menu, so this shortcut may "
+                         "open nothing at all.")
 
 
 def check_fixed_position(fp, where, rep):
