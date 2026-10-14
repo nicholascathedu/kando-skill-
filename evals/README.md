@@ -63,7 +63,7 @@ included.
 | `mouse-button-turbo` | 1/3 | 2/3 |
 | **Mean score** | **0.89** | **0.60** |
 
-Honest reading:
+What the numbers show:
 
 - The skill wins where Kando's own rules decide the outcome: placing items on the compass,
   submenus and the way back, where theme presets live, which color names a theme has, and
