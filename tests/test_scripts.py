@@ -503,3 +503,25 @@ class UserPathTipTest(unittest.TestCase):
             kando_check.check_menus(menus(item("Tool", 0, actions=[
                 {"type": "close-menu"}, {"type": "execute-command", "command": cmd}])), rep)
             self.assertTrue(any("user-specific path" in m for _, _, m in rep.items), cmd)
+
+
+class IconThemeTest(unittest.TestCase):
+    """Every shipped icon follows icon-themes/amethyst-emblems.style.json."""
+
+    def test_icons_follow_the_style_file(self):
+        import re
+        base = os.path.join(os.path.dirname(__file__), "..", "icon-themes")
+        with open(os.path.join(base, "amethyst-emblems.style.json"), encoding="utf-8") as f:
+            spec = json.load(f)
+        folder = os.path.join(base, "amethyst-emblems")
+        icons = sorted(n for n in os.listdir(folder) if n.endswith(".svg"))
+        self.assertTrue(icons)
+        for name in icons:
+            with open(os.path.join(folder, name), encoding="utf-8") as f:
+                svg = f.read()
+            with self.subTest(icon=name):
+                self.assertIn(f'viewBox="0 0 {spec["grid"]} {spec["grid"]}"', svg)
+                self.assertEqual(svg.count("<path"), 1)
+                self.assertIn(f'fill="{spec["fill"]}"', svg)
+                self.assertIsNone(re.search(r"stroke|gradient|filter|<image|<style", svg))
+                self.assertLessEqual(len(svg.encode("utf-8")), spec["maxBytes"])

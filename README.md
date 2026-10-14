@@ -261,6 +261,8 @@ skills/kando/
 └── examples/             a desktop launcher and Maya / Painter / Unreal work menus
 themes/
 └── amethyst-arsenal/     a Kando menu theme (CC0), drop it in your menu-themes folder
+icon-themes/
+└── amethyst-emblems/     matching icons (CC0), drop them in your icon-themes folder
 tests/                    python -m unittest discover -s tests
 evals/                    real tasks that score Claude with and without the skill
 .claude-plugin/           plugin and marketplace manifests
