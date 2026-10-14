@@ -134,3 +134,12 @@ Notes:
 3. Propose a revised compass sketch for any ring you'd change, with the reason.
 4. Never silently drop items. If you'd remove something, say so and why.
 5. Keep their names, icons and personal items exactly as they are unless asked.
+
+**Base the review on real use when you can.** `scripts/kando_usage.py watch` listens to
+Kando's IPC and logs every open, pick and cancel (with the app in front, on Windows) to
+`claude-usage/usage.jsonl` next to menus.json. After a few days, `kando_usage.py report` lists
+the most used items, the ones on diagonals or deep in submenus (move them to a straight
+direction in the first ring), slow picks (the person is searching), items never used in a
+menu opened 20+ times (candidates to remove), and menus often closed without a pick. To keep
+it running, put a shortcut to `pythonw kando_usage.py watch` in the Startup folder
+(`shell:startup`). The log is personal: never put it in a shared file.
