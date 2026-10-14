@@ -12,7 +12,7 @@
 <h1 align="center">Kando skill for Claude</h1>
 
 <p align="center">A Claude skill for <a href="https://kando.menu">Kando</a>, the pie menu by Simon Schneegans. It installs as a Claude Code plugin.<br>
-Tell it what you want in plain words, and it builds the menu, checks it, shows it to you,<br>
+Tell it what you want in your own words. It builds the menu, checks it, shows you a preview,<br>
 and remembers how you like things for next time.</p>
 
 <p align="center"><i>Blessed by Nicholas Cath</i></p>
@@ -23,31 +23,29 @@ and remembers how you like things for next time.</p>
 
 I wanna clarify that I am far from knowledgeable when it comes to coding and building apps from a development perspective. What I do know though, is how many times I’ve heard fellow artists and professionals fear AI potentially replacing their respective industry roles, or even make them “lazier” and less “precise” when it comes to problem solving. I don’t feel like it’s appropriate to argue over that, cause it could really go for hours and hours, without clear answers. As an 3D artist myself, I felt like using Kando, would make using my PC feel fresh, unique, fun again..and for sure did! What I want to emphasise on tho, is the personalisation and workflow execution speed. I wanted to create a Kando skill for Claude that personalises, builds, designs, and even optimises/enhances your Kando menus/settings for your own needs, helping you understand it, become comfy and faster with it, and reach your full potential through this amazing app made by Simon!
 
-Claude doesn't make the art here. I decide how my menus look and feel. Claude takes care of
-Kando's strict file format and the angle math, explains what it's doing as it goes, and remembers
-what I picked, so the next session starts further along. For me it's been a fun way to get faster
-in Maya, Painter, Designer and Unreal, and to actually learn the app along the way.
+Claude doesn't make the art here. I decide how my menus look and feel. Claude deals with Kando's
+strict file format and the angle math, tells me what it's doing as it goes, and remembers what I
+picked, so next time we start further along. It's been a fun way for me to get faster in Maya,
+Painter, Designer and Unreal, and I actually learned the app along the way.
 
 ## What it does
 
-Building Kando menus by hand is strict. A menu is a JSON file. One missing comma and Kando
-quietly keeps your old menu without saying why. Write `Ctrl` where it wants `ControlLeft` and the
-button just does nothing. Put an angle in the wrong order and the item lands somewhere you never
-chose.
+Editing Kando menus by hand is fiddly. A menu is a JSON file, and if you miss one comma Kando
+keeps your old menu without telling you why. Write `Ctrl` where it wants `ControlLeft` and the
+button does nothing. Put the angles in the wrong order and an item ends up somewhere you never
+picked. I hit all of these, and the skill knows about them up front.
 
-This skill knows those traps before you hit them.
-
-- **Menus that work the first time.** Claude writes Kando 3.0's real format, then runs a checker
-  built from Kando's own source before anything is saved.
-- **Made for your hands.** Eight directions, the same flick for the same idea in every app, and
-  the way back out of each submenu kept clear, so your hand learns the menu for good.
-- **Per-app work menus.** One key opens your Maya menu in Maya, your Unreal menu in Unreal, and
-  your everyday menu everywhere else.
-- **Themes from a feeling.** Say *"dark purple glass, smoky, a gold glow"* and get a palette, a
-  preset or a full menu theme, written with Kando's real class names.
-- **It remembers you.** A small profile keeps your apps, the directions you've locked in, your
-  colors and the ideas you said no to. Every session starts from there.
-- **Nothing hidden.** A few short Python scripts, no installs, tested on Windows and Linux.
+- Claude writes Kando 3.0's real format and runs a checker, built from Kando's own source code,
+  before anything gets saved. Most menus work on the first try.
+- The menus are laid out for muscle memory: eight directions, the same flick for the same thing
+  in every app, and nothing sitting on the way back out of a submenu.
+- One key can open a different menu per app. Mine opens the Maya menu in Maya, the Unreal menu in
+  Unreal, and my everyday menu everywhere else.
+- You can describe a look, like *"dark purple glass, smoky, a gold glow"*, and get a palette, a
+  color preset or a full menu theme that uses Kando's real class names.
+- A small profile file keeps your apps, the directions you've settled on, your colors and the
+  ideas you turned down, and Claude reads it at the start of every session.
+- It's all a few short Python scripts with nothing to install, tested on Windows, macOS and Linux.
 
 ## Does it actually help?
 
@@ -77,8 +75,8 @@ On the twelve general tasks it scored **0.89** against **0.60**:
 | "Smoke and amethyst" on the Default theme | 2/3 | 0/3 |
 | Fixing a broken menus.json | 3/3 | 3/3 |
 
-Where it ties, plain Claude already knows the answer. Where it wins, it's Kando's own rules:
-angles, submenus, theme files. It lost one task, and that's in the results too. Everything is
+The ties are tasks plain Claude already handles fine. The wins are on Kando's own rules: angles,
+submenus and theme files. It lost one task, and that's in the results too. Everything is
 in [`evals/`](evals), and you can rerun it yourself.
 
 ## Kando first
@@ -96,13 +94,13 @@ or [GitHub Sponsors](https://github.com/sponsors/Schneegans).
 
 <p align="center"><img src="docs/img/balance.webp" alt="The author's yin-yang icon between two columns. You: the taste and the story, which way feels like home, icons that mean something, the last word. Claude: Kando's file format, the angle math, checks before anything breaks, memory of what you chose." width="100%"></p>
 
-I make art, and I didn't want a tool that makes it for me. I wanted one that carries the boring
-weight: the file format, the angles, the bookkeeping. Which icon sits at the top of my menu,
-which color glows when I reach for it, which direction my hand already knows: those calls stay
-mine.
+I make art, and I didn't want a tool that makes it for me. I wanted help with the boring parts,
+like the file format, the angles and keeping track of everything. Which icon goes at the top,
+which color glows when I reach for it, which direction my hand already knows: I still decide all
+of that.
 
-That's why the yin-yang is here. You bring the story and the final word. Claude brings precision
-and memory, and the menu you end up with looks and moves like you.
+That's what the yin-yang is about. You decide what the menu is and how it feels, Claude gets the
+details right and remembers them, and the menu ends up working the way you do.
 
 ## My Maya menu
 
@@ -111,12 +109,12 @@ in Maya. Everywhere else the same key opens my everyday menu.
 
 <p align="center"><img src="docs/img/maya-menu.webp" alt="The example Maya work menu rendered in Amethyst Arsenal over a mock 3D viewport, in three color looks: the root ring with Display hovered, the Display submenu with Wireframe hovered, and the Studio submenu with Save everything hovered. Under each, the direction of every item." width="100%"></p>
 
-- **Up frames the selection** (F). I do it constantly, so it gets the easiest flick.
-- **Down-left is Save** and **Down is Studio**, in every app I work in. From Maya, Down then
-  Right goes to Painter, Down then Down to Designer, Down then Left to Unreal. Down then
-  Down-left saves Maya, Painter, Designer and Unreal in one go.
-- **Right opens Display**: Smooth preview, Shaded, Textured, Wireframe and the rest. The way back
-  out of it, Left, stays empty, so I never pick Wireframe by accident on my way out.
+- Up frames the selection (F). I do that constantly, so it gets the easiest flick.
+- Down-left is Save and Down is "Studio" in every app I work in. From Maya, Down then Right goes
+  to Painter, Down then Down to Designer, and Down then Left to Unreal. Down then Down-left saves
+  Maya, Painter, Designer and Unreal in one go.
+- Right opens Display, with Smooth preview, Shaded, Textured, Wireframe and the rest. Left is the
+  way back out, so I keep it empty and never hit Wireframe by accident on my way out.
 - The menu is in [`examples/3d-work-menus.json`](skills/kando/examples/3d-work-menus.json), next to
   the Painter, Unreal and Designer ones.
 
@@ -124,14 +122,15 @@ in Maya. Everywhere else the same key opens my everyday menu.
 
 <p align="center"><img src="docs/img/flow.webp" alt="Five steps: say it, shape it, check it, see it, keep it" width="100%"></p>
 
-1. **Say it.** *"A Maya menu, only in Maya, fast for modeling."*
-2. **Shape it.** Claude lays it out on the compass, keeps the directions you already use, and
-   names things the way you do.
-3. **Check it.** `kando_check.py` catches what Kando would refuse without a word.
-4. **See it.** `kando_preview.py` prints the compass outline and can draw a printable cheat sheet with every item where Kando will really put it.
-5. **Keep it.** Your profile learns what you chose, so the next request needs fewer words.
+1. Say it: *"A Maya menu, only in Maya, fast for modeling."*
+2. Shape it: Claude lays it out on the compass, keeps the directions you already use, and names
+   things the way you do.
+3. Check it: `kando_check.py` catches the mistakes Kando would reject without telling you.
+4. See it: `kando_preview.py` prints the compass outline, and it can draw a printable cheat sheet
+   with every item exactly where Kando will put it.
+5. Keep it: your profile saves what you chose, so next time you can say less.
 
-The checker speaks plainly:
+Here's what the checker's output looks like:
 
 ```text
 $ python kando_check.py menus.json
@@ -150,17 +149,17 @@ TIP    shortcut control+4
 
 Designer is where I build materials from nothing: noise and patterns become a height map, the
 height map becomes normal, AO and curvature, and all of it ends up as a .sbsar that Painter and
-Unreal can open. It is also a lot of small keys spread across three views, which is exactly
-what a pie menu is good at.
+Unreal can open. It also has a lot of small keys spread across three views, and that's
+where a pie menu really helps.
 
 <p align="center"><img src="docs/img/designer-menu.webp" alt="The Substance 3D Designer work menu rendered in Amethyst Arsenal: the root ring with Nodes hovered, and the Nodes submenu of eight favourite nodes with Blend hovered, with the direction of every item underneath." width="100%"></p>
 
-- **Up opens my node palette**: eight nodes I add all the time, each bound to a key in
-  Designer's Preferences. Clicking the center instead opens the full node menu (Space).
-- **Left publishes the .sbsar** (Ctrl+P). In Painter, Left exports textures. Same flick, same
-  meaning: send it out.
-- **Down twice** jumps to Painter, and Down twice in Painter comes back. Down is "Studio" in
-  every work menu, and Designer sits straight down inside it from Maya, Painter and Unreal.
+- Up opens my node palette, eight nodes I add all the time, each bound to a key in Designer's
+  Preferences. Clicking the center opens the full node menu instead (Space).
+- Left publishes the .sbsar (Ctrl+P). In Painter, Left exports textures, so Left always means
+  "send it out".
+- Down twice jumps to Painter, and Down twice in Painter comes back. Down is "Studio" in every
+  work menu, and Designer is straight down inside it from Maya, Painter and Unreal.
 - Every key comes from Adobe's current Designer docs (version 16.0). The menu is in
   [`examples/3d-work-menus.json`](skills/kando/examples/3d-work-menus.json), with notes in
   [`app-recipes.md`](skills/kando/references/app-recipes.md).
@@ -173,9 +172,9 @@ apps you work in, the directions each menu uses, the items that sit in the same 
 (your anchors), and the ones that drift between menus. Then you and Claude add the human part:
 palette words, how you like things named, the workflows you care about, the ideas you turned down.
 
-From then on, Claude reads it first. Anchors stay put. New menus borrow your voice and your
-colors. A rejected idea doesn't come back. Nothing is written without your OK, and no paths, IDs
-or secrets go in it.
+After that, Claude reads it before anything else. Your anchors stay where they are, new menus use
+your naming and your colors, and ideas you turned down don't come back. It never writes the file
+without your OK, and it keeps paths, IDs and secrets out of it.
 
 ## Showcase
 
@@ -183,26 +182,26 @@ or secrets go in it.
 
 <p align="center"><img src="themes/amethyst-arsenal/showcase.jpg" alt="The Amethyst Arsenal theme: see-through purple hex tiles, the selected one glowing gold" width="80%"></p>
 
-Some menus you remember for years. The weapon wheel in *Ratchet & Clank Future: A Crack in Time*
-is one of mine: a ring of glowing tiles you open in the middle of chaos, one flick, and you're
-back in the fight with exactly what you needed. Kando gives that feeling to a desktop, so I built
-a theme that honors it: smoky hex tiles you can see through, a dark frame, and a soft gold aura on
-the one you're reaching for, all washed in amethyst.
+I still remember the weapon wheel in *Ratchet & Clank Future: A Crack in Time*. You open a ring of
+glowing tiles in the middle of a fight, flick once, and you're back in with exactly what you
+needed. Kando gives a desktop that same feeling, so I made a theme as a tribute to it: smoky hex
+tiles you can see through, a dark frame, and a soft gold aura on the one you're reaching for, all
+in amethyst purple.
 
-Its own look, the gold aura, is what Kando lists as **Default colors**. Six presets come with
-it: **Lime HUD**, **Pure Amethyst**, **Smoke**, **Work Mode** (a calmer one for busy 3D viewports), and two
-Tron-style looks, **Grid Cyan** and **Light Cycle**. [Install it from `themes/amethyst-arsenal`.](themes/amethyst-arsenal)
+The gold aura look is what Kando lists as Default colors. It comes with six presets: Lime HUD,
+Pure Amethyst, Smoke, Work Mode (a calmer one for busy 3D viewports), and two Tron-style looks
+called Grid Cyan and Light Cycle. [Install it from `themes/amethyst-arsenal`.](themes/amethyst-arsenal)
 
 <p align="center"><img src="themes/amethyst-arsenal/presets.jpg" alt="The same menu in all seven color looks of Amethyst Arsenal: Default colors, Lime HUD, Pure Amethyst, Smoke, Work Mode, Grid Cyan and Light Cycle" width="100%"></p>
 
 ### My everyday menu
 
-My own everyday menu opens around a north star, the fixed point every direction starts from. The
-icons are the [Amethyst Emblems](icon-themes/) set from this repo, drawn in one shape language so
-the whole ring reads as one piece.
+My everyday menu has a north star in the middle, since every direction starts from there. The
+icons are the [Amethyst Emblems](icon-themes/) set from this repo, all drawn in the same style so
+the ring looks like one set.
 
 The tiles are glass, so whatever I'm working in still shows through. Here it is over a few
-different apps, in the default colors and each preset, reaching in a different direction every time.
+different apps, in the default colors and each preset, with a different item picked each time.
 
 <p align="center"><img src="docs/img/my-menu.webp" alt="Six real renders of the author's menu. At rest in Default colors, the north star in the middle of a night-sky desktop. Creativity, up-left, with the gold aura of Default colors over a 3D viewport. Games, straight up, glowing green in Lime HUD over the night sky. Browser, down-right, glowing violet in Pure Amethyst over a bright web page. The Media submenu open on YouTube in the Smoke preset over a video site. Settings, down-left, in Work Mode over a colorful painting." width="100%"></p>
 
@@ -236,12 +235,12 @@ python skills/kando/scripts/kando_profile.py --out kando-profile.md
 python skills/kando/scripts/kando_check.py path/to/menus.json   # any other file
 ```
 
-**Menu guard.** The plugin also brings a small hook. Kando reloads `menus.json` the moment it
+The plugin also comes with a small hook I call the menu guard. Kando reloads `menus.json` the moment it
 changes, so before Claude edits that file the guard copies it into a `claude-backups` folder
 next to it (the newest 10 are kept). After the edit it runs `kando_check.py`. If the edit broke
 the JSON, it puts the copy back; if the checker finds errors, Claude sees them and fixes them
 in the same turn. It only touches a `menus.json` in a Kando config folder, needs Python 3.9+,
-and stays out of the way without it. Edits a script makes from the shell don't trigger it.
+and does nothing if Python isn't there. Edits a script makes from the shell don't trigger it.
 
 ## Try asking
 
@@ -295,5 +294,5 @@ evals/                    real tasks that score Claude with and without the skil
 - This skill is an independent project and is not affiliated with Kando or Anthropic.
 - App logos in the artwork come from [Simple Icons](https://simpleicons.org) and belong to their owners.
 
-Made by **Nicholas Cath**, for my own desk first. The skill is MIT licensed and the theme is CC0:
-take them, change them, make them yours.
+Made by **Nicholas Cath**, for my own desk first. The skill is MIT licensed and the theme is CC0,
+so feel free to take them and change them however you like.

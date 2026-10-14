@@ -2,7 +2,7 @@
 
 A menu theme for [Kando](https://kando.menu) 3.0, the cross-platform pie menu.
 
-Inspired by the weapon selection wheel of **Ratchet & Clank Future: A Crack in Time**: hex tiles with a dark frame and a see-through face, and a soft gold aura on the item you select. This version adds a dark purple tint.
+I based it on the weapon wheel from *Ratchet & Clank Future: A Crack in Time*: hex tiles with a dark frame and a see-through face, and a soft gold aura on the item you pick. Mine adds a dark purple tint.
 
 ![Amethyst Arsenal over a desktop](preview.jpg)
 ![Amethyst Arsenal over a game scene](showcase.jpg)
@@ -13,7 +13,7 @@ Inspired by the weapon selection wheel of **Ratchet & Clank Future: A Crack in T
 - The selected tile pops out with a cream frame, a dark face with a purple glow in the middle, and a soft gold aura.
 - The center tile shows the selected item's name in bold capitals.
 - Black logos like Steam or Unreal Engine get a thin light outline, so they stay visible on the dark tiles.
-- Items that open a submenu carry a small arrowhead on their outer edge, pointing the way the submenu opens. It turns cream on the selected tile.
+- Items that open a submenu have a small arrowhead on their outer edge, pointing the way the submenu opens. It turns cream on the selected tile.
 - With quick-select keys turned on, each tile shows its key as a small controller-style button.
 - With item wedges turned on, the direction you point at lights up softly.
 
@@ -35,10 +35,7 @@ Inspired by the weapon selection wheel of **Ratchet & Clank Future: A Crack in T
 
 ### Optional settings that suit the theme
 
-Both are switches in the **Menu Themes** dialog:
-
-- **Draw item wedges**: lights up the direction you point at.
-- **Draw quick-select key**: shows each item's key as a button on its tile.
+Two switches in the **Menu Themes** dialog go well with it. **Draw item wedges** lights up the direction you point at, and **Draw quick-select key** shows each item's key as a button on its tile.
 
 ## Color presets
 
@@ -58,11 +55,11 @@ In Kando's Menu Themes dialog, the preset list shows **Default colors**, which i
 
 ## Make it your own
 
-- **Colors:** change any color in Kando's settings under the theme's colors, or edit the `colors` list in `theme.json5`. Every color has a comment saying what it paints, and transparency works, for example `rgb(40 22 68 / 0.40)`.
-- **Sizes, glow and speed:** open `theme.css` and edit the **Tweak me** block at the top. You can change tile sizes, frame thickness, icon size, how much the selected tile grows, how far the aura reaches, and the animation speed.
-- **See changes live:** open Kando's **General Settings**, go to the **Developer Options** tab and click **Reload menu theme**. CSS changes show up right away. Changes to `theme.json5` show up the next time you open a menu.
-- **Bigger tiles or more glow:** `maxMenuRadius` in `theme.json5` keeps the menu far enough from the screen edge that the selected tile and its aura are not cut off. Its comment shows the math. If you make tiles, spacing, the hover scale or the aura bigger, raise it too.
-- **No submenu marker:** delete the "Submenu marker" block in `theme.css`.
+- To change colors, use the theme's colors in Kando's settings, or edit the `colors` list in `theme.json5`. Each color has a comment saying what it paints, and transparency works, for example `rgb(40 22 68 / 0.40)`.
+- For sizes, glow and speed, open `theme.css` and edit the "Tweak me" block at the top. You can change tile size, frame thickness, icon size, how much the selected tile grows, how far the aura reaches and how fast things animate.
+- To see changes live, open Kando's **General Settings**, go to the **Developer Options** tab and click **Reload menu theme**. CSS changes show up right away, and changes to `theme.json5` show up the next time you open a menu.
+- If you make tiles, spacing, the hover scale or the aura bigger, raise `maxMenuRadius` in `theme.json5` too. It keeps the menu far enough from the screen edge that the selected tile and its aura don't get cut off, and its comment shows the math.
+- If you don't want the submenu arrowheads, delete the "Submenu marker" block in `theme.css`.
 
 ## Compatibility
 
@@ -70,7 +67,7 @@ In Kando's Menu Themes dialog, the preset list shows **Default colors**, which i
 - Checked with 1 to 20 items. Menus with more than 9 items spread out so tiles keep their spacing. It looks best with up to 8 items per ring.
 - Near a screen edge, menus of up to 12 items keep the selected tile and its aura on screen. Bigger menus can touch the edge.
 - It works with every icon type Kando supports: app icons, icon fonts, emoji and images.
-- Light on slower PCs (since 1.2.0): only position, size and fade are animated, so the glow is never redrawn frame by frame during a hover. In a browser test with the CPU slowed six times, slow frames dropped from about 30 to about 4 per run. Big image icons (hundreds of KB each) still cost time when a menu opens, so small SVG or font icons keep it fastest.
+- It's light on slower PCs (since 1.2.0). Only position, size and fade are animated, so the glow isn't redrawn on every frame while you hover. In a browser test with the CPU slowed six times, slow frames dropped from about 30 to about 4 per run. Big image icons (hundreds of KB each) still cost time when a menu opens, so small SVG or font icons keep it fastest.
 - Turning off **Menu Animations** in the Menu Themes dialog, or turning on your system's "reduce motion" setting, switches off all animation. Hover and selection still change at once.
 
 ## Credits and license
