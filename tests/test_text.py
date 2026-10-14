@@ -6,6 +6,7 @@ import re
 import unittest
 
 from test_scripts import EXAMPLES, report  # also puts scripts/ on sys.path
+import kando_claude  # noqa: E402
 import kando_text  # noqa: E402
 
 
@@ -34,6 +35,17 @@ class TextTest(unittest.TestCase):
         self.assertTrue(used)
         self.assertLessEqual(used, set(kando_text.CHANGES) | set(kando_text.SEARCH))
         self.assertEqual(report(json.loads(text)).count("ERROR"), 0)
+
+
+class ClaudePromptTest(unittest.TestCase):
+    def test_prompts_carry_the_clip_and_stay_short(self):
+        url = "https://www.youtube.com/watch?v=abc123"
+        self.assertIn(url, kando_claude.build(kando_claude.PROMPTS["slides"], "  " + url + "\n"))
+        long = kando_claude.build("{clip}", "x" * 20000)
+        self.assertLess(len(long), 7000)
+        self.assertTrue(long.endswith("longer]"))
+        for template in kando_claude.PROMPTS.values():
+            self.assertIn("{clip}", template)
 
 
 if __name__ == "__main__":

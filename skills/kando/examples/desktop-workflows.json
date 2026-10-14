@@ -258,6 +258,34 @@
                 }
               },
               {
+                "name": "Explain what I copied",
+                "icon": "help",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 45,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyC"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.15
+                    },
+                    {
+                      "type": "execute-command",
+                      "command": "pythonw kando_claude.py explain",
+                      "detached": true
+                    }
+                  ],
+                  "quickSelectKey": "a"
+                }
+              },
+              {
                 "name": "Prompt: review my menus",
                 "icon": "rate_review",
                 "iconTheme": "material-symbols-rounded",
@@ -301,6 +329,42 @@
                     }
                   ],
                   "quickSelectKey": "e"
+                }
+              },
+              {
+                "name": "Slides from this video",
+                "icon": "slideshow",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 315,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyL"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyC"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "Escape"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.15
+                    },
+                    {
+                      "type": "execute-command",
+                      "command": "pythonw kando_claude.py slides --dir \"%USERPROFILE%\\Projects\"",
+                      "detached": true
+                    }
+                  ],
+                  "quickSelectKey": "s"
                 }
               }
             ]
