@@ -232,6 +232,19 @@ the JSON, it puts the copy back; if the checker finds errors, Claude sees them a
 in the same turn. It only touches a `menus.json` in a Kando config folder, needs Python 3.9+,
 and does nothing if Python isn't there. Edits a script makes from the shell don't trigger it.
 
+**Mouse side buttons.** Kando opens menus from keyboard shortcuts, so mouse buttons usually need
+a helper app like AutoHotkey. On Windows the skill comes with a small PowerShell script instead,
+[`kando-mouse-buttons.ps1`](skills/kando/scripts/windows/kando-mouse-buttons.ps1), which uses
+only what's built into Windows. While it runs, the Forward side button holds Ctrl and taps F13,
+so a menu on `Control+F13` opens and turbo mode works: hold the button, move, let go. The button
+stops doing Forward while the script runs, it can't reach apps running as admin, and some games'
+anti-cheat block simulated keys, so stop it before playing those.
+
+```powershell
+powershell -ExecutionPolicy Bypass -File skills\kando\scripts\windows\kando-mouse-buttons.ps1
+powershell -ExecutionPolicy Bypass -File skills\kando\scripts\windows\kando-mouse-buttons.ps1 -InstallStartup
+```
+
 ## Try asking
 
 | You say | Claude does |
@@ -256,7 +269,8 @@ skills/kando/
 │   ├── kando_check.py      validator and linter
 │   ├── kando_preview.py    compass outline and radial HTML cheat sheet
 │   ├── kando_profile.py    drafts your personal profile from your menus
-│   └── kando_layout.py     Kando's placement algorithm, ported
+│   ├── kando_layout.py     Kando's placement algorithm, ported
+│   └── windows/            kando-mouse-buttons.ps1: side buttons, no extra app
 └── examples/             a desktop launcher, Maya / Painter / Designer / Unreal work
                           menus, and ZBrush / Blender / Photoshop / Illustrator menus
 hooks/                    the menu guard: backs up and checks menus.json on every edit
