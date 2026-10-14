@@ -27,7 +27,7 @@ import sys
 from urllib.parse import urlsplit
 
 from kando_check import PRIVACY_PATTERNS
-from kando_layout import compass, levels, resolve_menus_path, use_utf8_output
+from kando_layout import compass, levels, menu_list, resolve_menus_path, use_utf8_output
 
 PLACEHOLDER = "- (add as you learn)"
 MAX_DEPTH = 50  # deeper than any real menu; stops runaway recursion on odd files
@@ -85,16 +85,6 @@ def label(value, limit=60):
 
 
 # ------------------------------------------------------------------------- reading --
-
-
-def menu_list(data):
-    """The readable menus of a menus.json or a single exported menu; skips the rest."""
-    if isinstance(data, dict) and "menus" not in data and isinstance(data.get("menu"), dict):
-        data = {"menus": [data["menu"]]}
-    menus = data.get("menus") if isinstance(data, dict) else None
-    if not isinstance(menus, list):
-        return []
-    return [m for m in menus if isinstance(m, dict) and isinstance(m.get("root"), dict)]
 
 
 def clean_angle(value):

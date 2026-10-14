@@ -25,7 +25,8 @@ import math
 import sys
 
 from kando_layout import (COMPASS, angle_problems, angular_distance, child_items, compass,
-                          item_name, levels, raw_angle, resolve_menus_path, use_utf8_output)
+                          item_name, levels, menu_list, raw_angle, resolve_menus_path,
+                          use_utf8_output)
 
 ARROWS = ["↑", "↗", "→", "↘", "↓", "↙", "←", "↖"]
 
@@ -417,16 +418,6 @@ def load(path):
                  "Run kando_check.py on it first.")
     except RecursionError:
         sys.exit(f"{path} is nested too deeply to read.")
-
-
-def menu_list(data):
-    """The drawable menus of a menus.json or a single exported menu; skips the rest."""
-    if isinstance(data, dict) and "menus" not in data and isinstance(data.get("menu"), dict):
-        data = {"menus": [data["menu"]]}
-    menus = data.get("menus") if isinstance(data, dict) else None
-    if not isinstance(menus, list):
-        return []
-    return [m for m in menus if isinstance(m, dict) and isinstance(m.get("root"), dict)]
 
 
 def main():

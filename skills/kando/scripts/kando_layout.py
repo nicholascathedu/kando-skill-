@@ -143,6 +143,16 @@ def child_items(node):
     return [c for c in children if isinstance(c, dict)] if isinstance(children, list) else []
 
 
+def menu_list(data):
+    """The usable menus of a menus.json or a single exported menu; skips the rest."""
+    if isinstance(data, dict) and "menus" not in data and isinstance(data.get("menu"), dict):
+        data = {"menus": [data["menu"]]}
+    menus = data.get("menus") if isinstance(data, dict) else None
+    if not isinstance(menus, list):
+        return []
+    return [m for m in menus if isinstance(m, dict) and isinstance(m.get("root"), dict)]
+
+
 def levels(menu):
     """Yield (path, node, parent_angle, child_angles) for root and every submenu, depth
     first. Iterative, so a very deeply nested file cannot hit Python's recursion limit."""
