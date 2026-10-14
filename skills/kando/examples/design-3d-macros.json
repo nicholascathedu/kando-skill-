@@ -1,0 +1,1420 @@
+{
+  "version": "3.0.0",
+  "menus": [
+    {
+      "shortcut": "Control+4",
+      "shortcutID": "",
+      "useFixedPosition": false,
+      "fixedMenuPosition": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "anchored": false,
+      "hoverMode": false,
+      "conditions": {
+        "appName": "ZBrush"
+      },
+      "tags": [
+        "Design and 3D"
+      ],
+      "root": {
+        "name": "ZBrush",
+        "icon": "brush",
+        "iconTheme": "material-symbols-rounded",
+        "type": "root",
+        "activateWorkflow": {
+          "quickSelectKey": "Backspace",
+          "actions": [
+            {
+              "type": "close-menu"
+            }
+          ]
+        },
+        "children": [
+          {
+            "name": "Draw",
+            "icon": "draw",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 0,
+            "selectWorkflow": {
+              "quickSelectKey": "Q",
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "KeyQ"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Move",
+            "icon": "open_with",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 45,
+            "selectWorkflow": {
+              "quickSelectKey": "W",
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "KeyW"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Display",
+            "icon": "visibility",
+            "iconTheme": "material-symbols-rounded",
+            "type": "submenu",
+            "angle": 90,
+            "children": [
+              {
+                "name": "Polyframe",
+                "icon": "grid_on",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 0,
+                "selectWorkflow": {
+                  "quickSelectKey": "F",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ShiftLeft+KeyF"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Symmetry",
+                "icon": "flip",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 90,
+                "selectWorkflow": {
+                  "quickSelectKey": "X",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "KeyX"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Transp (bind first)",
+                "icon": "opacity",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 135,
+                "selectWorkflow": {
+                  "quickSelectKey": "T",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+AltLeft+ShiftLeft+KeyT"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Solo (bind first)",
+                "icon": "center_focus_strong",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 180,
+                "selectWorkflow": {
+                  "quickSelectKey": "S",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+AltLeft+ShiftLeft+KeyS"
+                    }
+                  ]
+                }
+              }
+            ],
+            "activateWorkflow": {
+              "quickSelectKey": "Backspace",
+              "actions": [
+                {
+                  "type": "close-submenu"
+                }
+              ]
+            },
+            "openWorkflow": {
+              "quickSelectKey": "D",
+              "actions": []
+            }
+          },
+          {
+            "name": "Brush pop-up",
+            "icon": "palette",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 135,
+            "selectWorkflow": {
+              "quickSelectKey": "B",
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "KeyB"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Studio",
+            "icon": "workspaces",
+            "iconTheme": "material-symbols-rounded",
+            "type": "submenu",
+            "angle": 180,
+            "children": [
+              {
+                "name": "Pick colour",
+                "icon": "colorize",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 135,
+                "selectWorkflow": {
+                  "quickSelectKey": "C",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "MetaLeft+ShiftLeft+KeyC"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Save everything",
+                "icon": "save_as",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 180,
+                "selectWorkflow": {
+                  "quickSelectKey": "A",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "ZBrush",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyS"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.5
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "blender",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyS"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.5
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "Photoshop",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyS"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.5
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "Illustrator",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyS"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Paste colour",
+                "icon": "format_color_fill",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 225,
+                "selectWorkflow": {
+                  "quickSelectKey": "V",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "/painter|designer/i",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyV"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "Enter"
+                    }
+                  ]
+                }
+              }
+            ],
+            "activateWorkflow": {
+              "quickSelectKey": "Backspace",
+              "actions": [
+                {
+                  "type": "close-submenu"
+                }
+              ]
+            },
+            "openWorkflow": {
+              "quickSelectKey": "Z",
+              "actions": []
+            }
+          },
+          {
+            "name": "Save",
+            "icon": "save",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 225,
+            "selectWorkflow": {
+              "quickSelectKey": "S",
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "ControlLeft+KeyS"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Subdiv",
+            "icon": "layers",
+            "iconTheme": "material-symbols-rounded",
+            "type": "submenu",
+            "angle": 270,
+            "children": [
+              {
+                "name": "Higher res",
+                "icon": "keyboard_arrow_up",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 0,
+                "selectWorkflow": {
+                  "quickSelectKey": "D",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "KeyD"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Lower res",
+                "icon": "keyboard_arrow_down",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 180,
+                "selectWorkflow": {
+                  "quickSelectKey": "F",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ShiftLeft+KeyD"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Divide",
+                "icon": "add_box",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 270,
+                "selectWorkflow": {
+                  "quickSelectKey": "V",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyD"
+                    }
+                  ]
+                }
+              }
+            ],
+            "activateWorkflow": {
+              "quickSelectKey": "Backspace",
+              "actions": [
+                {
+                  "type": "close-submenu"
+                }
+              ]
+            },
+            "openWorkflow": {
+              "quickSelectKey": "V",
+              "actions": []
+            }
+          },
+          {
+            "name": "Group masked",
+            "icon": "category",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 315,
+            "selectWorkflow": {
+              "quickSelectKey": "G",
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "ControlLeft+KeyW"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "shortcut": "Control+4",
+      "shortcutID": "",
+      "useFixedPosition": false,
+      "fixedMenuPosition": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "anchored": false,
+      "hoverMode": false,
+      "conditions": {
+        "appName": "blender"
+      },
+      "tags": [
+        "Design and 3D"
+      ],
+      "root": {
+        "name": "Blender",
+        "icon": "blender",
+        "iconTheme": "simple-icons-colored",
+        "type": "root",
+        "activateWorkflow": {
+          "quickSelectKey": "Backspace",
+          "actions": [
+            {
+              "type": "close-menu"
+            }
+          ]
+        },
+        "children": [
+          {
+            "name": "Render image",
+            "icon": "photo_camera",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 0,
+            "selectWorkflow": {
+              "quickSelectKey": "R",
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "F12"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Render animation",
+            "icon": "movie",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 45,
+            "selectWorkflow": {
+              "quickSelectKey": "A",
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "ControlLeft+F12"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Next workspace",
+            "icon": "arrow_forward",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 90,
+            "selectWorkflow": {
+              "quickSelectKey": "N",
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "ControlLeft+PageDown"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Maximize area",
+            "icon": "fullscreen",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 135,
+            "selectWorkflow": {
+              "quickSelectKey": "M",
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "ControlLeft+Space"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Studio",
+            "icon": "workspaces",
+            "iconTheme": "material-symbols-rounded",
+            "type": "submenu",
+            "angle": 180,
+            "children": [
+              {
+                "name": "Pick colour",
+                "icon": "colorize",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 135,
+                "selectWorkflow": {
+                  "quickSelectKey": "C",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "MetaLeft+ShiftLeft+KeyC"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Save everything",
+                "icon": "save_as",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 180,
+                "selectWorkflow": {
+                  "quickSelectKey": "A",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "ZBrush",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyS"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.5
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "blender",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyS"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.5
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "Photoshop",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyS"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.5
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "Illustrator",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyS"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Paste colour",
+                "icon": "format_color_fill",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 225,
+                "selectWorkflow": {
+                  "quickSelectKey": "V",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "/painter|designer/i",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyV"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "Enter"
+                    }
+                  ]
+                }
+              }
+            ],
+            "activateWorkflow": {
+              "quickSelectKey": "Backspace",
+              "actions": [
+                {
+                  "type": "close-submenu"
+                }
+              ]
+            },
+            "openWorkflow": {
+              "quickSelectKey": "Z",
+              "actions": []
+            }
+          },
+          {
+            "name": "Save",
+            "icon": "save",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 225,
+            "selectWorkflow": {
+              "quickSelectKey": "S",
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "ControlLeft+KeyS"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Previous workspace",
+            "icon": "arrow_back",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 270,
+            "selectWorkflow": {
+              "quickSelectKey": "P",
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "ControlLeft+PageUp"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Last render",
+            "icon": "image",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 315,
+            "selectWorkflow": {
+              "quickSelectKey": "L",
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "F11"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "shortcut": "Control+4",
+      "shortcutID": "",
+      "useFixedPosition": false,
+      "fixedMenuPosition": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "anchored": false,
+      "hoverMode": false,
+      "conditions": {
+        "appName": "Photoshop"
+      },
+      "tags": [
+        "Design and 3D"
+      ],
+      "root": {
+        "name": "Photoshop",
+        "icon": "photo_filter",
+        "iconTheme": "material-symbols-rounded",
+        "type": "root",
+        "activateWorkflow": {
+          "quickSelectKey": "Backspace",
+          "actions": [
+            {
+              "type": "close-menu"
+            }
+          ]
+        },
+        "children": [
+          {
+            "name": "Move",
+            "icon": "open_with",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 0,
+            "selectWorkflow": {
+              "quickSelectKey": "V",
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "KeyV"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Brush",
+            "icon": "brush",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 45,
+            "selectWorkflow": {
+              "quickSelectKey": "B",
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "KeyB"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Free Transform",
+            "icon": "transform",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 90,
+            "selectWorkflow": {
+              "quickSelectKey": "T",
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "ControlLeft+KeyT"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Fit on screen",
+            "icon": "fit_screen",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 135,
+            "selectWorkflow": {
+              "quickSelectKey": "F",
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "ControlLeft+Digit0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Studio",
+            "icon": "workspaces",
+            "iconTheme": "material-symbols-rounded",
+            "type": "submenu",
+            "angle": 180,
+            "children": [
+              {
+                "name": "Pick colour",
+                "icon": "colorize",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 135,
+                "selectWorkflow": {
+                  "quickSelectKey": "C",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "MetaLeft+ShiftLeft+KeyC"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Save everything",
+                "icon": "save_as",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 180,
+                "selectWorkflow": {
+                  "quickSelectKey": "A",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "ZBrush",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyS"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.5
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "blender",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyS"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.5
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "Photoshop",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyS"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.5
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "Illustrator",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyS"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Paste colour",
+                "icon": "format_color_fill",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 225,
+                "selectWorkflow": {
+                  "quickSelectKey": "V",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "/painter|designer/i",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyV"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "Enter"
+                    }
+                  ]
+                }
+              }
+            ],
+            "activateWorkflow": {
+              "quickSelectKey": "Backspace",
+              "actions": [
+                {
+                  "type": "close-submenu"
+                }
+              ]
+            },
+            "openWorkflow": {
+              "quickSelectKey": "Z",
+              "actions": []
+            }
+          },
+          {
+            "name": "Save",
+            "icon": "save",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 225,
+            "selectWorkflow": {
+              "quickSelectKey": "S",
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "ControlLeft+KeyS"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Export As",
+            "icon": "ios_share",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 270,
+            "selectWorkflow": {
+              "quickSelectKey": "E",
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "AltLeft+ShiftLeft+ControlLeft+KeyW"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Stamp visible",
+            "icon": "layers",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 315,
+            "selectWorkflow": {
+              "quickSelectKey": "M",
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "ControlLeft+ShiftLeft+AltLeft+KeyE"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "shortcut": "Control+4",
+      "shortcutID": "",
+      "useFixedPosition": false,
+      "fixedMenuPosition": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "anchored": false,
+      "hoverMode": false,
+      "conditions": {
+        "appName": "Illustrator"
+      },
+      "tags": [
+        "Design and 3D"
+      ],
+      "root": {
+        "name": "Illustrator",
+        "icon": "draw",
+        "iconTheme": "material-symbols-rounded",
+        "type": "root",
+        "activateWorkflow": {
+          "quickSelectKey": "Backspace",
+          "actions": [
+            {
+              "type": "close-menu"
+            }
+          ]
+        },
+        "children": [
+          {
+            "name": "Selection",
+            "icon": "arrow_selector_tool",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 0,
+            "selectWorkflow": {
+              "quickSelectKey": "V",
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "KeyV"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Direct Selection",
+            "icon": "near_me",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 45,
+            "selectWorkflow": {
+              "quickSelectKey": "A",
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "KeyA"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Pen",
+            "icon": "ink_pen",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 90,
+            "selectWorkflow": {
+              "quickSelectKey": "P",
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "KeyP"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Shape Builder",
+            "icon": "join",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 135,
+            "selectWorkflow": {
+              "quickSelectKey": "M",
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "ShiftLeft+KeyM"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Studio",
+            "icon": "workspaces",
+            "iconTheme": "material-symbols-rounded",
+            "type": "submenu",
+            "angle": 180,
+            "children": [
+              {
+                "name": "Pick colour",
+                "icon": "colorize",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 135,
+                "selectWorkflow": {
+                  "quickSelectKey": "C",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "MetaLeft+ShiftLeft+KeyC"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Save everything",
+                "icon": "save_as",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 180,
+                "selectWorkflow": {
+                  "quickSelectKey": "A",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "ZBrush",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyS"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.5
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "blender",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyS"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.5
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "Photoshop",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyS"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.5
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "Illustrator",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyS"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Paste colour",
+                "icon": "format_color_fill",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 225,
+                "selectWorkflow": {
+                  "quickSelectKey": "V",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "/painter|designer/i",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyV"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "Enter"
+                    }
+                  ]
+                }
+              }
+            ],
+            "activateWorkflow": {
+              "quickSelectKey": "Backspace",
+              "actions": [
+                {
+                  "type": "close-submenu"
+                }
+              ]
+            },
+            "openWorkflow": {
+              "quickSelectKey": "Z",
+              "actions": []
+            }
+          },
+          {
+            "name": "Save",
+            "icon": "save",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 225,
+            "selectWorkflow": {
+              "quickSelectKey": "S",
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "ControlLeft+KeyS"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Export for Screens",
+            "icon": "ios_share",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 270,
+            "selectWorkflow": {
+              "quickSelectKey": "E",
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "AltLeft+ControlLeft+KeyE"
+                }
+              ]
+            }
+          },
+          {
+            "name": "Outline view",
+            "icon": "deselect",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 315,
+            "selectWorkflow": {
+              "quickSelectKey": "O",
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "ControlLeft+KeyY"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "collections": [
+    {
+      "name": "Design and 3D",
+      "icon": "design_services",
+      "iconTheme": "material-symbols-rounded",
+      "tags": [
+        "Design and 3D"
+      ]
+    }
+  ]
+}

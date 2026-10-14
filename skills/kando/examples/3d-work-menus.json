@@ -188,8 +188,8 @@
             }
           },
           {
-            "name": "Switch app",
-            "icon": "swap_horiz",
+            "name": "Studio",
+            "icon": "workspaces",
             "iconTheme": "material-symbols-rounded",
             "type": "submenu",
             "angle": 180,
@@ -214,6 +214,25 @@
                 }
               },
               {
+                "name": "Pick colour",
+                "icon": "colorize",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 135,
+                "selectWorkflow": {
+                  "quickSelectKey": "C",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "MetaLeft+ShiftLeft+KeyC"
+                    }
+                  ]
+                }
+              },
+              {
                 "name": "Go to Designer",
                 "icon": "deployed_code",
                 "iconTheme": "material-symbols-rounded",
@@ -228,6 +247,85 @@
                       "type": "focus-window",
                       "appName": "Substance 3D Designer",
                       "windowName": ""
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Save everything",
+                "icon": "save_as",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 225,
+                "selectWorkflow": {
+                  "quickSelectKey": "A",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "maya",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyS"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.5
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "Painter",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyS"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.5
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "Substance 3D Designer",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyS"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.5
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "UnrealEditor",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+ShiftLeft+KeyS"
                     }
                   ]
                 }
@@ -360,7 +458,7 @@
                 "icon": "brush",
                 "iconTheme": "material-symbols-rounded",
                 "type": "button",
-                "angle": 36,
+                "angle": 26,
                 "selectWorkflow": {
                   "actions": [
                     {
@@ -378,7 +476,7 @@
                 "icon": "ink_eraser",
                 "iconTheme": "material-symbols-rounded",
                 "type": "button",
-                "angle": 108,
+                "angle": 77,
                 "selectWorkflow": {
                   "actions": [
                     {
@@ -396,7 +494,7 @@
                 "icon": "photo_camera",
                 "iconTheme": "material-symbols-rounded",
                 "type": "button",
-                "angle": 252,
+                "angle": 129,
                 "selectWorkflow": {
                   "actions": [
                     {
@@ -414,7 +512,7 @@
                 "icon": "format_color_fill",
                 "iconTheme": "material-symbols-rounded",
                 "type": "button",
-                "angle": 324,
+                "angle": 231,
                 "selectWorkflow": {
                   "actions": [
                     {
@@ -423,6 +521,42 @@
                     {
                       "type": "simulate-hotkey",
                       "hotkey": "Digit4"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Smudge",
+                "icon": "blur_on",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 283,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "Digit5"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Clone",
+                "icon": "content_copy",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 334,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "Digit6"
                     }
                   ]
                 }
@@ -438,37 +572,113 @@
             }
           },
           {
-            "name": "3D + 2D view",
-            "icon": "splitscreen",
+            "name": "Views",
+            "icon": "view_quilt",
             "iconTheme": "material-symbols-rounded",
-            "type": "button",
+            "type": "submenu",
             "angle": 45,
-            "selectWorkflow": {
+            "children": [
+              {
+                "name": "3D + 2D view",
+                "icon": "splitscreen",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 0,
+                "selectWorkflow": {
+                  "quickSelectKey": "A",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "F1"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "3D only",
+                "icon": "view_in_ar",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 90,
+                "selectWorkflow": {
+                  "quickSelectKey": "D",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "F2"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "2D only",
+                "icon": "texture",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 180,
+                "selectWorkflow": {
+                  "quickSelectKey": "T",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "F3"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Swap 2D / 3D",
+                "icon": "swap_horiz",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 270,
+                "selectWorkflow": {
+                  "quickSelectKey": "S",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "F4"
+                    }
+                  ]
+                }
+              }
+            ],
+            "activateWorkflow": {
+              "quickSelectKey": "Backspace",
               "actions": [
                 {
-                  "type": "close-menu"
-                },
-                {
-                  "type": "simulate-hotkey",
-                  "hotkey": "F1"
+                  "type": "close-submenu"
                 }
               ]
             }
           },
           {
-            "name": "3D only",
-            "icon": "view_in_ar",
+            "name": "Bake mesh maps",
+            "icon": "local_fire_department",
             "iconTheme": "material-symbols-rounded",
             "type": "button",
             "angle": 90,
             "selectWorkflow": {
+              "quickSelectKey": "B",
               "actions": [
                 {
                   "type": "close-menu"
                 },
                 {
                   "type": "simulate-hotkey",
-                  "hotkey": "F2"
+                  "hotkey": "ControlLeft+ShiftLeft+KeyB"
                 }
               ]
             }
@@ -492,8 +702,8 @@
             }
           },
           {
-            "name": "Switch app",
-            "icon": "swap_horiz",
+            "name": "Studio",
+            "icon": "workspaces",
             "iconTheme": "material-symbols-rounded",
             "type": "submenu",
             "angle": 180,
@@ -518,6 +728,25 @@
                 }
               },
               {
+                "name": "Pick colour",
+                "icon": "colorize",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 135,
+                "selectWorkflow": {
+                  "quickSelectKey": "C",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "MetaLeft+ShiftLeft+KeyC"
+                    }
+                  ]
+                }
+              },
+              {
                 "name": "Go to Designer",
                 "icon": "deployed_code",
                 "iconTheme": "material-symbols-rounded",
@@ -532,6 +761,85 @@
                       "type": "focus-window",
                       "appName": "Substance 3D Designer",
                       "windowName": ""
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Save everything",
+                "icon": "save_as",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 225,
+                "selectWorkflow": {
+                  "quickSelectKey": "A",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "maya",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyS"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.5
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "Painter",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyS"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.5
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "Substance 3D Designer",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyS"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.5
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "UnrealEditor",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+ShiftLeft+KeyS"
                     }
                   ]
                 }
@@ -676,12 +984,158 @@
         },
         "children": [
           {
-            "name": "Add node",
+            "name": "Nodes",
             "icon": "add_circle",
             "iconTheme": "material-symbols-rounded",
-            "type": "button",
+            "type": "submenu",
             "angle": 0,
-            "selectWorkflow": {
+            "children": [
+              {
+                "name": "Blend",
+                "icon": "layers",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 20,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+AltLeft+Digit1"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Levels",
+                "icon": "tune",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 60,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+AltLeft+Digit2"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Transform 2D",
+                "icon": "transform",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 100,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+AltLeft+Digit3"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Uniform color",
+                "icon": "format_color_fill",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 140,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+AltLeft+Digit4"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Gradient map",
+                "icon": "gradient",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 220,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+AltLeft+Digit5"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Blur HQ",
+                "icon": "blur_on",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 260,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+AltLeft+Digit6"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Warp",
+                "icon": "waves",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 300,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+AltLeft+Digit7"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Normal",
+                "icon": "texture",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 340,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+AltLeft+Digit8"
+                    }
+                  ]
+                }
+              }
+            ],
+            "activateWorkflow": {
               "actions": [
                 {
                   "type": "close-menu"
@@ -801,8 +1255,8 @@
             }
           },
           {
-            "name": "Switch app",
-            "icon": "swap_horiz",
+            "name": "Studio",
+            "icon": "workspaces",
             "iconTheme": "material-symbols-rounded",
             "type": "submenu",
             "angle": 180,
@@ -827,6 +1281,25 @@
                 }
               },
               {
+                "name": "Pick colour",
+                "icon": "colorize",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 135,
+                "selectWorkflow": {
+                  "quickSelectKey": "C",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "MetaLeft+ShiftLeft+KeyC"
+                    }
+                  ]
+                }
+              },
+              {
                 "name": "Go to Painter",
                 "icon": "texture",
                 "iconTheme": "material-symbols-rounded",
@@ -841,6 +1314,85 @@
                       "type": "focus-window",
                       "appName": "Painter",
                       "windowName": ""
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Save everything",
+                "icon": "save_as",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 225,
+                "selectWorkflow": {
+                  "quickSelectKey": "A",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "maya",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyS"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.5
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "Painter",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyS"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.5
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "Substance 3D Designer",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyS"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.5
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "UnrealEditor",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+ShiftLeft+KeyS"
                     }
                   ]
                 }
@@ -911,7 +1463,7 @@
             }
           },
           {
-            "name": "Node",
+            "name": "Edit node",
             "icon": "hub",
             "iconTheme": "material-symbols-rounded",
             "type": "submenu",
@@ -1334,8 +1886,8 @@
             }
           },
           {
-            "name": "Switch app",
-            "icon": "swap_horiz",
+            "name": "Studio",
+            "icon": "workspaces",
             "iconTheme": "material-symbols-rounded",
             "type": "submenu",
             "angle": 180,
@@ -1360,6 +1912,25 @@
                 }
               },
               {
+                "name": "Pick colour",
+                "icon": "colorize",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 135,
+                "selectWorkflow": {
+                  "quickSelectKey": "C",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "MetaLeft+ShiftLeft+KeyC"
+                    }
+                  ]
+                }
+              },
+              {
                 "name": "Go to Designer",
                 "icon": "deployed_code",
                 "iconTheme": "material-symbols-rounded",
@@ -1374,6 +1945,85 @@
                       "type": "focus-window",
                       "appName": "Substance 3D Designer",
                       "windowName": ""
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "Save everything",
+                "icon": "save_as",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 225,
+                "selectWorkflow": {
+                  "quickSelectKey": "A",
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "maya",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyS"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.5
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "Painter",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyS"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.5
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "Substance 3D Designer",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyS"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.5
+                    },
+                    {
+                      "type": "focus-window",
+                      "appName": "UnrealEditor",
+                      "windowName": ""
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.3
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+ShiftLeft+KeyS"
                     }
                   ]
                 }
