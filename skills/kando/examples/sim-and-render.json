@@ -1,0 +1,850 @@
+{
+  "version": "3.0.0",
+  "menus": [
+    {
+      "shortcut": "Control+F14",
+      "shortcutID": "",
+      "useFixedPosition": false,
+      "fixedMenuPosition": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "anchored": false,
+      "hoverMode": false,
+      "tags": [
+        "Sim and render"
+      ],
+      "root": {
+        "name": "Physics test",
+        "icon": "unrealengine",
+        "iconTheme": "simple-icons",
+        "type": "root",
+        "activateWorkflow": {
+          "quickSelectKey": "Backspace",
+          "actions": [
+            {
+              "type": "close-menu"
+            }
+          ]
+        },
+        "children": [
+          {
+            "name": "Play",
+            "icon": "play_arrow",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 0,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "AltLeft+KeyP"
+                }
+              ],
+              "quickSelectKey": "p"
+            }
+          },
+          {
+            "name": "Simulate",
+            "icon": "science",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 45,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "AltLeft+KeyS"
+                }
+              ],
+              "quickSelectKey": "s"
+            }
+          },
+          {
+            "name": "Slow motion",
+            "icon": "slow_motion_video",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 90,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "set-clipboard",
+                  "text": "slomo 0.25"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "Backquote"
+                },
+                {
+                  "type": "delay",
+                  "duration": 0.2
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "ControlLeft+KeyV"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "Enter"
+                }
+              ],
+              "quickSelectKey": "m"
+            }
+          },
+          {
+            "name": "Normal speed",
+            "icon": "speed",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 135,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "set-clipboard",
+                  "text": "slomo 1"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "Backquote"
+                },
+                {
+                  "type": "delay",
+                  "duration": 0.2
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "ControlLeft+KeyV"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "Enter"
+                }
+              ],
+              "quickSelectKey": "n"
+            }
+          },
+          {
+            "name": "Record clip",
+            "icon": "videocam",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 180,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "MetaLeft+AltLeft+KeyR"
+                }
+              ],
+              "quickSelectKey": "r"
+            }
+          },
+          {
+            "name": "Frame timing",
+            "icon": "monitoring",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 225,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "set-clipboard",
+                  "text": "stat unit"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "Backquote"
+                },
+                {
+                  "type": "delay",
+                  "duration": 0.2
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "ControlLeft+KeyV"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "Enter"
+                }
+              ],
+              "quickSelectKey": "u"
+            }
+          },
+          {
+            "name": "Chaos recording",
+            "icon": "fiber_manual_record",
+            "iconTheme": "material-symbols-rounded",
+            "type": "submenu",
+            "angle": 270,
+            "activateWorkflow": {
+              "quickSelectKey": "Backspace",
+              "actions": [
+                {
+                  "type": "close-submenu"
+                }
+              ]
+            },
+            "children": [
+              {
+                "name": "Start recording",
+                "icon": "fiber_manual_record",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 0,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "set-clipboard",
+                      "text": "p.Chaos.StartVDRecording"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "Backquote"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.2
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyV"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "Enter"
+                    }
+                  ],
+                  "quickSelectKey": "a"
+                }
+              },
+              {
+                "name": "Stop recording",
+                "icon": "stop",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 180,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "set-clipboard",
+                      "text": "p.Chaos.StopVDRecording"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "Backquote"
+                    },
+                    {
+                      "type": "delay",
+                      "duration": 0.2
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyV"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "Enter"
+                    }
+                  ],
+                  "quickSelectKey": "o"
+                }
+              }
+            ]
+          },
+          {
+            "name": "Game view",
+            "icon": "sports_esports",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 315,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "KeyG"
+                }
+              ],
+              "quickSelectKey": "g"
+            }
+          }
+        ]
+      },
+      "conditions": {
+        "appName": "UnrealEditor"
+      }
+    },
+    {
+      "shortcut": "Control+4",
+      "shortcutID": "",
+      "useFixedPosition": false,
+      "fixedMenuPosition": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "anchored": false,
+      "hoverMode": false,
+      "tags": [
+        "Sim and render"
+      ],
+      "root": {
+        "name": "Marvelous",
+        "icon": "checkroom",
+        "iconTheme": "material-symbols-rounded",
+        "type": "root",
+        "activateWorkflow": {
+          "quickSelectKey": "Backspace",
+          "actions": [
+            {
+              "type": "close-menu"
+            }
+          ]
+        },
+        "children": [
+          {
+            "name": "Back view",
+            "icon": "arrow_upward",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 0,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "Numpad8"
+                }
+              ],
+              "quickSelectKey": "b"
+            }
+          },
+          {
+            "name": "Top / bottom",
+            "icon": "swap_vert",
+            "iconTheme": "material-symbols-rounded",
+            "type": "submenu",
+            "angle": 45,
+            "activateWorkflow": {
+              "quickSelectKey": "Backspace",
+              "actions": [
+                {
+                  "type": "close-submenu"
+                }
+              ]
+            },
+            "children": [
+              {
+                "name": "Top view",
+                "icon": "vertical_align_top",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 0,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "Numpad5"
+                    }
+                  ],
+                  "quickSelectKey": "t"
+                }
+              },
+              {
+                "name": "Bottom view",
+                "icon": "vertical_align_bottom",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 180,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "Numpad0"
+                    }
+                  ],
+                  "quickSelectKey": "m"
+                }
+              }
+            ]
+          },
+          {
+            "name": "Right view",
+            "icon": "arrow_forward",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 90,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "Numpad6"
+                }
+              ],
+              "quickSelectKey": "r"
+            }
+          },
+          {
+            "name": "Three-quarter (3)",
+            "icon": "south_east",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 135,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "Numpad3"
+                }
+              ],
+              "quickSelectKey": "e"
+            }
+          },
+          {
+            "name": "Front view",
+            "icon": "arrow_downward",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 180,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "Numpad2"
+                }
+              ],
+              "quickSelectKey": "f"
+            }
+          },
+          {
+            "name": "Three-quarter (1)",
+            "icon": "south_west",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 225,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "Numpad1"
+                }
+              ],
+              "quickSelectKey": "q"
+            }
+          },
+          {
+            "name": "Left view",
+            "icon": "arrow_back",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 270,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "Numpad4"
+                }
+              ],
+              "quickSelectKey": "l"
+            }
+          },
+          {
+            "name": "Garment",
+            "icon": "styler",
+            "iconTheme": "material-symbols-rounded",
+            "type": "submenu",
+            "angle": 315,
+            "activateWorkflow": {
+              "quickSelectKey": "Backspace",
+              "actions": [
+                {
+                  "type": "close-submenu"
+                }
+              ]
+            },
+            "children": [
+              {
+                "name": "Simulate",
+                "icon": "play_arrow",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 0,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "Space"
+                    }
+                  ],
+                  "quickSelectKey": "s"
+                }
+              },
+              {
+                "name": "Freeze",
+                "icon": "ac_unit",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 45,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyK"
+                    }
+                  ],
+                  "quickSelectKey": "z"
+                }
+              },
+              {
+                "name": "Deactivate",
+                "icon": "block",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 90,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyJ"
+                    }
+                  ],
+                  "quickSelectKey": "d"
+                }
+              },
+              {
+                "name": "Strengthen",
+                "icon": "fitness_center",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 180,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyH"
+                    }
+                  ],
+                  "quickSelectKey": "h"
+                }
+              },
+              {
+                "name": "Hide 3D pattern",
+                "icon": "visibility_off",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 270,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ShiftLeft+KeyQ"
+                    }
+                  ],
+                  "quickSelectKey": "i"
+                }
+              },
+              {
+                "name": "Zoom to selected",
+                "icon": "center_focus_strong",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 315,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "KeyF"
+                    }
+                  ],
+                  "quickSelectKey": "f"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "conditions": {
+        "appName": "Marvelous"
+      }
+    },
+    {
+      "shortcut": "Control+4",
+      "shortcutID": "",
+      "useFixedPosition": false,
+      "fixedMenuPosition": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "anchored": false,
+      "hoverMode": false,
+      "tags": [
+        "Sim and render"
+      ],
+      "root": {
+        "name": "Present",
+        "icon": "photo_camera",
+        "iconTheme": "material-symbols-rounded",
+        "type": "root",
+        "activateWorkflow": {
+          "quickSelectKey": "Backspace",
+          "actions": [
+            {
+              "type": "close-menu"
+            }
+          ]
+        },
+        "children": [
+          {
+            "name": "Render image",
+            "icon": "photo_camera",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 0,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "F10"
+                }
+              ],
+              "quickSelectKey": "i"
+            }
+          },
+          {
+            "name": "Copy viewport",
+            "icon": "content_copy",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 45,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "F9"
+                }
+              ],
+              "quickSelectKey": "c"
+            }
+          },
+          {
+            "name": "Render all images",
+            "icon": "photo_library",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 90,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "F11"
+                }
+              ],
+              "quickSelectKey": "a"
+            }
+          },
+          {
+            "name": "Render all videos",
+            "icon": "movie",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 135,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "F5"
+                }
+              ],
+              "quickSelectKey": "v"
+            }
+          },
+          {
+            "name": "Bake all",
+            "icon": "auto_awesome",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 180,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "ControlLeft+KeyB"
+                }
+              ],
+              "quickSelectKey": "b"
+            }
+          },
+          {
+            "name": "Save",
+            "icon": "save",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 225,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "ControlLeft+KeyS"
+                }
+              ],
+              "quickSelectKey": "s"
+            }
+          },
+          {
+            "name": "Viewport to Discord",
+            "icon": "forum",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 270,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "F9"
+                },
+                {
+                  "type": "delay",
+                  "duration": 0.3
+                },
+                {
+                  "type": "focus-window",
+                  "appName": "Discord"
+                },
+                {
+                  "type": "delay",
+                  "duration": 0.3
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "ControlLeft+KeyV"
+                }
+              ],
+              "quickSelectKey": "d"
+            }
+          },
+          {
+            "name": "Frame selection",
+            "icon": "center_focus_strong",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 315,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "ControlLeft+KeyF"
+                }
+              ],
+              "quickSelectKey": "f"
+            }
+          }
+        ]
+      },
+      "conditions": {
+        "appName": "toolbag"
+      }
+    }
+  ],
+  "collections": [
+    {
+      "name": "Sim and render",
+      "icon": "animation",
+      "iconTheme": "material-symbols-rounded",
+      "tags": [
+        "Sim and render"
+      ]
+    }
+  ]
+}

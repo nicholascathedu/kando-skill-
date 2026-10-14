@@ -1,0 +1,342 @@
+{
+  "version": "3.0.0",
+  "menus": [
+    {
+      "shortcut": "Control+F13",
+      "shortcutID": "",
+      "useFixedPosition": false,
+      "fixedMenuPosition": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "anchored": false,
+      "hoverMode": false,
+      "tags": [],
+      "root": {
+        "name": "Workflows",
+        "icon": "bolt",
+        "iconTheme": "material-symbols-rounded",
+        "type": "root",
+        "activateWorkflow": {
+          "quickSelectKey": "Backspace",
+          "actions": [
+            {
+              "type": "close-menu"
+            }
+          ]
+        },
+        "children": [
+          {
+            "name": "Snip",
+            "icon": "screenshot_region",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 0,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "MetaLeft+ShiftLeft+KeyS"
+                }
+              ],
+              "quickSelectKey": "s"
+            }
+          },
+          {
+            "name": "Paste into PureRef",
+            "icon": "photo_library",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 45,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "focus-window",
+                  "appName": "PureRef"
+                },
+                {
+                  "type": "delay",
+                  "duration": 0.3
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "ControlLeft+KeyV"
+                }
+              ],
+              "quickSelectKey": "p"
+            }
+          },
+          {
+            "name": "Clipboard history",
+            "icon": "content_paste_search",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 90,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "MetaLeft+KeyV"
+                }
+              ],
+              "quickSelectKey": "v"
+            }
+          },
+          {
+            "name": "Text from screen",
+            "icon": "document_scanner",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 135,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "MetaLeft+ShiftLeft+KeyT"
+                }
+              ],
+              "quickSelectKey": "t"
+            }
+          },
+          {
+            "name": "Desktops",
+            "icon": "desktop_windows",
+            "iconTheme": "material-symbols-rounded",
+            "type": "submenu",
+            "angle": 180,
+            "activateWorkflow": {
+              "quickSelectKey": "Backspace",
+              "actions": [
+                {
+                  "type": "close-submenu"
+                }
+              ]
+            },
+            "children": [
+              {
+                "name": "Next desktop",
+                "icon": "arrow_forward",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 90,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "MetaLeft+ControlLeft+ArrowRight"
+                    }
+                  ],
+                  "quickSelectKey": "d"
+                }
+              },
+              {
+                "name": "Close desktop",
+                "icon": "close",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 135,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "MetaLeft+ControlLeft+F4"
+                    }
+                  ],
+                  "quickSelectKey": "c"
+                }
+              },
+              {
+                "name": "New desktop",
+                "icon": "add",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 180,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "MetaLeft+ControlLeft+KeyD"
+                    }
+                  ],
+                  "quickSelectKey": "n"
+                }
+              },
+              {
+                "name": "Previous desktop",
+                "icon": "arrow_back",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 270,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "MetaLeft+ControlLeft+ArrowLeft"
+                    }
+                  ],
+                  "quickSelectKey": "a"
+                }
+              }
+            ]
+          },
+          {
+            "name": "Pin on top",
+            "icon": "push_pin",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 225,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "simulate-hotkey",
+                  "hotkey": "MetaLeft+ControlLeft+KeyT"
+                }
+              ],
+              "quickSelectKey": "o"
+            }
+          },
+          {
+            "name": "Claude",
+            "icon": "smart_toy",
+            "iconTheme": "material-symbols-rounded",
+            "type": "submenu",
+            "angle": 270,
+            "activateWorkflow": {
+              "quickSelectKey": "Backspace",
+              "actions": [
+                {
+                  "type": "close-submenu"
+                }
+              ]
+            },
+            "children": [
+              {
+                "name": "Claude Code in Projects",
+                "icon": "terminal",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 0,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "execute-command",
+                      "command": "wt -d \"%USERPROFILE%\\Projects\" claude",
+                      "detached": true
+                    }
+                  ],
+                  "quickSelectKey": "c"
+                }
+              },
+              {
+                "name": "Prompt: review my menus",
+                "icon": "rate_review",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 180,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "set-clipboard",
+                      "text": "Look at my Kando menus and tell me what would make them faster."
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyV"
+                    }
+                  ],
+                  "quickSelectKey": "r"
+                }
+              },
+              {
+                "name": "Prompt: explain this error",
+                "icon": "help",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 225,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "set-clipboard",
+                      "text": "Explain this error in plain words and how to fix it:\n"
+                    },
+                    {
+                      "type": "simulate-hotkey",
+                      "hotkey": "ControlLeft+KeyV"
+                    }
+                  ],
+                  "quickSelectKey": "e"
+                }
+              }
+            ]
+          },
+          {
+            "name": "Work mode",
+            "icon": "rocket_launch",
+            "iconTheme": "material-symbols-rounded",
+            "type": "button",
+            "angle": 315,
+            "selectWorkflow": {
+              "actions": [
+                {
+                  "type": "close-menu"
+                },
+                {
+                  "type": "execute-command",
+                  "command": "start \"\" \"C:\\Program Files\\Autodesk\\Maya2026\\bin\\maya.exe\"",
+                  "detached": true
+                },
+                {
+                  "type": "execute-command",
+                  "command": "start \"\" \"C:\\Program Files\\Adobe\\Adobe Substance 3D Painter\\Adobe Substance 3D Painter.exe\"",
+                  "detached": true
+                },
+                {
+                  "type": "open-uri",
+                  "uri": "spotify:"
+                }
+              ],
+              "quickSelectKey": "w"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "collections": []
+}
