@@ -355,6 +355,20 @@ Discord's settings; a `focus-window` first, or global binds, make them work from
 - **Export then switch**: an item that exports (Painter Ctrl+Shift+E) and a neighbour that
   jumps to the engine, so a handoff is two flicks.
 
+## Live menus: recent scenes and projects
+
+A static menu can't list today's files. `scripts/kando_live.py` builds a pie at the moment you
+open it and shows it through Kando's IPC (`show-custom-menu`), then opens the file you pick:
+
+- `pythonw kando_live.py maya`: the 8 most recent scenes from Maya's `RecentFilesList`
+  (newest `Documents/maya/<version>/prefs/userPrefs.mel`) *(verify on your Maya version)*.
+- `pythonw kando_live.py recent "D:/Projects" --ext .spp`: the 8 newest Painter projects in a
+  folder. The same works for `.uproject`, `.sbs`, `.blend`, `.ztl`.
+
+Put it in a button as `close-menu` then `execute-command` (detached). It takes a moment to
+appear (the script has to start), so it suits "open a recent scene", not things you do every
+minute. Kando must be running; the pie uses Kando's own theme.
+
 ## Cross-app macros: save everything, colour picker
 
 These use `focus-window` to act on several apps from one item. Two facts from Kando's source
