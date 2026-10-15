@@ -10,8 +10,9 @@
 
    WHAT IT LOOKS LIKE
 
-   - The items sit in a tight ring of pointy-top hex slots around a small hub, like the
-     weapon wheel, which leaves the middle of the screen free.
+   - The items sit in a tight ring of pointy-top hex slots with an empty middle, like the
+     weapon wheel. In menus with an even number of items every second slot is smaller,
+     which gives the game's honeycomb look.
    - Each slot has a thick dark frame, a thin steel line and a face of clear glass.
    - The selected slot pops out with a cream frame, a black face and an orange glow.
    - The selected item's name shows on a plate under the ring, like the weapon info box.
@@ -47,8 +48,8 @@
 
   /* Distance from the center to the slots around it. Menus with more than 8 items
      spread out further automatically, so slots never overlap. */
-  --child-distance: 84px;
-  --spread-per-item: 10.5px;
+  --child-distance: 80px;
+  --spread-per-item: 10.3px;
 
   /* Slot sizes. A regular pointy-top hexagon is 1.155 times taller than it is wide,
      so if you change a width, set its height to width x 1.155. */
@@ -73,6 +74,16 @@
   --aura-near: 2.5px;
   --aura-far: 9px;
 
+  /* The hub in the middle. The game's wheel has nothing in the middle, so the hub is
+     hidden (0). Set it to 1 to show the menu's own icon there. The middle still works
+     as usual either way: point there to go back or cancel. */
+  --hub-opacity: 0;
+
+  /* Honeycomb look: in menus with an even number of items, every second slot is drawn
+     this much smaller, like the back slots of the game's wheel. Set it to 1 for a ring of
+     equal slots. */
+  --back-scale: 0.8;
+
   /* Gap between the ring and the name plate, and the plate's look. */
   --plate-gap: 8px;
   --plate-corner: 7px;
@@ -87,6 +98,7 @@
      Only position, size and fade are animated. Glow filters and the hex outlines snap
      into place, so a hover never has to redraw the blur on every frame. */
   --menu-transition: transform 200ms cubic-bezier(0.775, 1.325, 0.535, 1),
+    scale 200ms cubic-bezier(0.775, 1.325, 0.535, 1),
     top 200ms cubic-bezier(0.775, 1.325, 0.535, 1), left 200ms cubic-bezier(0.775, 1.325, 0.535, 1),
     width 200ms cubic-bezier(0.775, 1.325, 0.535, 1), height 200ms cubic-bezier(0.775, 1.325, 0.535, 1),
     opacity 200ms ease;
@@ -239,9 +251,25 @@
     opacity: 1;
   }
 
+  /* The hub, hidden by default (see --hub-opacity). */
+  &.active>.icon-layer {
+    opacity: var(--hub-opacity);
+  }
+
   /* The slot that leads back to the previous menu reads quieter than the choices. */
   &.parent:not(.hovered)>.icon-layer {
     opacity: var(--parent-opacity);
+  }
+
+  /* Honeycomb: when the open menu has an even number of items, every second slot is
+     smaller. --slot-scale also moves the submenu marker and the key chip to match.
+     The selected slot always shows at full size. */
+  &.active:has(>.child:nth-child(1 of .child):nth-last-child(even of .child))>.child:nth-child(even of .child):not(.hovered) {
+    --slot-scale: var(--back-scale);
+  }
+
+  &.child>.icon-layer {
+    scale: var(--slot-scale, 1);
   }
 
   /* Grandchildren stay invisible, like the game's wheel, which shows one ring at a
@@ -304,7 +332,7 @@
 
   &.child>.quick-key {
     /* Distance from the slot's middle to the middle of the chip. */
-    --key-distance: 27px;
+    --key-distance: calc(27px * var(--slot-scale, 1));
 
     position: absolute;
     display: flex;
@@ -373,7 +401,7 @@
      that corner or edge, plus a small gap. Sizes are before the hover scale. */
   --mark-gap: 4.5px;
   --mark-angle: round(var(--angle, 0deg), 30deg);
-  --mark-distance: calc(var(--child-w) / 2 / cos(mod(var(--mark-angle), 60deg) - 30deg) + var(--mark-gap));
+  --mark-distance: calc(var(--child-w) * var(--slot-scale, 1) / 2 / cos(mod(var(--mark-angle), 60deg) - 30deg) + var(--mark-gap));
 
   position: absolute;
   display: block;
@@ -413,7 +441,7 @@
 
   top: var(--plate-top) !important;
   height: auto !important;
-  padding: 7px 12px 8px;
+  padding: 8px 12px 9px;
   color: var(--text-color);
   transition: var(--fade-transition);
   font-family: 'Bahnschrift', 'Segoe UI Variable Display', 'Segoe UI', system-ui, sans-serif;
@@ -436,23 +464,23 @@
   }
 
   .text {
-    position: relative;
-    z-index: 1;
+    position: static;
     height: auto;
   }
 
   p {
+    position: relative;
+    z-index: 2;
     margin: 0 !important;
   }
 
-  /* A thin steel outline that follows the cut corners. */
-  &::before {
-    --o: 0px;
-    --i: 1.5px;
+  /* The plate's frame: a dark outer band and a thin steel line inside it, like the slots.
+     Both follow the cut corners. */
+  &::before,
+  &::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: color-mix(in srgb, var(--line-color) 45%, transparent);
     clip-path: polygon(evenodd,
         calc(var(--plate-corner) + var(--o) * 0.414) var(--o),
         calc(100% - var(--plate-corner) - var(--o) * 0.414) var(--o),
@@ -470,14 +498,40 @@
         calc(var(--plate-corner) + var(--i) * 0.414) var(--i));
   }
 
-  /* Two small orange corner marks on the bottom edge. */
+  &::before {
+    --o: 0px;
+    --i: 3px;
+    background: var(--frame-color);
+  }
+
   &::after {
+    --o: 3px;
+    --i: 4.2px;
+    background: color-mix(in srgb, var(--line-color) 70%, transparent);
+  }
+
+  /* Two small orange corner marks on the bottom edge, drawn above the frame. The text box
+     is left unpositioned so this layer covers the whole plate. */
+  .text::after {
     content: '';
     position: absolute;
     inset: 0;
+    z-index: 3;
     background:
-      linear-gradient(to top right, var(--plate-accent-color) 50%, transparent 50%) left bottom / 7px 7px no-repeat,
-      linear-gradient(to top left, var(--plate-accent-color) 50%, transparent 50%) right bottom / 7px 7px no-repeat;
+      linear-gradient(to top right, var(--plate-accent-color) 50%, transparent 50%) left bottom / 8px 8px no-repeat,
+      linear-gradient(to top left, var(--plate-accent-color) 50%, transparent 50%) right bottom / 8px 8px no-repeat;
+  }
+
+  /* With "Draw quick-select key" on, Kando marks the key's letter in the name. It shows
+     as a small white button, like the game's "R1" prompt. */
+  u {
+    text-decoration: none;
+    padding: 0 3px;
+    margin: 0 1px;
+    border-radius: 3px;
+    background: var(--badge-color);
+    color: var(--badge-text-color);
+    text-shadow: none;
   }
 }
 
@@ -546,7 +600,8 @@
 .no-transitions .menu-node *::before,
 .no-transitions .menu-node *::after,
 .no-transitions .center-text::before,
-.no-transitions .center-text::after {
+.no-transitions .center-text::after,
+.no-transitions .center-text .text::after {
   transition: none !important;
   animation: none !important;
 }

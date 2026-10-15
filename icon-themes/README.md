@@ -10,6 +10,7 @@ work in every color preset.
 | --- | --- |
 | `center.svg` | the menu's center: a north star inside a ring of eight wedges, one selected |
 | `games.svg` | games: a twenty-sided die |
+| `robot.svg` | games, the other choice: a flat robot, made for the [Gunmetal Arsenal](../themes/gunmetal-arsenal/) theme |
 | `media.svg` | video and music: a play mark with signal arcs |
 | `academic.svg` | study: a telescope pointed at a star |
 | `files.svg` | file explorer: an open folder |

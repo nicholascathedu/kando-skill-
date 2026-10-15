@@ -9,14 +9,16 @@ This one stays close to the weapon wheel from *Ratchet & Clank Future: A Crack i
 
 ## What it looks like
 
-- The items sit in a tight ring around a small hub, so the middle of the screen stays free, like the wheel in the game.
-- Every slot has a thick dark frame, a thin steel line and a face of clear glass with a faint sheen, so the app behind the menu shows through almost untouched.
-- The selected slot pops out with a cream frame, a black face and a tight orange glow.
-- The selected item's name shows in bold capitals on a plate under the ring, with two small orange corner marks. Long names wrap to a second line and the plate grows with them.
+- The items sit in a tight ring with nothing in the middle, like the wheel in the game. The middle still works as usual: point there to go back or cancel. To show the menu's icon there, set `--hub-opacity` to 1 in `theme.css`.
+- In menus with an even number of items, every second slot is a little smaller, which gives the game's honeycomb look. Set `--back-scale` to 1 for equal slots.
+- Every slot has a dark frame, a thin steel line and a face of clear glass with a faint sheen, so the app behind the menu shows through. The selected slot and the name plate are see-through too.
+- The selected slot pops out at full size with a cream frame, a dark face and a tight orange glow.
+- The selected item's name shows in bold capitals on a plate under the ring, with a dark frame, a steel line and two small orange corner marks. Long names wrap to a second line and the plate grows with them.
 - When a submenu opens upward, the plate moves above the ring, so it never covers the way back.
 - Black logos like Steam or Unreal Engine get a thin light outline, so they stay visible on the clear glass.
 - Items that open a submenu have a small arrowhead on their outer edge, pointing roughly the way the submenu opens.
-- With quick-select keys turned on, each slot shows its key as a small white button on its inner edge.
+- With quick-select keys turned on, each slot shows its key as a small white button on its inner edge, and the key's letter in the name turns into the same button, like the game's "R1" prompt.
+- The matching [Amethyst Emblems](../../icon-themes/) set has a robot icon (`robot.svg`) made for this theme's Games slot.
 
 ## Install
 
@@ -43,7 +45,7 @@ On Windows the plate uses Bahnschrift, a font that comes with Windows 10 and 11.
 | Name in Kando | Look |
 |---|---|
 | Default colors | Clear glass, cream frame, orange glow (the theme's own colors, not a preset file) |
-| Gold Rim | Gold frame on the selected slot instead of cream |
+| Gold Rim | Gold frame, gold glow and warm steel lines |
 | Cyan HUD | Cyan glow and blue-tinted glass |
 | Work Mode | Less see-through and a softer glow, for busy apps like 3D viewports |
 
