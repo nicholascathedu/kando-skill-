@@ -185,6 +185,15 @@ called Grid Cyan and Light Cycle. [Install it from `themes/amethyst-arsenal`.](t
 
 <p align="center"><img src="themes/amethyst-arsenal/presets.jpg" alt="The same menu in all seven color looks of Amethyst Arsenal: Default colors, Lime HUD, Pure Amethyst, Smoke, Work Mode, Grid Cyan and Light Cycle" width="100%"></p>
 
+### Gunmetal Arsenal
+
+<p align="center"><img src="themes/gunmetal-arsenal/preview.jpg" alt="The Gunmetal Arsenal theme: a tight ring of clear glass hex slots with dark frames, the selected one with a cream frame and an orange glow, and its name on a plate under the ring" width="80%"></p>
+
+Amethyst Arsenal is my take on that wheel. Gunmetal Arsenal is the closer copy: a tight ring of
+clear glass slots with dark gunmetal frames, a cream frame and orange glow on the one you pick, and
+its name on a plate under the ring, like the weapon info box. It comes with three presets: Gold Rim,
+Cyan HUD and Work Mode. [Install it from `themes/gunmetal-arsenal`.](themes/gunmetal-arsenal)
+
 ### My everyday menu
 
 My everyday menu has a north star in the middle, since every direction starts from there. The
@@ -294,7 +303,8 @@ skills/kando/
 commands/                 /kando-backup and /kando-restore
 hooks/                    the menu guard: backs up and checks menus.json on every edit
 themes/
-└── amethyst-arsenal/     a Kando menu theme (CC0), drop it in your menu-themes folder
+├── amethyst-arsenal/     a Kando menu theme (CC0), drop it in your menu-themes folder
+└── gunmetal-arsenal/     its closer-to-the-game sibling (CC0)
 icon-themes/
 └── amethyst-emblems/     matching icons (CC0), drop them in your icon-themes folder
 tests/                    python -m unittest discover -s tests
@@ -313,13 +323,13 @@ evals/                    real tasks that score Claude with and without the skil
 - The usage log follows a suggestion from Simon: watch the menu through Kando's
   [WebSocket API](https://kando.menu/ipc-interface/), log each pick, and let Claude find the items
   you use most and the ones you use in quick succession.
-- The Amethyst Arsenal theme builds on the tile positioning of Kando's built-in Default theme by
+- The Amethyst Arsenal and Gunmetal Arsenal themes build on the tile positioning of Kando's built-in Default theme by
   Simon Schneegans (CC0).
-- *Ratchet & Clank* is a trademark of Sony Interactive Entertainment LLC. Amethyst Arsenal is a fan
-  tribute that uses none of the game's files and is not affiliated with or endorsed by Insomniac
+- *Ratchet & Clank* is a trademark of Sony Interactive Entertainment LLC. Amethyst Arsenal and Gunmetal
+  Arsenal are fan tributes that use none of the game's files and is not affiliated with or endorsed by Insomniac
   Games or Sony Interactive Entertainment.
 - This skill is an independent project and is not affiliated with Kando or Anthropic.
 - App logos in the artwork come from [Simple Icons](https://simpleicons.org) and belong to their owners.
 
-Made by **Nicholas Cath**, for my own desk first. The skill is MIT licensed and the theme is CC0,
+Made by **Nicholas Cath**, for my own desk first. The skill is MIT licensed and the themes are CC0,
 so feel free to take them and change them however you like.

@@ -1,0 +1,76 @@
+// SPDX-FileCopyrightText: Nicholas (github.com/nicholascathedu)
+// SPDX-License-Identifier: CC0-1.0
+
+// Gunmetal Arsenal, a menu theme for Kando 3.0.
+// A close tribute to the weapon wheel of Ratchet & Clank Future: A Crack in Time.
+// Its sibling, Amethyst Arsenal, is the looser purple take on the same idea.
+
+{
+  name: 'Gunmetal Arsenal',
+  author: 'nicholascathedu',
+  license: 'CC0-1.0',
+  themeVersion: '1.0.0',
+  description: 'A tight ring of clear glass hex slots with gunmetal frames, a cream and orange selected slot, and the item name on a plate below.',
+
+  // Kando 3.0 uses theme engine version 1.
+  engineVersion: 1,
+
+  // How close to a screen edge the menu may open, in pixels from the menu's center.
+  // Worked out from the "Tweak me" block in theme.css for a menu of up to 8 items:
+  //   the name plate starts 161px below the center and is about 34px tall: 195px,
+  //   and it is 176px wide, so its corners sit sqrt(88^2 + 195^2) = 214px out.
+  // Menus with 9 or more items push the plate further down and can touch the edge.
+  maxMenuRadius: 215,
+
+  // Width of the name plate under the ring. theme.css turns the round center text into
+  // this plate, so the width here is the plate's width.
+  centerTextWrapWidth: 176,
+
+  drawChildrenBelow: true,
+  drawCenterText: true,
+
+  // Both only show when "Draw item wedges" is turned on in Kando's Menu Themes dialog.
+  drawSelectionWedges: true,
+  drawWedgeSeparators: true,
+
+  // Every color below can be changed in Kando's settings. Any CSS color works,
+  // including transparency, for example 'rgb(18 24 32 / 0.26)'.
+  colors: {
+    // Slots
+    'frame-color': 'rgb(10 13 20 / 0.94)',        // thick dark frame
+    'line-color': 'rgb(168 180 194 / 0.90)',      // thin steel line inside the frame
+    'glass-color': 'rgb(18 24 32 / 0.26)',        // clear glass face of each slot
+    'center-color': 'rgb(12 16 22 / 0.72)',       // face of the small hub in the middle
+
+    // Selected slot
+    'glass-hover-color': 'rgb(4 5 8 / 0.94)',     // black face
+    'rim-hover-color': 'rgb(255 247 232)',        // cream frame
+    'aura-color': 'rgb(255 150 40 / 0.95)',       // orange glow around it
+
+    // Text and icons
+    'icon-color': 'rgb(255 255 255)',             // single-color icons
+    'text-color': 'rgb(255 255 255)',             // item name on the plate
+
+    // Name plate
+    'plate-color': 'rgb(30 38 44 / 0.84)',        // plate under the ring
+    'plate-accent-color': 'rgb(255 150 40)',      // small corner marks on the plate
+
+    // Extras
+    'connector-color': 'rgb(168 180 194 / 0.50)', // line to the previous menu
+    'wedge-color': 'rgb(6 8 12 / 0.22)',          // selection wedges
+    'wedge-highlight-color': 'rgb(255 150 40 / 0.14)',
+    'separator-color': 'rgb(168 180 194 / 0.14)', // lines between wedges
+    'badge-color': 'rgb(245 245 245)',            // quick-select key chip
+    'badge-text-color': 'rgb(12 14 18)',
+  },
+
+  // Drawn top to bottom: the key chip, the submenu marker, then the hex slot with its
+  // icon. The key chip only appears when "Draw quick-select key" is turned on in Kando's
+  // Menu Themes dialog. The submenu marker is an empty layer that theme.css shows on
+  // items that open a submenu; delete its line here and its block in theme.css to drop it.
+  layers: [
+    { class: 'quick-key', content: 'quick-select-key' },
+    { class: 'submenu-mark', content: 'none' },
+    { class: 'icon-layer', content: 'icon' },
+  ],
+}
