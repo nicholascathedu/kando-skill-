@@ -25,6 +25,7 @@ removed sometimes). Adobe apps aren't reliably there, so use Material Symbols
 - Marvelous Designer
 - Marmoset Toolbag 5
 - Window layouts: apps side by side in one flick
+- Modes: switch to Work or Play in one flick
 - Browsers (Chrome / Edge / Firefox)
 - Discord
 - Launch or focus: one item that opens or switches to an app
@@ -344,6 +345,31 @@ Painter on the left and the PureRef board on the right:
 - Ideas: a **Texture layout** (`Painter=left-two-thirds PureRef=right-third`) and a
   **Reference check** (`maya=left "/chrome|msedge/i=right"`). It keeps to one monitor, so it
   can't send a window to your second screen.
+
+## Modes: switch to Work or Play in one flick
+
+`scripts/kando_mode.py` switches several things together, so one item turns the PC into a
+work desk or a play setup. A mode can set:
+
+- **wallpaper**: a picture file.
+- **windows**: `"dark"` or `"light"` for Windows' own app colours.
+- **kando**: a preset from `kando_presets.py` (`"speed"`, `"learning"`, your own), or settings
+  such as `{"menuTheme": "amethyst-arsenal"}`. They're checked and backed up first.
+- **apps**: apps to start if they aren't running yet, as `["maya.exe", "C:\\...\\maya.exe"]`.
+- **layout**: where windows go, written as in `kando_windows.py` (`"maya=left-two-thirds"`).
+
+Describe your modes in `claude-modes.json` next to Kando's `config.json` (an example is at
+the top of the script), check one with `python kando_mode.py show work`, then point an item at
+it: `pythonw C:\path\to\kando_mode.py work`. The Modes submenu in
+`examples/desktop-workflows.json` has Work and Play.
+
+- When it starts an app, it waits up to 30 seconds for the window before placing it, so a
+  cold start of Maya still lands in its spot. A slow app that takes longer stays where it opens;
+  press the item again to place it.
+- A step that fails (a missing picture, say) is named, and the other steps still run.
+- Do Not Disturb isn't switched: Windows has no supported way for a script to do it. Start
+  a Focus session from the clock in the taskbar instead.
+- A mode doesn't close anything. Ending work means switching to Play, not quitting Maya.
 
 ## Browsers — `appName: "chrome"` / `"msedge"` / `"firefox"`
 

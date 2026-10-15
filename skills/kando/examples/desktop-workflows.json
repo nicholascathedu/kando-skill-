@@ -370,33 +370,53 @@
             ]
           },
           {
-            "name": "Work mode",
-            "icon": "rocket_launch",
+            "name": "Modes",
+            "icon": "tune",
             "iconTheme": "material-symbols-rounded",
-            "type": "button",
+            "type": "submenu",
             "angle": 315,
-            "selectWorkflow": {
-              "actions": [
-                {
-                  "type": "close-menu"
-                },
-                {
-                  "type": "execute-command",
-                  "command": "pythonw kando_launch.py maya.exe \"C:\\Program Files\\Autodesk\\Maya2026\\bin\\maya.exe\"",
-                  "detached": true
-                },
-                {
-                  "type": "execute-command",
-                  "command": "pythonw kando_launch.py \"Adobe Substance 3D Painter.exe\" \"C:\\Program Files\\Adobe\\Adobe Substance 3D Painter\\Adobe Substance 3D Painter.exe\"",
-                  "detached": true
-                },
-                {
-                  "type": "open-uri",
-                  "uri": "spotify:"
+            "children": [
+              {
+                "name": "Play mode",
+                "icon": "sports_esports",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 45,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "execute-command",
+                      "command": "pythonw kando_mode.py play",
+                      "detached": true
+                    }
+                  ],
+                  "quickSelectKey": "p"
                 }
-              ],
-              "quickSelectKey": "w"
-            }
+              },
+              {
+                "name": "Work mode",
+                "icon": "rocket_launch",
+                "iconTheme": "material-symbols-rounded",
+                "type": "button",
+                "angle": 315,
+                "selectWorkflow": {
+                  "actions": [
+                    {
+                      "type": "close-menu"
+                    },
+                    {
+                      "type": "execute-command",
+                      "command": "pythonw kando_mode.py work",
+                      "detached": true
+                    }
+                  ],
+                  "quickSelectKey": "w"
+                }
+              }
+            ]
           }
         ]
       }
