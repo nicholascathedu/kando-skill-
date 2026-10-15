@@ -250,7 +250,9 @@ a helper app like AutoHotkey. On Windows the skill comes with a small PowerShell
 only what's built into Windows. While it runs, the Forward side button holds Ctrl and taps F13,
 so a menu on `Control+F13` opens and turbo mode works: hold the button, move, let go. The button
 stops doing Forward while the script runs, it can't reach apps running as admin, and some games'
-anti-cheat block simulated keys, so stop it before playing those.
+anti-cheat block simulated keys, so stop it before playing those. To stop it, close its
+window (Ctrl+C doesn't reach it while it waits for the mouse), or end `powershell.exe` in Task
+Manager when it runs from Startup.
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File skills\kando\scripts\windows\kando-mouse-buttons.ps1

@@ -30,6 +30,7 @@ LOG = os.path.join("claude-usage", "usage.jsonl")
 KEEP = ("openMenu", "selectButton", "closeMenu")
 GAP_MS = 10000  # two picks this close together count as one job done in two steps
 MIN_PAIR = 5
+RETRY = 10  # seconds between tries to reach Kando
 
 
 def foreground_app():
@@ -40,6 +41,11 @@ def foreground_app():
         import ctypes
         from ctypes import wintypes
         user32, kernel32 = ctypes.windll.user32, ctypes.windll.kernel32
+        user32.GetForegroundWindow.restype = wintypes.HWND  # 64-bit handles, not C ints
+        kernel32.OpenProcess.restype = wintypes.HANDLE
+        kernel32.CloseHandle.argtypes = [wintypes.HANDLE]
+        kernel32.QueryFullProcessImageNameW.argtypes = [wintypes.HANDLE, wintypes.DWORD,
+                                                        wintypes.LPWSTR, ctypes.POINTER(wintypes.DWORD)]
         pid = wintypes.DWORD()
         user32.GetWindowThreadProcessId(user32.GetForegroundWindow(), ctypes.byref(pid))
         handle = kernel32.OpenProcess(0x1000, False, pid.value)  # QUERY_LIMITED_INFORMATION
@@ -53,31 +59,67 @@ def foreground_app():
         return ""
 
 
+def is_kando(app):
+    return app.lower().startswith("kando")
+
+
+class FocusTracker:
+    """Remembers the last app in front that isn't Kando. Kando's menu takes focus as it
+    opens, so asking Windows at openMenu would name Kando; this asks every 0.2 s instead."""
+
+    def __init__(self, probe=None):
+        self.probe, self.last = probe or (lambda: foreground_app()), ""
+
+    def update(self):
+        app = self.probe()
+        if app and not is_kando(app):
+            self.last = app
+        return self.last
+
+    def start(self):
+        import threading
+
+        def loop():
+            while True:
+                self.update()
+                time.sleep(0.2)
+        threading.Thread(target=loop, daemon=True).start()
+        return self
+
+
 def watch(log_path):
-    from kando_ws import KandoIPCError, KandoSocket
+    from kando_ws import IDLE, KandoIPCError, KandoSocket
     os.makedirs(os.path.dirname(log_path), exist_ok=True)
     print(f"Logging Kando picks to {log_path}. Ctrl+C to stop.")
+    focus = FocusTracker().start() if os.name == "nt" else FocusTracker()
     while True:
         try:
             ws = KandoSocket()
             ws.send({"type": "start-observing"})
             while True:
-                msg = ws.receive()
+                msg = ws.receive(idle=1)  # wake every second so Ctrl+C works on Windows
+                if msg is IDLE:
+                    continue
                 if msg is None:
                     break
-                if msg.get("type") != "menu-interaction" or msg.get("interaction") not in KEEP:
+                if not isinstance(msg, dict) or msg.get("type") != "menu-interaction" \
+                        or msg.get("interaction") not in KEEP:
                     continue
                 row = {"t": round(time.time() * 1000), "ev": msg["interaction"],
                        "path": msg.get("path", [])}
                 if row["ev"] == "openMenu":
-                    row["app"] = foreground_app()
+                    row["app"] = focus.update()
                 with open(log_path, "a", encoding="utf-8") as f:
                     f.write(json.dumps(row) + "\n")
-        except KandoIPCError:
-            pass  # Kando not running (yet): wait and try again
+            ws.close()
+        except (KandoIPCError, OSError):
+            pass  # Kando not running (yet), or restarting: wait and try again
         except KeyboardInterrupt:
             return 0
-        time.sleep(10)
+        try:
+            time.sleep(RETRY)
+        except KeyboardInterrupt:
+            return 0
 
 
 def matches(cond, value):
@@ -244,7 +286,7 @@ def main(argv=None):
         return 2
     rows = []
     if os.path.isfile(log_path):
-        with open(log_path, encoding="utf-8") as f:
+        with open(log_path, encoding="utf-8-sig") as f:  # a log saved by PowerShell 5 has a BOM
             for line in f:
                 try:
                     rows.append(json.loads(line))
