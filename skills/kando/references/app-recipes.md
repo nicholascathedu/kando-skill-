@@ -422,3 +422,15 @@ settings). *(Paste step inferred; test once.)*
 
 A good home for both is a **Studio** submenu in the same direction in every work menu (the
 examples use Down), so "save everything" is the same flick in every app.
+
+## Context actions: the file you're working on
+
+Kando fills `{{window_name}}` (and `{{app_name}}`) in `execute-command` and `open-uri` with the
+window that was in front when the menu opened. Maya puts the scene's full path in its title,
+so `scripts/kando_context.py` can act on it:
+
+- Open scene folder: `pythonw kando_context.py folder "{{window_name}}"` (Explorer with the file selected)
+- Copy scene path: `pythonw kando_context.py copy "{{window_name}}"`
+
+Apps that show only a file name in the title (Painter, VS Code) don't give a path, so these
+items can't work there. Check the title first: hover the app's taskbar button.

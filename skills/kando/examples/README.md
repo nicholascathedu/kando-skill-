@@ -8,6 +8,13 @@
 | `desktop-workflows.json` | Multi-step desktop workflows on Ctrl+F13, the key `kando-mouse-buttons.ps1` sends from a side button. Snip, then Paste into PureRef. Clipboard history, text from the screen (PowerToys), pin a window on top, virtual desktops, a Claude submenu that opens Claude Code in a folder or pastes a ready prompt, and Work mode, which starts Maya, Painter and Spotify in one go (fix the paths for your PC). |
 | `sim-and-render.json` | A Physics test pie for Unreal on Ctrl+F14 (Play, Simulate, slow motion and back, `stat unit`, Chaos recording, a Game Bar clip), a Marvelous Designer camera pie with each view where the camera looks from, and a Marmoset Toolbag Present pie that also sends the viewport to Discord. Marvelous and Toolbag's process names are not confirmed yet; check them with the editor's window picker. |
 
+To add one menu without editing JSON, split a file into importable menus and use Import in
+Kando's editor:
+
+```
+python ../scripts/kando_split.py 3d-work-menus.json --out importable
+```
+
 You can try them without touching your own setup:
 
 ```
