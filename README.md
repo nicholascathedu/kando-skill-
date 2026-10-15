@@ -53,6 +53,11 @@ menus out so your hand learns them. These are in the repo now:
 | Colour pick and paste | Pick a colour anywhere on screen and paste its hex into Painter or Designer. |
 | A checker built from Kando's code | Finds key names Kando doesn't know, angles it will ignore, regexes that make it throw an error, and keys sent before the right window is in front. You get the fix, not just the error. |
 | A review of your own menus | Reads your menus and points at what slows you down: items that move between menus, crowded rings, submenus with something on the way back out. |
+| Work and Play modes | One flick switches the wallpaper, Windows colours and Kando settings, opens the apps you need and puts their windows side by side. |
+| Open or jump to | An app item brings Maya forward if it's already open, instead of starting a second copy. |
+| A text pie | Copied text comes back as snake_case, PascalCase, Title case or one joined line, or goes to search, translate or Claude Code. |
+| A speed coach | Reads Kando's own stats, or a log of what you pick, and tells you which flicks to practise and which items to move. |
+| Backups you can undo | Snapshots of your menus and settings with `/kando-backup`, and `/kando-restore` to go back. |
 | Themes from words | *"Dark purple glass, a gold glow"* becomes a color preset or a full theme. My Amethyst Arsenal theme was made this way. |
 | Memory | A small profile keeps the directions you've settled on and the ideas you turned down, so the next session builds on them. |
 
@@ -268,9 +273,25 @@ skills/kando/
 │   ├── kando_preview.py    compass outline and radial HTML cheat sheet
 │   ├── kando_profile.py    drafts your personal profile from your menus
 │   ├── kando_layout.py     Kando's placement algorithm, ported
+│   ├── kando_coach.py      speed coach from Kando's own stats
+│   ├── kando_usage.py      logs your picks and suggests layout changes
+│   ├── kando_backup.py     snapshots and restore
+│   ├── kando_presets.py    settings presets: learning, speed, pen, your own
+│   ├── kando_overlay.py    keeps your own tweaks when a menu is updated
+│   ├── kando_split.py      one importable file per menu
+│   ├── kando_live.py       menus built from what's on disk, shown through Kando
+│   ├── kando_context.py    actions on the file open in the current app
+│   ├── kando_launch.py     starts an app only if it isn't running
+│   ├── kando_windows.py    window layouts
+│   ├── kando_mode.py       Work / Play modes
+│   ├── kando_text.py       the text pie
+│   ├── kando_claude.py     starts Claude Code on what you copied
+│   ├── kando_ws.py         talks to Kando's local server
 │   └── windows/            kando-mouse-buttons.ps1: side buttons, no extra app
-└── examples/             a desktop launcher, Maya / Painter / Designer / Unreal work
-                          menus, and ZBrush / Blender / Photoshop / Illustrator menus
+└── examples/             a desktop launcher, desktop workflows, a text pie,
+                          Maya / Painter / Designer / Unreal work menus, ZBrush / Blender /
+                          Photoshop / Illustrator menus, and Unreal physics, Marvelous and Toolbag pies
+commands/                 /kando-backup and /kando-restore
 hooks/                    the menu guard: backs up and checks menus.json on every edit
 themes/
 └── amethyst-arsenal/     a Kando menu theme (CC0), drop it in your menu-themes folder
