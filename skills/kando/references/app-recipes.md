@@ -24,6 +24,7 @@ removed sometimes). Adobe apps aren't reliably there, so use Material Symbols
 - Adobe Illustrator
 - Marvelous Designer
 - Marmoset Toolbag 5
+- Window layouts: apps side by side in one flick
 - Browsers (Chrome / Edge / Firefox)
 - Discord
 - Launch or focus: one item that opens or switches to an app
@@ -316,6 +317,33 @@ videos, Copy viewport, Save at Down-left like every work menu. "Viewport to Disc
 → focus Discord → Ctrl+V, so you can post a grab for feedback without saving a file (works the
 same for PureRef). Turntables are a once-per-asset setup (Scene > Add Object > Turntable, Sync
 Loop Speed, then Render Video), so they belong in a note, not a slice.
+
+## Window layouts: apps side by side in one flick
+
+`scripts/kando_windows.py` puts several windows where you want them in one go, for example
+Painter on the left and the PureRef board on the right:
+
+```json
+{"actions": [
+ {"type":"close-menu"},
+ {"type":"execute-command","command":"pythonw C:\\path\\to\\kando_windows.py Painter=left PureRef=right"}
+]}
+```
+
+- A window is matched the way `focus-window` matches it: any part of the app name, or a
+  `/regex/i`. Add `@text` to also match the title, such as `maya@crate` for one scene.
+  `kando_windows.py --list` shows the names it sees.
+- Spots: `left`, `right`, `top`, `bottom`, `full`, `left-third`, `middle-third`,
+  `right-third`, `left-two-thirds`, `right-two-thirds`, or `x,y,w,h` in percent
+  (`Painter=0,0,70,100 PureRef=70,0,30,100`).
+- Everything goes on the monitor the first window is on, inside the taskbar, edge to edge.
+  Apps that aren't open are skipped. The last one listed ends up in front.
+- For two apps on one screen, Windows' own Win+Left / Win+Right does the same, one window
+  at a time. The script is for layouts that snap can't make (thirds, 70/30, three apps)
+  or for doing it in one flick.
+- Ideas: a **Texture layout** (`Painter=left-two-thirds PureRef=right-third`) and a
+  **Reference check** (`maya=left "/chrome|msedge/i=right"`). It keeps to one monitor, so it
+  can't send a window to your second screen.
 
 ## Browsers — `appName: "chrome"` / `"msedge"` / `"firefox"`
 
