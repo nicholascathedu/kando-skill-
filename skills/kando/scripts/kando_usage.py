@@ -30,6 +30,7 @@ LOG = os.path.join("claude-usage", "usage.jsonl")
 KEEP = ("openMenu", "selectButton", "closeMenu")
 GAP_MS = 10000  # two picks this close together count as one job done in two steps
 MIN_PAIR = 5
+RETRY = 10  # seconds between tries to reach Kando
 
 
 def foreground_app():
@@ -40,6 +41,11 @@ def foreground_app():
         import ctypes
         from ctypes import wintypes
         user32, kernel32 = ctypes.windll.user32, ctypes.windll.kernel32
+        user32.GetForegroundWindow.restype = wintypes.HWND  # 64-bit handles, not C ints
+        kernel32.OpenProcess.restype = wintypes.HANDLE
+        kernel32.CloseHandle.argtypes = [wintypes.HANDLE]
+        kernel32.QueryFullProcessImageNameW.argtypes = [wintypes.HANDLE, wintypes.DWORD,
+                                                        wintypes.LPWSTR, ctypes.POINTER(wintypes.DWORD)]
         pid = wintypes.DWORD()
         user32.GetWindowThreadProcessId(user32.GetForegroundWindow(), ctypes.byref(pid))
         handle = kernel32.OpenProcess(0x1000, False, pid.value)  # QUERY_LIMITED_INFORMATION
@@ -65,7 +71,8 @@ def watch(log_path):
                 msg = ws.receive()
                 if msg is None:
                     break
-                if msg.get("type") != "menu-interaction" or msg.get("interaction") not in KEEP:
+                if not isinstance(msg, dict) or msg.get("type") != "menu-interaction" \
+                        or msg.get("interaction") not in KEEP:
                     continue
                 row = {"t": round(time.time() * 1000), "ev": msg["interaction"],
                        "path": msg.get("path", [])}
@@ -73,11 +80,15 @@ def watch(log_path):
                     row["app"] = foreground_app()
                 with open(log_path, "a", encoding="utf-8") as f:
                     f.write(json.dumps(row) + "\n")
-        except KandoIPCError:
-            pass  # Kando not running (yet): wait and try again
+            ws.close()
+        except (KandoIPCError, OSError):
+            pass  # Kando not running (yet), or restarting: wait and try again
         except KeyboardInterrupt:
             return 0
-        time.sleep(10)
+        try:
+            time.sleep(RETRY)
+        except KeyboardInterrupt:
+            return 0
 
 
 def matches(cond, value):

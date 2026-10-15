@@ -151,6 +151,9 @@ direction in the first ring), slow picks (the person is searching), items never 
 menu opened 20+ times (candidates to remove), menus often closed without a pick, and items
 used together: two picks within 10 seconds, five times or more, which are one job done in two
 flicks. Offer one item that does both (a workflow), or put them side by side. The idea came
-from Simon Schneegans, Kando's author. To keep
+from Simon Schneegans, Kando's author. Kando's events give an item's position, not the menu's
+name, so the report works out the menu from the app in front and the menu's conditions. When
+two menus have no app condition, a pick can be counted under the first of them; read those
+two menus' numbers together. To keep
 it running, put a shortcut to `pythonw kando_usage.py watch` in the Startup folder
 (`shell:startup`). The log is personal: never put it in a shared file.
