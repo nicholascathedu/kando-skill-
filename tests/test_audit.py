@@ -129,6 +129,9 @@ class RobustTest(unittest.TestCase):
     def test_frames_that_are_not_json_are_skipped(self):
         ws = self.socket_with([frame(b"hello") + frame(b"\xff\xfe") + frame(b'{"b": 2}')])
         self.assertEqual(ws.receive(), {"b": 2})
+        ws = self.socket_with([frame(b"hello"), kando_ws.socket.timeout()])
+        self.assertIs(ws.receive(idle=1), kando_ws.IDLE)   # not stuck waiting with no timeout
+        self.assertIs(ws.receive(idle=1), kando_ws.IDLE)
 
     def test_watch_keeps_going_while_idle(self):
         sock = FakeSocket([kando_ws.IDLE, kando_ws.IDLE, event("openMenu"), kando_ws.IDLE,

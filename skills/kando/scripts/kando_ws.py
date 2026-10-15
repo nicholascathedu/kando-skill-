@@ -135,6 +135,8 @@ class KandoSocket:
                         try:
                             return json.loads(b"".join(parts).decode("utf-8"))
                         except ValueError:  # not JSON (or not UTF-8): skip it
+                            if idle is not None:
+                                return IDLE  # back through the idle wait, so Ctrl+C still works
                             parts = []
         except (EOFError, ConnectionError):  # Kando quit; on Windows that's often a reset
             return None
