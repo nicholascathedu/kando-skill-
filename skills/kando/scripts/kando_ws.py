@@ -16,6 +16,9 @@ from kando_layout import KandoFileError, find_kando_file, read_json
 API_VERSION = 2  # Kando 3.0's IPC version
 
 
+IDLE = object()  # what receive(idle=...) returns when nothing arrived in time
+
+
 class KandoIPCError(Exception):
     pass
 
@@ -51,6 +54,7 @@ class KandoSocket:
         except OSError as e:  # reset or timed out: an old port, or Kando quitting
             self.sock.close()
             raise KandoIPCError(f"Kando's IPC port {port} stopped answering ({e}).") from e
+        self.timeout = timeout
         self.sock.settimeout(timeout)
 
     def _handshake(self, port):
@@ -92,10 +96,23 @@ class KandoSocket:
         data, self.buffer = self.buffer[:n], self.buffer[n:]
         return data
 
-    def receive(self):
-        """The next JSON message from Kando, or None when Kando closes the connection."""
+    def receive(self, idle=None):
+        """The next JSON message from Kando, or None when Kando closes the connection. With
+        idle=seconds, returns IDLE if nothing starts arriving in that time. Frames that aren't
+        valid JSON are skipped."""
         parts = []
         try:
+            if idle is not None and not self.buffer:
+                self.sock.settimeout(idle)
+                try:
+                    chunk = self.sock.recv(65536)
+                except socket.timeout:
+                    return IDLE
+                finally:
+                    self.sock.settimeout(self.timeout)
+                if not chunk:
+                    return None
+                self.buffer += chunk
             while True:
                 b0, b1 = self._read(2)
                 opcode, n = b0 & 0x0F, b1 & 0x7F
@@ -115,7 +132,10 @@ class KandoSocket:
                 if opcode in (0x0, 0x1):
                     parts.append(payload)
                     if b0 & 0x80:
-                        return json.loads(b"".join(parts).decode("utf-8"))
+                        try:
+                            return json.loads(b"".join(parts).decode("utf-8"))
+                        except ValueError:  # not JSON (or not UTF-8): skip it
+                            parts = []
         except (EOFError, ConnectionError):  # Kando quit; on Windows that's often a reset
             return None
 

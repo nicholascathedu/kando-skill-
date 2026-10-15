@@ -88,7 +88,7 @@ class FocusTracker:
 
 
 def watch(log_path):
-    from kando_ws import KandoIPCError, KandoSocket
+    from kando_ws import IDLE, KandoIPCError, KandoSocket
     os.makedirs(os.path.dirname(log_path), exist_ok=True)
     print(f"Logging Kando picks to {log_path}. Ctrl+C to stop.")
     focus = FocusTracker().start() if os.name == "nt" else FocusTracker()
@@ -97,7 +97,9 @@ def watch(log_path):
             ws = KandoSocket()
             ws.send({"type": "start-observing"})
             while True:
-                msg = ws.receive()
+                msg = ws.receive(idle=1)  # wake every second so Ctrl+C works on Windows
+                if msg is IDLE:
+                    continue
                 if msg is None:
                     break
                 if not isinstance(msg, dict) or msg.get("type") != "menu-interaction" \
@@ -284,7 +286,7 @@ def main(argv=None):
         return 2
     rows = []
     if os.path.isfile(log_path):
-        with open(log_path, encoding="utf-8") as f:
+        with open(log_path, encoding="utf-8-sig") as f:  # a log saved by PowerShell 5 has a BOM
             for line in f:
                 try:
                     rows.append(json.loads(line))

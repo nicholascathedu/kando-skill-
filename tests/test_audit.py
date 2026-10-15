@@ -26,7 +26,7 @@ class FakeSocket:
     def send(self, message):
         self.sent.append(message)
 
-    def receive(self):
+    def receive(self, idle=None):
         return self.messages.pop(0) if self.messages else None
 
     def close(self):
@@ -104,6 +104,68 @@ class IpcInfoTest(unittest.TestCase):
         ws.buffer = b""
         ws.sock = mock.Mock(recv=mock.Mock(side_effect=ConnectionResetError(10054, "reset")))
         self.assertIsNone(ws.receive())
+
+
+def frame(payload):
+    """An unmasked server text frame."""
+    return bytes([0x81, len(payload)]) + payload
+
+
+class RobustTest(unittest.TestCase):
+    """From the PC test: Ctrl+C while idle, a log with a BOM, and frames that aren't JSON."""
+
+    def socket_with(self, recv):
+        ws = kando_ws.KandoSocket.__new__(kando_ws.KandoSocket)
+        ws.buffer, ws.timeout = b"", None
+        ws.sock = mock.Mock(recv=mock.Mock(side_effect=recv))
+        return ws
+
+    def test_idle_receive_wakes_up_and_restores_the_timeout(self):
+        ws = self.socket_with([kando_ws.socket.timeout(), frame(b'{"a": 1}')])
+        self.assertIs(ws.receive(idle=1), kando_ws.IDLE)
+        self.assertEqual(ws.receive(idle=1), {"a": 1})
+        self.assertEqual(ws.sock.settimeout.call_args_list[-1], mock.call(None))
+
+    def test_frames_that_are_not_json_are_skipped(self):
+        ws = self.socket_with([frame(b"hello") + frame(b"\xff\xfe") + frame(b'{"b": 2}')])
+        self.assertEqual(ws.receive(), {"b": 2})
+
+    def test_watch_keeps_going_while_idle(self):
+        sock = FakeSocket([kando_ws.IDLE, kando_ws.IDLE, event("openMenu"), kando_ws.IDLE,
+                           event("selectButton", [0])])
+        sockets = iter([sock, KeyboardInterrupt()])
+
+        def connect():
+            nxt = next(sockets)
+            if isinstance(nxt, BaseException):
+                raise nxt
+            return nxt
+
+        with tempfile.TemporaryDirectory() as d:
+            log = os.path.join(d, "usage.jsonl")
+            with mock.patch.object(kando_ws, "KandoSocket", side_effect=connect), \
+                    mock.patch.object(kando_usage.time, "sleep"), \
+                    mock.patch.object(kando_usage, "foreground_app", return_value="maya.exe"), \
+                    mock.patch("sys.stdout"):
+                self.assertEqual(kando_usage.watch(log), 0)
+            with open(log, encoding="utf-8") as f:
+                self.assertEqual([json.loads(l)["ev"] for l in f], ["openMenu", "selectButton"])
+
+    def test_report_reads_a_log_that_starts_with_a_bom(self):
+        with tempfile.TemporaryDirectory() as d:
+            path = os.path.join(d, "menus.json")
+            with open(path, "w", encoding="utf-8") as f:
+                json.dump(menus(item("Save", 0), item("Export", 180)), f)
+            os.makedirs(os.path.join(d, "claude-usage"))
+            rows = [{"t": i, "ev": "openMenu", "path": []} for i in range(20)]
+            rows[0:1] = [{"t": 0, "ev": "openMenu", "path": []},
+                         {"t": 1, "ev": "selectButton", "path": [1]}]
+            with open(os.path.join(d, kando_usage.LOG), "w", encoding="utf-8-sig") as f:
+                f.write("".join(json.dumps(r) + "\n" for r in rows))
+            with mock.patch("sys.stdout") as out:
+                self.assertEqual(kando_usage.main(["report", path]), 0)
+        printed = "".join(c.args[0] for c in out.write.call_args_list)
+        self.assertIn("Export (1)", printed)
 
 
 class ContextTest(unittest.TestCase):
