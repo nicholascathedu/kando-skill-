@@ -78,8 +78,13 @@ def apply(folder, name, cfg_path):
     presets = all_presets(folder)
     if name not in presets:
         sys.exit(f"No preset called {name}. Run 'list' to see them.")
+    return apply_settings(folder, name, presets[name], cfg_path)
+
+
+def apply_settings(folder, name, settings, cfg_path):
+    """Write `settings` into config.json after checking them; `name` labels the backup."""
     cfg = read_json(cfg_path) if os.path.isfile(cfg_path) else {}
-    diff = changes(cfg, presets[name])
+    diff = changes(cfg, settings)
     if not diff:
         return diff, None
     new = dict(cfg, **{k: v for k, _, v in diff})
