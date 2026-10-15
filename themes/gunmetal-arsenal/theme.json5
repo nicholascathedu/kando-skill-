@@ -37,13 +37,13 @@
   // including transparency, for example 'rgb(18 24 32 / 0.26)'.
   colors: {
     // Slots
-    'frame-color': 'rgb(10 13 20 / 0.94)',        // thick dark frame
+    'frame-color': 'rgb(10 13 20 / 0.88)',        // thick dark frame
     'line-color': 'rgb(168 180 194 / 0.90)',      // thin steel line inside the frame
-    'glass-color': 'rgb(18 24 32 / 0.26)',        // clear glass face of each slot
-    'center-color': 'rgb(12 16 22 / 0.72)',       // face of the small hub in the middle
+    'glass-color': 'rgb(18 24 32 / 0.20)',        // clear glass face of each slot
+    'center-color': 'rgb(12 16 22 / 0.42)',       // face of the small hub in the middle
 
     // Selected slot
-    'glass-hover-color': 'rgb(4 5 8 / 0.94)',     // black face
+    'glass-hover-color': 'rgb(4 5 8 / 0.80)',     // dark face, a little see-through
     'rim-hover-color': 'rgb(255 247 232)',        // cream frame
     'aura-color': 'rgb(255 150 40 / 0.95)',       // orange glow around it
 
@@ -52,7 +52,7 @@
     'text-color': 'rgb(255 255 255)',             // item name on the plate
 
     // Name plate
-    'plate-color': 'rgb(30 38 44 / 0.84)',        // plate under the ring
+    'plate-color': 'rgb(22 30 36 / 0.64)',        // plate under the ring
     'plate-accent-color': 'rgb(255 150 40)',      // small corner marks on the plate
 
     // Extras

@@ -189,9 +189,9 @@ called Grid Cyan and Light Cycle. [Install it from `themes/amethyst-arsenal`.](t
 
 <p align="center"><img src="themes/gunmetal-arsenal/preview.jpg" alt="The Gunmetal Arsenal theme: a tight ring of clear glass hex slots with dark frames, the selected one with a cream frame and an orange glow, and its name on a plate under the ring" width="80%"></p>
 
-Amethyst Arsenal is my take on that wheel. Gunmetal Arsenal is the closer copy: a tight ring of
-clear glass slots with dark gunmetal frames, a cream frame and orange glow on the one you pick, and
-its name on a plate under the ring, like the weapon info box. It comes with three presets: Gold Rim,
+Amethyst Arsenal is my take on that wheel. Gunmetal Arsenal is the closer copy: a honeycomb ring of
+clear glass slots with nothing in the middle, a cream frame and orange glow on the one you pick, and
+its name on a see-through plate under the ring, like the weapon info box. It comes with three presets: Gold Rim,
 Cyan HUD and Work Mode. [Install it from `themes/gunmetal-arsenal`.](themes/gunmetal-arsenal)
 
 ### My everyday menu
