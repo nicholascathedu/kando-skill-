@@ -209,7 +209,9 @@ cp -r kando-skill-/skills/kando ~/.claude/skills/
 
 **Claude apps:** zip the `skills/kando` folder and upload it in Settings → Capabilities → Skills.
 
-The scripts need Python 3.9+ and nothing else, and they're tested on Windows, macOS and Linux.
+The scripts need Python 3.9+ and nothing else, and they're tested on Windows, macOS and Linux. Once a week the
+repo also checks the checker against Kando's newest settings format and opens an issue when
+Kando adds or renames something, so the skill doesn't quietly fall behind.
 They run on their own too. Without a path they find Kando's own `menus.json` (in `%APPDATA%\kando`
 on Windows, `~/Library/Application Support/kando` on macOS, `~/.config/kando` on Linux, or the
 Flatpak folder):
@@ -275,6 +277,7 @@ themes/
 icon-themes/
 └── amethyst-emblems/     matching icons (CC0), drop them in your icon-themes folder
 tests/                    python -m unittest discover -s tests
+.github/                  the tests, and the weekly check against Kando's own settings format
 evals/                    real tasks that score Claude with and without the skill
 .claude-plugin/           plugin and marketplace manifests
 ```
