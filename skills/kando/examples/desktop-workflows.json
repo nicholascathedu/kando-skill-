@@ -318,12 +318,12 @@
                 },
                 {
                   "type": "execute-command",
-                  "command": "start \"\" \"C:\\Program Files\\Autodesk\\Maya2026\\bin\\maya.exe\"",
+                  "command": "pythonw kando_launch.py maya.exe \"C:\\Program Files\\Autodesk\\Maya2026\\bin\\maya.exe\"",
                   "detached": true
                 },
                 {
                   "type": "execute-command",
-                  "command": "start \"\" \"C:\\Program Files\\Adobe\\Adobe Substance 3D Painter\\Adobe Substance 3D Painter.exe\"",
+                  "command": "pythonw kando_launch.py \"Adobe Substance 3D Painter.exe\" \"C:\\Program Files\\Adobe\\Adobe Substance 3D Painter\\Adobe Substance 3D Painter.exe\"",
                   "detached": true
                 },
                 {
