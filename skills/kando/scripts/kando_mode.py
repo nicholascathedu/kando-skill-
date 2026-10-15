@@ -185,7 +185,7 @@ def run(name, mode, folder):
         step("wallpaper", set_wallpaper, mode["wallpaper"])
     if "windows" in mode:
         step("Windows colours", set_windows_colours, mode["windows"])
-    started = step("apps", start_apps, mode.get("apps", [])) or []
+    started = (step("apps", start_apps, mode["apps"]) or []) if mode.get("apps") else []
     if mode.get("layout"):
         missing = step("layout", place_windows, mode["layout"], WAIT if started else 0)
         if missing:
