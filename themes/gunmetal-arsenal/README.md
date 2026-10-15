@@ -63,6 +63,7 @@ On Windows the plate uses Bahnschrift, a font that comes with Windows 10 and 11.
 - It looks most like the game with 6 to 8 items. Menus with more than 8 items spread out so slots keep their spacing, and the plate moves down with them.
 - Near a screen edge, menus of up to 8 items keep the selected slot and the plate on screen. Bigger menus can push the plate against the edge.
 - In a submenu that opened up and to the side, the plate can overlap the dimmed slot of the previous menu. Straight up is handled (the plate moves above).
+- Marking and Turbo mode: this ring is tight (slots about 80 px from the center). If `fixedStrokeLength` in Kando's `config.json` is above 0, a submenu only opens after the pointer travels the dead zone (50 px) plus that length, so a value like 100 makes you move far past the slots and the menu jumps. Set it to about 30 so items open right where the slots are, or 0 to use Kando's normal gesture detection.
 - It works with every icon type Kando supports: app icons, icon fonts, emoji and images.
 - Only position, size and fade are animated, so it stays light on slower PCs. Turning off **Menu Animations** in the Menu Themes dialog, or turning on your system's "reduce motion" setting, switches off all animation.
 
