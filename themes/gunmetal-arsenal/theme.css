@@ -48,8 +48,8 @@
 
   /* Distance from the center to the slots around it. Menus with more than 8 items
      spread out further automatically, so slots never overlap. */
-  --child-distance: 84px;
-  --spread-per-item: 10.5px;
+  --child-distance: 80px;
+  --spread-per-item: 10.3px;
 
   /* Slot sizes. A regular pointy-top hexagon is 1.155 times taller than it is wide,
      so if you change a width, set its height to width x 1.155. */
