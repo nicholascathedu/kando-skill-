@@ -59,10 +59,39 @@ def foreground_app():
         return ""
 
 
+def is_kando(app):
+    return app.lower().startswith("kando")
+
+
+class FocusTracker:
+    """Remembers the last app in front that isn't Kando. Kando's menu takes focus as it
+    opens, so asking Windows at openMenu would name Kando; this asks every 0.2 s instead."""
+
+    def __init__(self, probe=None):
+        self.probe, self.last = probe or (lambda: foreground_app()), ""
+
+    def update(self):
+        app = self.probe()
+        if app and not is_kando(app):
+            self.last = app
+        return self.last
+
+    def start(self):
+        import threading
+
+        def loop():
+            while True:
+                self.update()
+                time.sleep(0.2)
+        threading.Thread(target=loop, daemon=True).start()
+        return self
+
+
 def watch(log_path):
     from kando_ws import KandoIPCError, KandoSocket
     os.makedirs(os.path.dirname(log_path), exist_ok=True)
     print(f"Logging Kando picks to {log_path}. Ctrl+C to stop.")
+    focus = FocusTracker().start() if os.name == "nt" else FocusTracker()
     while True:
         try:
             ws = KandoSocket()
@@ -77,7 +106,7 @@ def watch(log_path):
                 row = {"t": round(time.time() * 1000), "ev": msg["interaction"],
                        "path": msg.get("path", [])}
                 if row["ev"] == "openMenu":
-                    row["app"] = foreground_app()
+                    row["app"] = focus.update()
                 with open(log_path, "a", encoding="utf-8") as f:
                     f.write(json.dumps(row) + "\n")
             ws.close()
