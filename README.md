@@ -56,7 +56,7 @@ menus out so your hand learns them. These are in the repo now:
 | Work and Play modes | One flick switches the wallpaper, Windows colours and Kando settings, opens the apps you need and puts their windows side by side. |
 | Open or jump to | An app item brings Maya forward if it's already open, instead of starting a second copy. |
 | A text pie | Copied text comes back as snake_case, PascalCase, Title case or one joined line, or goes to search, translate or Claude Code. |
-| A speed coach | Reads Kando's own stats, or a log of what you pick, and tells you which flicks to practise and which items to move. |
+| A speed coach | Reads Kando's own stats, or a log of what you pick, and tells you which flicks to practise, which items to move, and which two you always pick one after the other, so they can become one. |
 | Backups you can undo | Snapshots of your menus and settings with `/kando-backup`, and `/kando-restore` to go back. |
 | Themes from words | *"Dark purple glass, a gold glow"* becomes a color preset or a full theme. My Amethyst Arsenal theme was made this way. |
 | Memory | A small profile keeps the directions you've settled on and the ideas you turned down, so the next session builds on them. |
@@ -310,6 +310,9 @@ evals/                    real tasks that score Claude with and without the skil
   its source code (the settings schemas, the placement math and the actions) and Simon's videos,
   for **Kando 3.0**. Where the docs and the code disagree, the skill follows the code; the
   differences are listed in [`references/sources.md`](skills/kando/references/sources.md).
+- The usage log follows a suggestion from Simon: watch the menu through Kando's
+  [WebSocket API](https://kando.menu/ipc-interface/), log each pick, and let Claude find the items
+  you use most and the ones you use in quick succession.
 - The Amethyst Arsenal theme builds on the tile positioning of Kando's built-in Default theme by
   Simon Schneegans (CC0).
 - *Ratchet & Clank* is a trademark of Sony Interactive Entertainment LLC. Amethyst Arsenal is a fan

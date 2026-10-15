@@ -4,6 +4,10 @@
     python kando_usage.py watch      # keep running; logs every menu open, pick and cancel
     python kando_usage.py report     # after a few days: what to move, remove or speed up
 
+The report also finds items you use one after the other: two picks within 10 seconds, five
+times or more. Those are one job done in two flicks, so it suggests one item for both.
+(Idea from Simon Schneegans, who made Kando.)
+
 `watch` listens on Kando's own IPC (start-observing), so it sees every menu. Kando's events
 don't say which menu opened, so the app in front is logged with each open (Windows) and the
 report matches it to your menus' conditions and to which item paths exist. The log is
@@ -24,6 +28,8 @@ from kando_layout import (KandoFileError, child_items, compass, compute_item_ang
 
 LOG = os.path.join("claude-usage", "usage.jsonl")
 KEEP = ("openMenu", "selectButton", "closeMenu")
+GAP_MS = 10000  # two picks this close together count as one job done in two steps
+MIN_PAIR = 5
 
 
 def foreground_app():
@@ -133,6 +139,32 @@ def sessions(rows):
     return [(a, p, ms) for a, p, ms, _ in out]
 
 
+def timed_picks(rows):
+    """[(app, path, t)] for every pick, in order; app is the one logged when its menu opened."""
+    out, app = [], ""
+    for r in rows:
+        if r.get("ev") == "openMenu":
+            app = r.get("app", "")
+        elif r.get("ev") == "selectButton":
+            out.append((app, r.get("path") or [], r.get("t", 0)))
+    return out
+
+
+def follow_ups(rows, menus, gap_ms=GAP_MS):
+    """{(first, second): count} for two different items picked within gap_ms of each other.
+    Each item is (menu name, item path text)."""
+    named, counts = [], {}
+    for app, path, t in timed_picks(rows):
+        menu = pick_menu(menus, app, path)
+        if menu is not None:
+            named.append(((item_name(menu["root"]),
+                           " > ".join(n for n, _, _ in locate(menu, path))), t))
+    for (a, ta), (b, tb) in zip(named, named[1:]):
+        if a != b and 0 <= tb - ta <= gap_ms:
+            counts[(a, b)] = counts.get((a, b), 0) + 1
+    return counts
+
+
 def report(rows, data, min_opens=20):
     menus = menu_list(data)
     picks, opens, cancels = {}, {}, {}
@@ -164,6 +196,13 @@ def report(rows, data, min_opens=20):
         if slow > (1500 if p["depth"] == 1 else 2500):
             lines.append(f"Slow: '{item}' in {menu} takes {slow / 1000:.1f} s on average. "
                          "You're probably searching for it; give it a fixed spot you can learn.")
+    pairs = sorted(follow_ups(rows, menus).items(), key=lambda kv: -kv[1])
+    for ((m1, a), (m2, b)), n in pairs[:5]:
+        if n < MIN_PAIR:
+            break
+        where = (f"them next to each other in {m1}" if m1 == m2 else f"'{b}' in {m1} too")
+        lines.append(f"Used together: you picked '{a}' then '{b}' within {GAP_MS // 1000} s "
+                     f"{n} times. Make one item that does both, or put {where}.")
     for m in menus:
         name = item_name(m["root"])
         if opens.get(name, 0) < min_opens:

@@ -148,6 +148,9 @@ Kando's IPC and logs every open, pick and cancel (with the app in front, on Wind
 `claude-usage/usage.jsonl` next to menus.json. After a few days, `kando_usage.py report` lists
 the most used items, the ones on diagonals or deep in submenus (move them to a straight
 direction in the first ring), slow picks (the person is searching), items never used in a
-menu opened 20+ times (candidates to remove), and menus often closed without a pick. To keep
+menu opened 20+ times (candidates to remove), menus often closed without a pick, and items
+used together: two picks within 10 seconds, five times or more, which are one job done in two
+flicks. Offer one item that does both (a workflow), or put them side by side. The idea came
+from Simon Schneegans, Kando's author. To keep
 it running, put a shortcut to `pythonw kando_usage.py watch` in the Startup folder
 (`shell:startup`). The log is personal: never put it in a shared file.
