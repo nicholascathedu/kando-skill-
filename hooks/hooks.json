@@ -5,7 +5,11 @@
       {
         "matcher": "Edit|Write|MultiEdit",
         "hooks": [
-          { "type": "command", "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.sh\" before", "timeout": 30 }
+          {
+            "type": "command",
+            "command": "echo \\' >/dev/null\nexec sh \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.sh\" before\n' | Out-Null\ntry { [Console]::InputEncoding = New-Object System.Text.UTF8Encoding $false } catch {}\n$kandoEvent = @($input) -join \"`n\"; $mode = 'before'\nInvoke-Expression (Get-Content -Raw -Encoding UTF8 (Join-Path $env:CLAUDE_PLUGIN_ROOT 'hooks/guard.ps1'))",
+            "timeout": 30
+          }
         ]
       }
     ],
@@ -13,7 +17,11 @@
       {
         "matcher": "Edit|Write|MultiEdit",
         "hooks": [
-          { "type": "command", "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.sh\" after", "timeout": 60 }
+          {
+            "type": "command",
+            "command": "echo \\' >/dev/null\nexec sh \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.sh\" after\n' | Out-Null\ntry { [Console]::InputEncoding = New-Object System.Text.UTF8Encoding $false } catch {}\n$kandoEvent = @($input) -join \"`n\"; $mode = 'after'\nInvoke-Expression (Get-Content -Raw -Encoding UTF8 (Join-Path $env:CLAUDE_PLUGIN_ROOT 'hooks/guard.ps1'))",
+            "timeout": 60
+          }
         ]
       }
     ]

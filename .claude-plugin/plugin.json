@@ -1,6 +1,6 @@
 {
   "name": "kando",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Build, fix, theme and learn Kando pie menus with Claude. Made by Nicholas Cath, a 3D artist.",
   "author": { "name": "Nicholas Cath", "url": "https://github.com/nicholascathedu" },
   "homepage": "https://github.com/nicholascathedu/kando-skill-",

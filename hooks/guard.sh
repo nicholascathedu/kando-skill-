@@ -1,6 +1,7 @@
-#!/usr/bin/env bash
-# Starts menus_guard.py with the first working Python 3.9+. Claude Code runs this through
-# bash (Git Bash on Windows). Without a working Python the guard stays out of the way.
+#!/bin/sh
+# Starts menus_guard.py with the first working Python 3.9+. hooks.json runs this through sh
+# on macOS, Linux and Windows with Git Bash; guard.ps1 does the same when Claude Code uses
+# PowerShell. Without a working Python the guard stays out of the way.
 input=$(cat)
 case "$input" in
   *menus.json*) ;;
