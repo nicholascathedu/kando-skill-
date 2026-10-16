@@ -104,6 +104,13 @@
     opacity 200ms ease;
   --fade-transition: opacity 160ms ease;
 
+  /* Pop-in: when a menu or submenu opens, each slot swings in from a slight tilt, like
+     a panel turning toward you. Set the duration to 0ms to switch it off. */
+  --pop-in-duration: 300ms;
+  --pop-in-tilt-x: 20deg;
+  --pop-in-tilt-y: -16deg;
+  --pop-in-scale: 0.88;
+
   --connector-width: 2px;
 
   /* Internal: do not edit ------------------------------------------------------------ */
@@ -311,6 +318,18 @@
     inset: var(--hover-frame-width);
     padding: var(--hover-icon-padding);
     background: var(--glass-hover-color);
+  }
+
+  /* Pop-in tilt (see "Pop-in" in the Tweak me block). It runs once each time a slot
+     appears and uses its own transform, so it never fights the press feedback below. */
+  &.child>.icon-layer {
+    animation: gunmetal-pop-in var(--pop-in-duration) cubic-bezier(0.34, 1.45, 0.64, 1) backwards;
+  }
+
+  /* The key chip and the submenu arrow fade in with it instead of arriving early. */
+  &.child>.quick-key,
+  &.child>.submenu-mark {
+    animation: gunmetal-fade-in var(--pop-in-duration) ease-out backwards;
   }
 
   /* Press feedback. */
@@ -594,6 +613,19 @@
 
 /* Menu Animations off ---------------------------------------------------------------- */
 
+@keyframes gunmetal-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes gunmetal-pop-in {
+  from {
+    opacity: 0;
+    transform: perspective(320px) rotateX(var(--pop-in-tilt-x)) rotateY(var(--pop-in-tilt-y)) scale(var(--pop-in-scale));
+  }
+}
+
 /* Kando's "Menu Animations" switch stops the transitions of every element in the menu,
    but its rule does not reach pseudo-elements. The slot frames, the slot lines, the
    plate outline and the submenu marker are pseudo-elements, so they are stopped here. */
@@ -601,7 +633,10 @@
 .no-transitions .menu-node *::after,
 .no-transitions .center-text::before,
 .no-transitions .center-text::after,
-.no-transitions .center-text .text::after {
+.no-transitions .center-text .text::after,
+.no-transitions .menu-node .icon-layer,
+.no-transitions .menu-node .quick-key,
+.no-transitions .menu-node .submenu-mark {
   transition: none !important;
   animation: none !important;
 }

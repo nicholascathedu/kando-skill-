@@ -48,11 +48,14 @@ On Windows the plate uses Bahnschrift, a font that comes with Windows 10 and 11.
 | Gold Rim | Gold frame, gold glow and warm steel lines |
 | Cyan HUD | Cyan glow and blue-tinted glass |
 | Work Mode | Less see-through and a softer glow, for busy apps like 3D viewports |
+| Nord | Frosty blue lines and a pale ice glow, in the Nord palette |
+| Tokyo Night | Blue lines and a soft violet glow, in the Tokyo Night palette |
 
 ## Make it your own
 
 - To change colors, use the theme's colors in Kando's settings, or edit the `colors` list in `theme.json5`. Each color has a comment saying what it paints.
 - For sizes, glow and speed, open `theme.css` and edit the "Tweak me" block at the top: ring size, slot size, frame thickness, icon size, how much the selected slot grows, how far the glow reaches, the gap to the plate and the plate's font size.
+- Slots swing in from a slight tilt when a menu opens. Change it with the "Pop-in" values in the Tweak me block, or set `--pop-in-duration: 0ms` to switch it off.
 - To see changes live, open Kando's **General Settings**, go to the **Developer Options** tab and click **Reload menu theme**.
 - If you make the ring, the slots, the hover scale or the plate bigger, raise `maxMenuRadius` in `theme.json5` too. Its comment shows the math.
 - If you don't want the submenu arrowheads, delete the "Submenu marker" block in `theme.css`.
@@ -71,4 +74,5 @@ On Windows the plate uses Bahnschrift, a font that comes with Windows 10 and 11.
 
 - Theme by [nicholascathedu](https://github.com/nicholascathedu), released under [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/): use, change and share it however you like.
 - Slot positioning is based on Kando's built-in Default theme by Simon Schneegans (CC0-1.0).
+- The tilt pop-in and the idea for the Nord and Tokyo Night presets come from [43PR/dotfiles](https://github.com/43PR/dotfiles) (MIT). The colors follow the [Nord](https://www.nordtheme.com/) palette by Arctic Ice Studio and the [Tokyo Night](https://github.com/enkia/tokyo-night-vscode-theme) palette by enkia (both MIT).
 - The look is inspired by the weapon wheel in *Ratchet & Clank Future: A Crack in Time*. Everything is drawn from scratch in CSS. It uses none of the game's files, fonts or logos. This is a fan-made tribute that is not affiliated with or endorsed by Insomniac Games or Sony Interactive Entertainment. Ratchet & Clank is a trademark of Sony Interactive Entertainment LLC.
