@@ -1,7 +1,7 @@
 <h1 align="center">Kando skill for Claude</h1>
 
 <p align="center">
-  <img src="docs/img/hero.webp" alt="Kando skill for Claude, blessed by Nicholas Cath. On the left, the author's real Kando menu in the Gunmetal Arsenal theme with the Gold Rim colors, Creativity selected with its name plate below. On the right, five hovered tiles, one per color preset: Gold Rim, Default, Cyan HUD, Nord and Tokyo Night" width="100%">
+  <img src="docs/img/hero.webp" alt="Kando skill for Claude, made by Nicholas Cath. On the left, the author's real Kando menu in the Gunmetal Arsenal theme with the Gold Rim colors, Creativity selected with its name plate below. On the right, five hovered tiles, one per color preset: Gold Rim, Default, Cyan HUD, Nord and Tokyo Night" width="100%">
 </p>
 
 <p align="center">
@@ -15,7 +15,7 @@
 Tell it what you want in your own words. It builds the menu, checks it, shows you a preview,<br>
 and remembers how you like things for next time.</p>
 
-<p align="center"><i>Blessed by Nicholas Cath</i></p>
+<p align="center"><i>Made by Nicholas Cath</i></p>
 
 ---
 
