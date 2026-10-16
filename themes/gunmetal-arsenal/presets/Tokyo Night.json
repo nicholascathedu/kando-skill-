@@ -1,0 +1,21 @@
+{
+  "colors": {
+    "frame-color": "rgb(26 27 38 / 0.92)",
+    "line-color": "rgb(122 162 247 / 0.85)",
+    "glass-color": "rgb(36 40 59 / 0.30)",
+    "center-color": "rgb(26 27 38 / 0.50)",
+    "glass-hover-color": "rgb(22 22 30 / 0.85)",
+    "rim-hover-color": "rgb(192 202 245)",
+    "aura-color": "rgb(187 154 247 / 0.90)",
+    "icon-color": "rgb(192 202 245)",
+    "text-color": "rgb(192 202 245)",
+    "plate-color": "rgb(26 27 38 / 0.72)",
+    "plate-accent-color": "rgb(125 207 255)",
+    "connector-color": "rgb(122 162 247 / 0.50)",
+    "wedge-color": "rgb(26 27 38 / 0.22)",
+    "wedge-highlight-color": "rgb(187 154 247 / 0.14)",
+    "separator-color": "rgb(122 162 247 / 0.14)",
+    "badge-color": "rgb(192 202 245)",
+    "badge-text-color": "rgb(26 27 38)"
+  }
+}

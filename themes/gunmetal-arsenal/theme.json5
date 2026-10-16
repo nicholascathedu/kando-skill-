@@ -9,7 +9,7 @@
   name: 'Gunmetal Arsenal',
   author: 'nicholascathedu',
   license: 'CC0-1.0',
-  themeVersion: '1.0.0',
+  themeVersion: '1.1.0',
   description: 'A tight ring of clear glass hex slots with gunmetal frames, a cream and orange selected slot, and the item name on a plate below.',
 
   // Kando 3.0 uses theme engine version 1.
