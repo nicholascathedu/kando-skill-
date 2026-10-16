@@ -28,7 +28,8 @@ import sys
 import time
 
 from kando_check import Report, check_menus
-from kando_layout import KandoFileError, child_items, item_name, menu_list, read_json
+from kando_layout import (KandoFileError, child_items, item_name, menu_list, read_json,
+                          use_utf8_output)
 
 
 def by_name(items):
@@ -127,6 +128,7 @@ def write(data, path):
 
 
 def main(argv=None):
+    use_utf8_output()
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("action", choices=["extract", "apply"])
     ap.add_argument("first", help="extract: the base you started from; apply: the new base")

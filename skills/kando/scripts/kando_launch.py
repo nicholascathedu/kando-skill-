@@ -22,6 +22,8 @@ import os
 import subprocess
 import sys
 
+from kando_layout import use_utf8_output
+
 CREATE_NO_WINDOW = 0x08000000  # so pythonw doesn't flash a console for tasklist
 
 
@@ -31,12 +33,14 @@ def running(name, tasklist=None):
     name = name if name.lower().endswith(".exe") else name + ".exe"
     if tasklist is None:
         tasklist = subprocess.run(["tasklist", "/fo", "csv", "/nh", "/fi", f"imagename eq {name}"],
-                                  capture_output=True, text=True, creationflags=CREATE_NO_WINDOW,
+                                  capture_output=True, text=True, errors="replace",
+                                  creationflags=CREATE_NO_WINDOW,
                                   check=False).stdout
     return any(row and row[0].lower() == name.lower() for row in csv.reader(io.StringIO(tasklist)))
 
 
 def main(argv=None):
+    use_utf8_output()
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--check", action="store_true", help="only report whether it's running")
     ap.add_argument("name", help="the process name, e.g. maya.exe (Task Manager > Details)")

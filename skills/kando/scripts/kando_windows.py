@@ -22,6 +22,8 @@ import os
 import re
 import sys
 
+from kando_layout import use_utf8_output
+
 SPOTS = {
     "left": (0, 0, 50, 100), "right": (50, 0, 50, 100),
     "top": (0, 0, 100, 50), "bottom": (0, 50, 100, 50), "full": (0, 0, 100, 100),
@@ -166,6 +168,7 @@ def move(hwnd, rect):
 
 
 def main(argv=None):
+    use_utf8_output()
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("layout", nargs="*", help="MATCH=SPOT, e.g. Painter=left PureRef=right")
     ap.add_argument("--list", action="store_true", help="list the windows it can see")

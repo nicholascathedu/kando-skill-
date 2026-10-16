@@ -17,6 +17,8 @@ import re
 import subprocess
 import sys
 
+from kando_layout import use_utf8_output
+
 MAX_ITEMS = 8  # more than 8 and the pie stops being fast to read
 
 
@@ -96,6 +98,7 @@ def show(title, paths, socket_factory=None):
 
 
 def main(argv=None):
+    use_utf8_output()
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("source", choices=["maya", "recent"])
     ap.add_argument("folder", nargs="?")

@@ -17,7 +17,7 @@ import os
 import sys
 import time
 
-from kando_layout import KandoFileError, find_kando_file, read_json
+from kando_layout import KandoFileError, find_kando_file, read_json, use_utf8_output
 
 # Kando's SELECTION_TIME_LIMITS (src/main/achievements/achievement-tracker.ts), in ms.
 LIMITS = {1: [1000, 750, 500, 250, 150], 2: [2000, 1000, 750, 500, 250], 3: [3000, 2000, 1000, 750, 500]}
@@ -92,6 +92,7 @@ def compare(now, before):
 
 
 def main(argv=None):
+    use_utf8_output()
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("path", nargs="?", help="achievements.json (default: Kando's own)")
     ap.add_argument("--save", action="store_true", help="remember these numbers for next time")

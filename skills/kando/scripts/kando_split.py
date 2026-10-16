@@ -14,7 +14,7 @@ import os
 import re
 import sys
 
-from kando_layout import KandoFileError, item_name, menu_list, read_json
+from kando_layout import KandoFileError, item_name, menu_list, read_json, use_utf8_output
 
 
 def split(data):
@@ -31,6 +31,7 @@ def split(data):
 
 
 def main(argv=None):
+    use_utf8_output()
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("menus")
     ap.add_argument("--out", default="importable")

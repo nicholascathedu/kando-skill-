@@ -22,7 +22,7 @@ import sys
 import time
 
 from kando_check import Report, check_config
-from kando_layout import KandoFileError, find_kando_file, read_json
+from kando_layout import KandoFileError, find_kando_file, read_json, use_utf8_output
 
 PRESETS = {
     # While the directions are still new: show more, forgive more.
@@ -121,6 +121,7 @@ def save(folder, name, cfg_path):
 
 
 def main(argv=None):
+    use_utf8_output()
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("action", choices=["list", "show", "apply", "save"])
     ap.add_argument("name", nargs="?")

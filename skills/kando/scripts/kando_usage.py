@@ -24,7 +24,7 @@ import sys
 import time
 
 from kando_layout import (KandoFileError, child_items, compass, compute_item_angles, item_name,
-                          menu_list, raw_angle, read_json, resolve_menus_path)
+                          menu_list, raw_angle, read_json, resolve_menus_path, use_utf8_output)
 
 LOG = os.path.join("claude-usage", "usage.jsonl")
 KEEP = ("openMenu", "selectButton", "closeMenu")
@@ -271,6 +271,7 @@ def report(rows, data, min_opens=20):
 
 
 def main(argv=None):
+    use_utf8_output()
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("action", choices=["watch", "report"])
     ap.add_argument("menus", nargs="?", help="menus.json (default: Kando's own)")

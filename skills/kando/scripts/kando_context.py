@@ -15,6 +15,8 @@ import re
 import subprocess
 import sys
 
+from kando_layout import use_utf8_output
+
 PATH = re.compile(r'(?:[A-Za-z]:[\\/]|/)[^*:"<>|\r\n]*?\.[A-Za-z0-9]{1,8}(?=[*\s\]\)-]|$)')
 
 
@@ -47,6 +49,7 @@ def copy_text(text):
 
 
 def main(argv=None):
+    use_utf8_output()
     argv = sys.argv[1:] if argv is None else argv
     if argv and argv[0] in ("-h", "--help"):
         print(__doc__)
