@@ -40,7 +40,7 @@ import time
 import kando_launch
 import kando_presets
 import kando_windows
-from kando_layout import KandoFileError, find_kando_file, read_json
+from kando_layout import KandoFileError, find_kando_file, read_json, use_utf8_output
 
 MODES = "claude-modes.json"
 KEYS = ("wallpaper", "windows", "kando", "apps", "layout")
@@ -194,6 +194,7 @@ def run(name, mode, folder):
 
 
 def main(argv=None):
+    use_utf8_output()
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("name", help="a mode from claude-modes.json, or 'list'")
     ap.add_argument("what", nargs="?", help="with 'show': the mode to describe")

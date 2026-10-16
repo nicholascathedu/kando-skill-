@@ -19,7 +19,7 @@ import shutil
 import sys
 import time
 
-from kando_layout import KandoFileError, find_kando_file, read_json
+from kando_layout import KandoFileError, find_kando_file, read_json, use_utf8_output
 
 FILES = ("menus.json", "config.json", "kando-profile.md")
 BACKUP_DIR = "claude-backups"
@@ -87,6 +87,7 @@ def restore(folder, name=None):
 
 
 def main(argv=None):
+    use_utf8_output()
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("action", choices=["save", "list", "restore"])
     ap.add_argument("name", nargs="?", help="backup to restore (default: the newest)")
