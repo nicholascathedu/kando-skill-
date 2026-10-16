@@ -1,7 +1,7 @@
 <h1 align="center">Kando skill for Claude</h1>
 
 <p align="center">
-  <img src="docs/img/hero.webp" alt="Kando skill for Claude, blessed by Nicholas Cath. On the left, the author's real Kando menu in the Amethyst Arsenal theme, glass hex tiles around a north star. On the right, five hovered tiles, one per color choice in Kando's theme settings: Default colors (the gold aura), Lime HUD, Pure Amethyst, Smoke and Work Mode" width="100%">
+  <img src="docs/img/hero.webp" alt="Kando skill for Claude, blessed by Nicholas Cath. On the left, the author's real Kando menu in the Gunmetal Arsenal theme with the Gold Rim colors, Creativity selected with its name plate below. On the right, five hovered tiles, one per color preset: Gold Rim, Default, Cyan HUD, Nord and Tokyo Night" width="100%">
 </p>
 
 <p align="center">
