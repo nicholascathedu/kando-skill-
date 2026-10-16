@@ -1,7 +1,7 @@
 <h1 align="center">Kando skill for Claude</h1>
 
 <p align="center">
-  <img src="docs/img/hero.webp" alt="Kando skill for Claude, blessed by Nicholas Cath. On the left, the author's real Kando menu in the Gunmetal Arsenal theme with the Gold Rim colors, Creativity selected with its name plate below. On the right, five hovered tiles, one per color preset: Gold Rim, Default, Cyan HUD, Nord and Tokyo Night" width="100%">
+  <img src="docs/img/hero.webp" alt="Kando skill for Claude, made by Nicholas Cath. On the left, the author's real Kando menu in the Gunmetal Arsenal theme with the Gold Rim colors, Creativity selected with its name plate below. On the right, five hovered tiles, one per color preset: Gold Rim, Default, Cyan HUD, Nord and Tokyo Night" width="100%">
 </p>
 
 <p align="center">
@@ -15,7 +15,7 @@
 Tell it what you want in your own words. It builds the menu, checks it, shows you a preview,<br>
 and remembers how you like things for next time.</p>
 
-<p align="center"><i>Blessed by Nicholas Cath</i></p>
+<p align="center"><i>Made by Nicholas Cath</i></p>
 
 ---
 
@@ -191,8 +191,10 @@ called Grid Cyan and Light Cycle. [Install it from `themes/amethyst-arsenal`.](t
 
 Amethyst Arsenal is my take on that wheel. Gunmetal Arsenal is the closer copy: a honeycomb ring of
 clear glass slots with nothing in the middle, a cream frame and orange glow on the one you pick, and
-its name on a see-through plate under the ring, like the weapon info box. It comes with three presets: Gold Rim,
-Cyan HUD and Work Mode. [Install it from `themes/gunmetal-arsenal`.](themes/gunmetal-arsenal)
+its name on a see-through plate under the ring, like the weapon info box. It comes with five presets: Gold Rim,
+Cyan HUD, Work Mode, Nord and Tokyo Night. [Install it from `themes/gunmetal-arsenal`.](themes/gunmetal-arsenal)
+
+<p align="center"><img src="themes/gunmetal-arsenal/presets.jpg" alt="The same menu in all six color looks of Gunmetal Arsenal: Default colors, Gold Rim, Cyan HUD, Work Mode, Nord and Tokyo Night" width="100%"></p>
 
 ### My everyday menu
 
