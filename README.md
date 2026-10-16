@@ -241,8 +241,9 @@ The plugin also comes with a small hook I call the menu guard. Kando reloads `me
 changes, so before Claude edits that file the guard copies it into a `claude-backups` folder
 next to it (the newest 10 are kept). After the edit it runs `kando_check.py`. If the edit broke
 the JSON, it puts the copy back; if the checker finds errors, Claude sees them and fixes them
-in the same turn. It only touches a `menus.json` in a Kando config folder, needs Python 3.9+,
-and does nothing if Python isn't there. Edits a script makes from the shell don't trigger it.
+in the same turn. It only touches a `menus.json` in a Kando config folder, needs Python 3.9+
+(found through `py`, `python3`, `python` or `uv`), and does nothing if Python isn't there. It
+works whether Claude Code runs hooks in bash or, on Windows without Git Bash, in PowerShell. Edits a script makes from the shell don't trigger it.
 
 **Mouse side buttons.** Kando opens menus from keyboard shortcuts, so mouse buttons usually need
 a helper app like AutoHotkey. On Windows the skill comes with a small PowerShell script instead,
