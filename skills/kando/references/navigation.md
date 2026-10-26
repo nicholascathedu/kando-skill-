@@ -62,7 +62,8 @@ out of anything shared.
   Windows PowerShell and a low-level mouse hook. The Forward (or Back) side button holds Ctrl
   and taps F13, and releasing it lets go of Ctrl, so turbo mode works. Set the menu's shortcut
   to `Control+F13`. `-InstallStartup` adds a Startup-folder shortcut so it runs at login (no
-  admin). Tell the user its limits: the button loses Back / Forward while it runs; it can't
+  admin); `-Stop` stops a running copy from any window, and it always releases Ctrl when it
+  stops. Tell the user its limits: the button loses Back / Forward while it runs; it can't
   reach apps running as admin unless it runs as admin too; some games' anti-cheat block
   simulated keys; antivirus may warn about the hook. Show them the script before they run it.
 - **CLI**: `kando --menu "Name"`, `--trigger`, `--close-menu`, `--settings`,
