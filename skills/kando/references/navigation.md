@@ -73,6 +73,41 @@ out of anything shared.
   children, built on the fly; no shortcut or conditions). Kando answers with `menu-interaction` / `error`. The protocol changed in
   3.0. Use it for generated menus, e.g. a script that builds a "recent projects" menu.
 
+## When the menu sometimes doesn't open (Windows)
+
+From the Kando 3.0 source; the official docs don't cover this. First split the problem: with
+the same app in front, open the menu from the tray icon or `kando --menu "Name"`. If that works,
+the shortcut isn't reaching Kando (cause 2). If it doesn't, it's the window (causes 1, 3, 5).
+To see Kando's log, start it from a terminal: `No menu was found for the current conditions`
+means it heard the shortcut but no menu matched the app in front (cause 4).
+
+1. **Exclusive fullscreen game.** Kando's menu is an always-on-top window, which covers normal
+   and borderless fullscreen windows but not exclusive fullscreen. Fix: set the game to
+   Borderless / Windowed fullscreen.
+2. **Another app owns or eats the shortcut.** Kando binds it as a Windows global hotkey: one
+   owner per combo, first come first served, and Kando doesn't report a failed bind. Overlays,
+   Discord keybinds, AutoHotkey and some games also swallow keys with their own hooks. If it
+   depends on start order, restarting Kando brings it back until the other app starts. Fix:
+   free the combo there, or move the menu to `Control+F13`-style combos nothing uses.
+3. **A menu is still open, out of sight.** With the default `sameShortcutBehavior: "nothing"`,
+   Kando unbinds the menu's shortcut while it's open, so a menu stuck behind a window or on
+   another monitor makes the shortcut seem dead. Test: Esc or `kando --close-menu`, then try
+   again. Fix: `sameShortcutBehavior: "re-open"` keeps the shortcut bound, and a second press
+   brings the menu to the cursor.
+4. **The app in front runs as administrator, or is anti-cheat protected.** Windows (UIPI)
+   blocks Kando from reading its app name, so menus with an `appName` condition don't match:
+   Kando shows the unconditioned menu, or nothing if every menu on that shortcut has a
+   condition. Keys Kando presses don't reach that window, and mouse-hook tools (like
+   `kando-mouse-buttons.ps1`) don't see clicks over it. The global hotkey itself still works.
+   Test: Task Manager → Details → add the Elevated column. Fix: stop running that app as
+   admin. Running Kando as admin works, but everything it launches then runs as admin too.
+5. **Something takes focus back.** With `hideOnFocusOut` on (the default), the menu closes as
+   soon as it loses focus. A game that locks the cursor, or a popup or overlay, can close the
+   menu before it's seen. Test: turn `hideOnFocusOut` off for a while. Fix: find the app
+   stealing focus, or leave it off and close menus with Esc.
+
+Edit config.json only with the settings window closed; it saves its own copy over your edits.
+
 ## Placement options per menu
 
 - Default: opens at the pointer, submenus open where you select them. Best for marking.
